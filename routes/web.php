@@ -24,9 +24,9 @@ Route::view('contact-us', 'contact');
 //    return view('contact');
 //});
 
-Route::get('shop', 'ShopController@index');
-Route::get('shop_alt', 'ShopController@alt');
-Route::get('shop/{id}', 'ShopController@show');
+Route::get('qrcode', 'QrcodeController@make');
+
+
 
 Route::get('contact-us', 'ContactUsController@show');
 Route::post('contact-us', 'ContactUsController@sendEmail');
