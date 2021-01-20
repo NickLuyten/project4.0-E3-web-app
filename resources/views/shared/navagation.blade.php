@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="/">The Vinyl Shop</a>
+        <a class="navbar-brand" href="/"><img src="/assets/header_logo.png" width="120" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,7 +27,7 @@
                     </li>
                 @endguest
                 <li class="nav-item">
-                    <a class="nav-link" href="/basket"><i class="fas fa-shopping-basket"></i>Basket</a>
+                    <a class="nav-link btn btn-secondary text-white" href="http://www.smartvendors.be" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
                 </li>
                 @auth
                     <li class="nav-item dropdown">

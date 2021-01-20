@@ -11,15 +11,13 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @yield('css_after')
-    <title>@yield('title', 'Vending Machine')</title>
+    <title>@yield('title', 'Vending Machine') - Smart Vendors CMS</title>
 </head>
 <body>
 {{--  Navigation  --}}
 @include('shared.navagation')
-<main class="container">
-    @if (trim($__env->yieldContent('title')))
-        <h1 class="text-primary">EXAMEN/@yield('title', 'The Vinyl Shop')</h1>
-    @endif
+<main class="container mt-4">
+
     @yield('main', 'Page under construction ...')
 
 </main>

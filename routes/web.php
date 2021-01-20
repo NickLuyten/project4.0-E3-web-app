@@ -34,16 +34,11 @@ Route::post('contact-us', 'ContactUsController@sendEmail');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     route::redirect('/', 'records');
-    Route::get('genres/qryGenres', 'Admin\GenreController@qryGenres');
-    Route::resource('genres', 'Admin\GenreController');
-    Route::resource('records', 'Admin\RecordController');
-    Route::get('users2/qryUsers', 'Admin\User2Controller@qryUsers');
-    Route::resource('users', 'Admin\UserController');
-    Route::resource('users2', 'Admin\User2Controller', ['parameters' => ['users2' => 'user']]);
 });
 
 
 Auth::routes();
+Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('contact', function () {
