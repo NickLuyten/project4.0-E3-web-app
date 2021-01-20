@@ -10,7 +10,7 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/shop">Shop</a>
+                    <a class="nav-link" href="/qrcode">Qr code</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/contact-us">Contact</a>
