@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @yield('css_after')
-    <title>@yield('title', 'The Vinyl Shop')</title>
+    <title>@yield('title', 'Vending Machine')</title>
 </head>
 <body>
 {{--  Navigation  --}}
