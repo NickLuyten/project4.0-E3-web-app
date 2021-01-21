@@ -43,6 +43,7 @@ Auth::routes();
 Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::post('guestlogin', 'Auth\GuestLoginController@request');
 Route::get('login', 'Auth\LoginController@show');
+Route::post('loginsend', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('contact', function () {

@@ -54,41 +54,18 @@ class LoginController extends Controller
             'timeout'  => 2.0,
         ]);
 
-        $result = $client->request('GET', '/api/user/all', [
+
+            $respone = $client->request('POST', '/api/user/authenticate', [
+
             'form_params' => [
-                'firstName', $request->name,
-                'lastName', $request->lastname,
-                'email', $request->email,
-                "password",$request->password,
+                'email', $_POST['email'],
+                "password", $_POST['password'],
 
             ]
 
         ]);
-
-        error_log($result);
-
-        return view('/home');
-    }
-
-    public function request(Request $request)
-    {
-        $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
-            'timeout'  => 2.0,
-        ]);
-
-
-
-        $result = $client->request('POST', '/api/user/register', [
-            'form_params' => [
-                'firstName', $request->name,
-                'lastName', $request->lastname,
-                'email', $request->email,
-            ]
-        ]);
-
-        if ($result->getStatusCode() == 200){
-            return view('QRcode', $result);
+        if ($respone->getStatusCode() == 200){
+            return view('auth.login', $respone);
         }
         else {
             return Redirect::back()->withErrors('msg', 'Er is iets fout gelopen met het registreren. Gelieve een andere keer opnieuw te proberen.');
@@ -96,4 +73,31 @@ class LoginController extends Controller
 
 
     }
+
+//    public function request(Request $request)
+//    {
+//        $client = new Client([
+//            'base_uri' => 'https://project4-restserver.herokuapp.com',
+//            'timeout'  => 2.0,
+//        ]);
+//
+//
+//
+//        $result = $client->request('POST', '/api/user/register', [
+//            'form_params' => [
+//                'firstName', $request->name,
+//                'lastName', $request->lastname,
+//                'email', $request->email,
+//            ]
+//        ]);
+//
+//        if ($result->getStatusCode() == 200){
+//            return view('QRcode', $result);
+//        }
+//        else {
+//            return Redirect::back()->withErrors('msg', 'Er is iets fout gelopen met het registreren. Gelieve een andere keer opnieuw te proberen.');
+//        }
+//
+//
+//    }
 }
