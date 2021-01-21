@@ -71,25 +71,25 @@ class LoginController extends Controller
                 "password" => $request->input('password')
             ]
         ]);
-
-            $resultJson = json_decode($result->getBody())->result;
-            $token = $resultJson->accessToken;
-
-            $headers = [
-                'Authorization' => 'Bearer ' . $token
-            ];
-
-            $hashresult = $client->request('POST', '/api/authentication/', [
-                'headers' => $headers
-            ]);
-
-            $hash = json_decode($hashresult->getBody())->result->authentication;
-            Cookie::queue('AuthToken', $token, 60);
-            return view('QRcode')->with('hash', $hash);
         }
+
         catch (RequestException $e) {
-            return Redirect::back()->withErrors('msg', 'Er is iets fout gelopen met het inloggen. Gelieve uw gegevens te controleren.');
+            return Redirect::back()->withErrors(['Er is iets fout gelopen met het inloggen. Gelieve uw gegevens te controleren.']);
         }
+        $resultJson = json_decode($result->getBody())->result;
+        $token = $resultJson->accessToken;
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token
+        ];
+
+        $hashresult = $client->request('POST', '/api/authentication/', [
+            'headers' => $headers
+        ]);
+
+        $hash = json_decode($hashresult->getBody())->result->authentication;
+        Cookie::queue('AuthToken', $token, 60);
+        return view('QRcode')->with('hash', $hash);
 
     }
 
