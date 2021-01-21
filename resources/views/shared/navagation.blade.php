@@ -10,9 +10,6 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/qrcode">Qr code</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/contact-us">Contact</a>
                 </li>
             </ul>
@@ -21,9 +18,6 @@
                 @guest
                     <li class="nav-item">
                         <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register"><i class="fas fa-signature"></i>Register</a>
                     </li>
                 @endguest
                 <li class="nav-item">

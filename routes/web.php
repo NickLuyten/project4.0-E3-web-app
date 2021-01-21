@@ -24,7 +24,7 @@ Route::view('contact-us', 'contact');
 //    return view('contact');
 //});
 
-Route::get('qrcode', 'QrcodeController@make');
+
 Route::get('qrcodetest', function () {
     return view('QRcode');
 });
@@ -43,7 +43,6 @@ Auth::routes();
 Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::post('guestlogin', 'Auth\GuestLoginController@request');
 Route::get('login', 'Auth\LoginController@show');
-Route::post('loginsend', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('contact', function () {
