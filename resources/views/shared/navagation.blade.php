@@ -9,9 +9,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/contact-us">Contact</a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="/contact-us">Contact</a>--}}
+{{--                </li>--}}
             </ul>
             {{--  Auth navigation  --}}
             <ul class="navbar-nav ml-auto">
