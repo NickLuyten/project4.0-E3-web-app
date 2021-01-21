@@ -25,7 +25,9 @@ Route::view('contact-us', 'contact');
 //});
 
 Route::get('qrcode', 'QrcodeController@make');
-
+Route::get('qrcodetest', function () {
+    return view('QRcode');
+});
 
 
 Route::get('contact-us', 'ContactUsController@show');

@@ -5,13 +5,22 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Jouw eenmalige QR code.</div>
+                    <div class="card-header">Jouw QR code.</div>
 
                     <div class="card-body">
-                        <p>{{$result->getBody()}}</p>
+                        <div id="qrcode" class="d-flex justify-content-center"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('script_after')
+    <script src="js/qrcode.min.js"></script>
+
+    <script type="text/javascript">
+        new QRCode(document.getElementById("qrcode"), "288d9b29-17ae-42a3-8e8a-fb8ffb9e27c9");
+    </script>
+
 @endsection
