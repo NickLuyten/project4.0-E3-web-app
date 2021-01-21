@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Redirect;
 use Illuminate\Validation\ValidationException;
 class LoginController extends Controller
@@ -61,15 +63,16 @@ class LoginController extends Controller
             'timeout'  => 2.0,
         ]);
 
+        try {
+
         $result = $client->request('POST', '/api/user/authenticate', [
             'form_params' => [
                 'email' => $request->input('email'),
                 "password" => $request->input('password')
             ]
         ]);
-        $resultJson = json_decode($result->getBody())->result;
 
-        if ($result->getStatusCode() == 200){
+            $resultJson = json_decode($result->getBody())->result;
             $token = $resultJson->accessToken;
 
             $headers = [
@@ -81,17 +84,13 @@ class LoginController extends Controller
             ]);
 
             $hash = json_decode($hashresult->getBody())->result->authentication;
+            Cookie::queue('AuthToken', $token, 60);
             return view('QRcode')->with('hash', $hash);
         }
-        else {
-            return Redirect::back()->withErrors('msg', 'Er is iets fout gelopen met het registreren. Gelieve een andere keer opnieuw te proberen.');
+        catch (RequestException $e) {
+            return Redirect::back()->withErrors('msg', 'Er is iets fout gelopen met het inloggen. Gelieve uw gegevens te controleren.');
         }
 
-
-        error_log($result);
-
     }
-
-
 
 }
