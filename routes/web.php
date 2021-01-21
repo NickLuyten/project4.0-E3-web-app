@@ -40,6 +40,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Auth::routes();
 Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::post('guestlogin', 'Auth\GuestLoginController@request');
+Route::get('login', 'Auth\LoginController@show');
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('contact', function () {
