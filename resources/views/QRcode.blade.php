@@ -20,7 +20,7 @@
     <script src="js/qrcode.min.js"></script>
 
     <script type="text/javascript">
-        new QRCode(document.getElementById("qrcode"), "288d9b29-17ae-42a3-8e8a-fb8ffb9e27c9");
+        new QRCode(document.getElementById("qrcode"), '{{$hash}}');
     </script>
 
 @endsection

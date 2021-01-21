@@ -54,16 +54,32 @@ class LoginController extends Controller
             'timeout'  => 2.0,
         ]);
 
-        $result = $client->request('GET', '/api/user/all', [
+        $result = $client->request('POST', '/api/user/authenticate', [
             'form_params' => [
-                'firstName', $request->name,
-                'lastName', $request->lastname,
-                'email', $request->email,
-                "password",$request->password,
-
+                'email' => $request->input('email'),
+                "password" => $request->input('password')
             ]
-
         ]);
+        $resultJson = json_decode($result->getBody())->result;
+
+        if ($result->getStatusCode() == 200){
+            $token = $resultJson->accessToken;
+
+            $headers = [
+                'Authorization' => 'Bearer ' . $token
+            ];
+
+            $hashresult = $client->request('POST', '/api/authentication/', [
+                'headers' => $headers
+            ]);
+
+            $hash = json_decode($hashresult->getBody())->result->authentication;
+            return view('QRcode')->with('hash', $hash);
+        }
+        else {
+            return Redirect::back()->withErrors('msg', 'Er is iets fout gelopen met het registreren. Gelieve een andere keer opnieuw te proberen.');
+        }
+
 
         error_log($result);
 
