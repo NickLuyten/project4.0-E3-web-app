@@ -14,11 +14,7 @@
 
 Auth::routes();
 
-Route::view('/', 'home');
-
-
-
-
+Route::get('/', 'NavigationController@home');
 
 Route::get('contact-us', 'ContactUsController@show');
 Route::post('contact-us', 'ContactUsController@sendEmail');
@@ -30,10 +26,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 Route::get('/RequestToken', 'User\QRCodeController@request');
 
+
 Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::post('guestlogin', 'Auth\GuestLoginController@request');
 Route::get('login', 'Auth\LoginController@show');
 Route::get('logout', 'Auth\LoginController@logout');
+Route::get('user/dashboard', 'Auth\LoginController@dashboard');
 
 Route::get('contact', function () {
     $me = ['name' => env('MAIL_FROM_NAME')];

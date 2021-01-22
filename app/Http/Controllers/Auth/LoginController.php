@@ -77,10 +77,18 @@ class LoginController extends Controller
             return Redirect::back()->withErrors(['Er is iets fout gelopen met het inloggen. Gelieve uw gegevens te controleren.']);
         }
         $resultJson = json_decode($result->getBody())->result;
-
         Cookie::queue('AuthToken', $resultJson->accessToken, 60);
-        return view('user/dashboard')->with('data', $resultJson);
+        Cookie::queue('UserFirstName', $resultJson->firstName, 60);
+        return Redirect::to('user/dashboard');
 
+    }
+
+    public function dashboard(Request $request) {
+        $AuthToken = $request->cookie('AuthToken');
+        if ($AuthToken == ''){
+            return Redirect::to('/login');
+        }
+        return view('user/dashboard')->with('name', $request->cookie('UserFirstName'));
     }
 
     public function logout(Request $request)
@@ -88,6 +96,7 @@ class LoginController extends Controller
         $AuthToken = $request->cookie('AuthToken');
         if ($AuthToken != ''){
             Cookie::queue(Cookie::forget('AuthToken'));
+            Cookie::queue(Cookie::forget('UserFirstName'));
         }
         return Redirect::to('/');
     }
