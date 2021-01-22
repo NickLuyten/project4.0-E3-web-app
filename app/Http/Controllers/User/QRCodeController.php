@@ -14,6 +14,9 @@ class QRCodeController extends Controller
     public function request(Request $request)
     {
         $AuthToken = $request->cookie('AuthToken');
+        if ($AuthToken == ''){
+            return Redirect::to('/login');
+        }
 
         $client = new Client([
             'base_uri' => 'https://project4-restserver.herokuapp.com',

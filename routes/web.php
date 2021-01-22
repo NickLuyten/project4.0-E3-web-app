@@ -28,7 +28,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     route::redirect('/', 'records');
 });
 
-Route::get('/RequestToken', 'user\QRCodeController@request');
+Route::get('/RequestToken', 'User\QRCodeController@request');
 
 Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::post('guestlogin', 'Auth\GuestLoginController@request');

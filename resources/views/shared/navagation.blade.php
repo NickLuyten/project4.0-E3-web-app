@@ -9,9 +9,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" href="/contact-us">Contact</a>--}}
-{{--                </li>--}}
+
             </ul>
             {{--  Auth navigation  --}}
             <ul class="navbar-nav ml-auto">
@@ -20,6 +18,11 @@
                         <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
                     </li>
                 @endif
+                    @if( Cookie::get('AuthToken') != '')
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                        </li>
+                    @endif
                 <li class="nav-item">
                     <a class="nav-link btn btn-secondary text-white" href="http://www.smartvendors.be" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
                 </li>

@@ -83,4 +83,12 @@ class LoginController extends Controller
 
     }
 
+    public function logout(Request $request)
+    {
+        $AuthToken = $request->cookie('AuthToken');
+        if ($AuthToken != ''){
+            Cookie::queue(Cookie::forget('AuthToken'));
+        }
+        return Redirect::to('/');
+    }
 }
