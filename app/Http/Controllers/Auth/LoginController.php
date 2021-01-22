@@ -79,7 +79,7 @@ class LoginController extends Controller
         $resultJson = json_decode($result->getBody())->result;
         Cookie::queue('AuthToken', $resultJson->accessToken, 60);
         Cookie::queue('UserFirstName', $resultJson->firstName, 60);
-        return Redirect::to('user/dashboard');
+        return Redirect::to('dashboard');
 
     }
 

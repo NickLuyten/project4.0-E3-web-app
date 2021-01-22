@@ -33,13 +33,13 @@ Route::post('guestlogin', 'Auth\GuestLoginController@request');
 if (Cookie::get('AuthToken') == '') {
     Route::get('login', 'Auth\LoginController@show');
 } elseif  (Cookie::get('AuthToken') != '') {
-    Route::get('login', 'Auth\LoginController@dashboard');
+    Route::get('login', 'User\QRCodeController@request');
 }
 
 
 
 Route::get('logout', 'Auth\LoginController@logout');
-Route::get('user/dashboard', 'Auth\LoginController@dashboard');
+Route::get('dashboard', 'Auth\LoginController@dashboard');
 
 Route::get('contact', function () {
     $me = ['name' => env('MAIL_FROM_NAME')];

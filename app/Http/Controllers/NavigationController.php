@@ -10,7 +10,7 @@ class NavigationController extends Controller
     public function home(Request $request){
         $AuthToken = $request->cookie('AuthToken');
         if ($AuthToken != ''){
-            return Redirect::to('/user/dashboard');
+            return Redirect::to('dashboard');
         } else {
             return view('home');
         }
