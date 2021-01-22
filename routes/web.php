@@ -33,7 +33,7 @@ Route::post('guestlogin', 'Auth\GuestLoginController@request');
 if (Cookie::get('AuthToken') == '') {
     Route::get('login', 'Auth\LoginController@show');
 } elseif  (Cookie::get('AuthToken') != '') {
-    Route::get('login', 'User\QRCodeController@request');
+    Route::get('login', 'Auth\LoginController@dashboard');
 }
 
 
