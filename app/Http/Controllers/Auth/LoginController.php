@@ -77,19 +77,9 @@ class LoginController extends Controller
             return Redirect::back()->withErrors(['Er is iets fout gelopen met het inloggen. Gelieve uw gegevens te controleren.']);
         }
         $resultJson = json_decode($result->getBody())->result;
-        $token = $resultJson->accessToken;
 
-        $headers = [
-            'Authorization' => 'Bearer ' . $token
-        ];
-
-        $hashresult = $client->request('POST', '/api/authentication/', [
-            'headers' => $headers
-        ]);
-
-        $hash = json_decode($hashresult->getBody())->result->authentication;
-        Cookie::queue('AuthToken', $token, 60);
-        return view('QRcode')->with('hash', $hash);
+        Cookie::queue('AuthToken', $resultJson->accessToken, 60);
+        return view('user/dashboard')->with('data', $resultJson);
 
     }
 

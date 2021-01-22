@@ -15,11 +15,11 @@
             </ul>
             {{--  Auth navigation  --}}
             <ul class="navbar-nav ml-auto">
-                @guest
+                @if( Cookie::get('AuthToken') == '')
                     <li class="nav-item">
                         <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
                     </li>
-                @endguest
+                @endif
                 <li class="nav-item">
                     <a class="nav-link btn btn-secondary text-white" href="http://www.smartvendors.be" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
                 </li>

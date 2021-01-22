@@ -11,23 +11,13 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+
 Auth::routes();
-//Route::get('/home', 'HomeController@index')->name('home');
+
 Route::view('/', 'home');
 
-Route::view('contact-us', 'contact');
-
-//Route::get('contact-us', function () {
-//    return view('contact');
-//});
 
 
-Route::get('qrcodetest', function () {
-    return view('QRcode');
-});
 
 
 Route::get('contact-us', 'ContactUsController@show');
@@ -38,8 +28,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     route::redirect('/', 'records');
 });
 
+Route::get('/RequestToken', 'user\QRCodeController@request');
 
-Auth::routes();
 Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::post('guestlogin', 'Auth\GuestLoginController@request');
 Route::get('login', 'Auth\LoginController@show');
