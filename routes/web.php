@@ -29,7 +29,15 @@ Route::get('/RequestToken', 'User\QRCodeController@request');
 
 Route::get('guestlogin', 'Auth\GuestLoginController@show');
 Route::post('guestlogin', 'Auth\GuestLoginController@request');
-Route::get('login', 'Auth\LoginController@show');
+
+if (Cookie::get('AuthToken') == '') {
+    Route::get('login', 'Auth\LoginController@show');
+} elseif  (Cookie::get('AuthToken') != '') {
+    Route::get('login', 'Auth\LoginController@dashboard');
+}
+
+
+
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('user/dashboard', 'Auth\LoginController@dashboard');
 
