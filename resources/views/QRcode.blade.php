@@ -17,7 +17,7 @@
 @endsection
 
 @section('script_after')
-    <script src="js/qrcode.min.js"></script>
+    <script src="/js/qrcode.min.js"></script>
 
     <script type="text/javascript">
         new QRCode(document.getElementById("qrcode"), '{{$hash}}');

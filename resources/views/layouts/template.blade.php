@@ -24,7 +24,7 @@
 {{--  Footer  --}}
 @include('shared.footer')
 <script src="{{ mix('js/app.js') }}"></script>
-<script src="js/jquery.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 @yield('script_after')
 @if(env('APP_DEBUG'))
     <script>

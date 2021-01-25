@@ -24,11 +24,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     route::redirect('/', 'records');
 });
 
-Route::get('/RequestToken', 'User\QRCodeController@request');
+Route::get('/user/token', 'User\QRCodeController@request');
 
+//test routes zonder permissies
+//id = company ID
+Route::get('/admin/id/users', 'User\QRCodeController@request');
+Route::get('/admin/id/units', 'User\QRCodeController@request');
+Route::get('/admin/id/access', 'User\QRCodeController@request');
+Route::get('/admin/companies', 'User\QRCodeController@request'); //vanroey admin
 
-Route::get('guestlogin', 'Auth\GuestLoginController@show');
-Route::post('guestlogin', 'Auth\GuestLoginController@request');
 
 if (Cookie::get('AuthToken') == '') {
     Route::get('login', 'Auth\LoginController@show');
