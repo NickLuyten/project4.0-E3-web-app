@@ -60,7 +60,7 @@ class LoginController extends Controller
 
         $client = new Client([
             'base_uri' => 'https://project4-restserver.herokuapp.com',
-            'timeout'  => 2.0,
+            'timeout'  => 5.0,
         ]);
 
         try {
