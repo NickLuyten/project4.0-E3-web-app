@@ -4,6 +4,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        {{$errors->first()}}
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">Welkom {{$name}}.</div>
 

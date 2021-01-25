@@ -28,7 +28,7 @@ Route::get('/user/token', 'User\QRCodeController@request');
 
 //test routes zonder permissies
 //id = company ID
-Route::get('/admin/id/users', 'User\QRCodeController@request');
+Route::get('/admin/id/users', 'Admin\UserController@index');
 Route::get('/admin/id/units', 'User\QRCodeController@request');
 Route::get('/admin/id/access', 'User\QRCodeController@request');
 Route::get('/admin/companies', 'User\QRCodeController@request'); //vanroey admin
