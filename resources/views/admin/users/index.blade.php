@@ -3,7 +3,7 @@
 @section('title', 'Users')
 
 @section('main')
-    <h1>Users</h1>
+    <h1>Gebruikers</h1>
     @include('shared.alert')
 {{--    <form method="get" action="/admin/users" id="searchForm">--}}
 {{--        <div class="row">--}}
@@ -40,6 +40,7 @@
                 <th>Voornaam</th>
                 <th>Achternaam</th>
                 <th>Email</th>
+                <th>Company</th>
                 <th>Admin</th>
                 <th>Actions</th>
             </tr>
@@ -53,6 +54,7 @@
                     <td>{{ $user->firstName }}</td>
                     <td>{{ $user->lastName }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->companyId }}</td>
                     <td>
                         <?php
                         if (old('admin',$user->admin) == 1) {
@@ -61,7 +63,25 @@
                             echo "";
                         }
                         ?> </td>
-
+                    <td>
+                        <form action="/admin/users/{{ $user->id }}" method="post" class="deleteForm">
+                            @method('delete')
+                            @csrf
+                            <div class="btn-group btn-group-sm">
+                                <a href="/admin/users/{{ $user->id }}/edit" class="btn btn-outline-success"
+                                   data-toggle="tooltip"
+                                   title="Edit {{ $user->email }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+{{--                                <button type="button" class="btn btn-outline-danger"--}}
+{{--                                data-toggle="tooltip"--}}
+{{--                                        data-name="{{ $user->email}}"--}}
+{{--                                        title="Delete {{ $user->email }}">--}}
+{{--                                    <i class="fas fa-trash-alt"></i>--}}
+{{--                                </button>--}}
+                            </div>
+                        </form>
+                    </td>
 
                 </tr>
             @endforeach

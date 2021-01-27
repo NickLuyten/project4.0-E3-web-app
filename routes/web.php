@@ -30,6 +30,9 @@ Route::get('/user/token', 'User\QRCodeController@request');
 //id = company ID
 
 Route::get('/admin/id/users', 'Admin\UserController@index');
+Route::get('/admin/users/{id}/edit', 'Admin\UserController@edit');
+Route::post('/admin/users/{id}', 'Admin\UserController@update');
+
 
 
 Route::get('/admin/{cid}/units/', 'Admin\UnitsController@overview');
