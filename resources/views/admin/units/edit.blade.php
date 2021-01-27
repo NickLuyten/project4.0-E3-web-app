@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header"><h3>Automaat bewerken</h3></div>
                     <div class="card-body">
-                        <form class="text-right" method="POST" action="/admin/{{$machine->companyId}}/units/{{$machine->id}}/update/">
+                        <form class="text-right" method="POST" action="/admin/{{$machine->companyId}}/units/{{$machine->id}}/update">
                             @CSRF
                             @method('PUT')
                             <div class="form-group row">

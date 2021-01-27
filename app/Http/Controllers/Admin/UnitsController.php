@@ -121,6 +121,6 @@ class UnitsController extends Controller
                 "stock" => $request->input('Voorraad'),
         ]]);
 
-        return Redirect::to('/admin/'.$cid.'/units/');
+        return Redirect::to('/admin/'.$cid.'/units');
     }
 }
