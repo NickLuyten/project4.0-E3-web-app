@@ -30,7 +30,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <a href="/admin/{{$machine->companyId}}/units/new" class="btn btn-outline-success btn-lg btn-block"><i class="fas fa-plus"></i> Automaat toevoegen</a>
+                        <a href="/admin/{{$cid}}/units/new" class="btn btn-outline-success btn-lg btn-block"><i class="fas fa-plus"></i> Automaat toevoegen</a>
 
 
                     </div>

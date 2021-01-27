@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header"><h3>Automaat toevoegen</h3></div>
                     <div class="card-body">
-                        <form class="text-right" method="post" action="/admin/{{$cid}}/units/new/store/">
+                        <form class="text-right" method="post" action="/admin/{{$cid}}/units/new/store">
                             @CSRF
                             <div class="form-group row">
                                 <label for="naam" class="col-sm-4 col-form-label">Naam</label>

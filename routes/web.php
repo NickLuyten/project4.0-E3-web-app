@@ -11,6 +11,8 @@
 |
 */
 
+//test route to clear route cache
+Route::get('/clear/route', 'Controller@clearRoute');
 
 Auth::routes();
 
@@ -35,11 +37,11 @@ Route::post('/admin/users/{id}', 'Admin\UserController@update');
 
 
 
-Route::get('/admin/{cid}/units/', 'Admin\UnitsController@overview');
+Route::get('/admin/{cid}/units', 'Admin\UnitsController@overview');
 Route::get('/admin/{cid}/units/new', 'Admin\UnitsController@new_index');
 Route::post('/admin/{cid}/units/new/store', 'Admin\UnitsController@new');
-Route::get('/admin/{cid}/units/{mid}/', 'Admin\UnitsController@edit_index');
-Route::post('/admin/{cid}/units/{mid}/update/', 'Admin\UnitsController@edit');
+Route::get('/admin/{cid}/units/{mid}', 'Admin\UnitsController@edit_index');
+Route::put('/admin/{cid}/units/{mid}/update', 'Admin\UnitsController@edit');
 
 Route::get('/admin/id/access', 'User\QRCodeController@request');
 Route::get('/admin/companies', 'User\QRCodeController@request'); //vanroey admin
