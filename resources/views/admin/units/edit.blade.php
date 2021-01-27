@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form class="text-right" method="POST" action="/admin/{{$machine->companyId}}/units/{{$machine->id}}/update/">
                             @CSRF
-                            @method('POST')
+                            @method('PUT')
                             <div class="form-group row">
                                 <label for="naam" class="col-sm-4 col-form-label">Naam</label>
                                 <div class="col-sm-8">
