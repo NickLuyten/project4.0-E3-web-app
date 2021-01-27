@@ -29,7 +29,7 @@ class UnitsController extends Controller
 
         $data = json_decode($result->getBody())->results;
 
-        return view('admin.units.overview')->with('data', $data);
+        return view('admin.units.overview')->with('data', $data)->with('cid', $cid);
     }
 
     public function new_index($cid){
