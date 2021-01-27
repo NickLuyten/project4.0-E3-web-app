@@ -7,8 +7,9 @@
                 <div class="card">
                     <div class="card-header"><h3>Automaat bewerken</h3></div>
                     <div class="card-body">
-                        <form class="text-right" method="post" action="/admin/{{$machine->companyId}}/units/{{$machine->id}}/update/">
+                        <form class="text-right" method="POST" action="/admin/{{$machine->companyId}}/units/{{$machine->id}}/update/">
                             @CSRF
+                            @method('POST')
                             <div class="form-group row">
                                 <label for="naam" class="col-sm-4 col-form-label">Naam</label>
                                 <div class="col-sm-8">
