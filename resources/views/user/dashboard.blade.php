@@ -20,7 +20,7 @@
                         @endif
 
                         @if(True) {{--cookies voor rechten binnemhalen--}}
-                        <a class="btn btn-block btn-outline-primary" href="/admin/1/units/">Machines beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
+                        <a class="btn btn-block btn-outline-primary" href="/admin/1/units">Machines beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
                         @endif
 
                         @if(True) {{--cookies voor rechten binnemhalen--}}
