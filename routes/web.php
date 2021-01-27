@@ -11,6 +11,8 @@
 |
 */
 
+//test route to clear route cache
+Route::get('/clear/route', 'Controller@clearRoute');
 
 Auth::routes();
 
