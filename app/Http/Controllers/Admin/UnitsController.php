@@ -74,8 +74,10 @@ class UnitsController extends Controller
                     'handGelMessage' => $request->input('Afnameboodschap'),
                     "handGelOutOfStockMessage" => $request->input('voorraadboodschap'),
                     "authenticationFailedMessage" => $request->input('Authenticatieboodschap'),
+                    "limitHandSanitizerReacedMessage" => $request->input('Limietboodschap'),
                     "errorMessage" => $request->input('foutboodschap'),
                     "stock" => $request->input('Capaciteit'),
+                    "alertLimit" => $request->input('VoorraadAlert'),
                     "companyId" => $cid
                 ]
             ]);
@@ -134,17 +136,19 @@ class UnitsController extends Controller
                 'handGelMessage' => $request->input('Afnameboodschap'),
                 "handGelOutOfStockMessage" => $request->input('voorraadboodschap'),
                 "authenticationFailedMessage" => $request->input('Authenticatieboodschap'),
+                "limitHandSanitizerReacedMessage" => $request->input('Limietboodschap'),
                 "errorMessage" => $request->input('foutboodschap'),
                 "stock" => $request->input('Voorraad'),
+                "alertLimit" => $request->input('VoorraadAlert'),
         ]]);
 
-        return Redirect::to('/admin/'.$cid.'/units');
+        return Redirect::to('/admin/'.$cid.'/units')->with('msg', 'Automaat bijgewerkt.');
     }
 
     public function delete($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
 
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -155,5 +159,14 @@ class UnitsController extends Controller
         $headers = [
             'Authorization' => 'Bearer ' . $AuthToken
         ];
+
+        try {
+            $result = $client->request('DELETE', '/api/vendingMachine/' . $mid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/'.$cid.'/units')->withErrors(['Automaat verwijderen mislukt.']);
+        }
+        return Redirect::to('/admin/'.$cid.'/units')->with('msg', 'Automaat verwijderd.');
     }
 }

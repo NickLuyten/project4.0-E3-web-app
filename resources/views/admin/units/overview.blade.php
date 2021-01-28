@@ -9,16 +9,16 @@
 
                     <div class="card-body">
 
-                            @if($errors->any())
-                                <div class="alert alert-danger" role="alert">
-                                    {{$errors->first()}}
-                                </div>
-                            @endif
-                                @if($msg ?? false)
-                                    <div class="alert alert-success" role="alert">
-                                        {{$msg}}
-                                    </div>
-                                @endif
+                        @if($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                {{$errors->first()}}
+                            </div>
+                        @endif
+                        @if(session()->has('msg'))
+                            <div class="alert alert-success" role="alert">
+                                {{session()->get('msg')}}
+                            </div>
+                        @endif
 
                         <table class="table">
                             <thead>
@@ -37,7 +37,21 @@
                                     <td>{{$machine->name}}</td>
                                     <td>{{$machine->location}}</td>
                                     <td>{{$machine->stock}}/{{$machine->maxNumberOfProducts}}</td>
-                                    <td><a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}" class="btn btn-outline-secondary"><i class="fas fa-edit"></i></a></td>
+                                    <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}" class="btn btn-outline-success"
+                                           data-toggle="tooltip"
+                                           title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}/delete" class="btn btn-outline-danger"
+                                           data-toggle="tooltip"
+                                           title="Delete"
+                                           onclick="return confirm('Bent u zeker dat u deze automaat wilt verwijderen?');">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
