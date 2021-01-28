@@ -22,10 +22,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-secondary text-white" href="http://104.45.50.208:3000/login" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
+                        </li>
                     @endif
-                <li class="nav-item">
-                    <a class="nav-link btn btn-secondary text-white" href="http://104.45.50.208:3000/login" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
-                </li>
+
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#!" data-toggle="dropdown">
