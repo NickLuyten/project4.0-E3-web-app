@@ -88,6 +88,8 @@ class UserController extends Controller
             'email' => 'required|string',
             'firstName' => 'required|string',
             'lastName' => 'required|string',
+            'password' => 'required|string',
+            'companyId' => 'required|integer',
         ]);
 
 
@@ -116,13 +118,15 @@ class UserController extends Controller
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),
                 'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'companyId' => $request->input('companyId'),
                 'admin' => $isAdmin,
 
             ]
         ]);
 
 
-        return view(admin/id/users);
+        return redirect('admin/id/users');
     }
 
 

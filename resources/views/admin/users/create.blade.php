@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-header"><h3>Gebruiker aanmaken</h3></div>
                     <div class="card-body">
-                        <form class="text-right" method="post" action="/admin/users/{{$user->id}}">
+                        <form class="text-right" method="post" action="/admin/users/create/store">
                             @CSRF
                             <div class="form-group row">
                                 <label for="firstName" class="col-sm-4 col-form-label">Voornaam</label>
@@ -39,6 +39,24 @@
                                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" >
                                 </div>
                                 @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group row">
+                                <label for="password" class="col-sm-4 col-form-label">Password</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" >
+                                </div>
+                                @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group row">
+                                <label for="companyId" class="col-sm-4 col-form-label">CompanyId</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control @error('companyId') is-invalid @enderror" id="companyId" name="companyId" placeholder="CompanyId" >
+                                </div>
+                                @error('companyId')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
