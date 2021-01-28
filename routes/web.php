@@ -47,7 +47,9 @@ Route::get('/admin/{cid}/units/{mid}', 'Admin\UnitsController@edit_index');
 Route::put('/admin/{cid}/units/{mid}/update', 'Admin\UnitsController@edit');
 
 Route::get('/admin/id/access', 'User\QRCodeController@request');
-Route::get('/admin/companies', 'User\QRCodeController@request'); //vanroey admin
+Route::get('/admin/companies', 'Admin\CompanyController@overview'); //vanroey admin
+Route::get('/admin/companies/new', 'Admin\CompanyController@new_index'); //vanroey admin
+Route::post('/admin/companies/new/store', 'Admin\CompanyController@new'); //vanroey admin
 
 
 if (Cookie::get('AuthToken') == '') {
