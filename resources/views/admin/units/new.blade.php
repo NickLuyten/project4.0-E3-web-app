@@ -47,6 +47,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="Limietboodschap" class="col-sm-4 col-form-label">Limiet bereikt boodschap</label>
+                                <div class="col-sm-8">
+                                    <textarea type="text" class="form-control" id="Limietboodschap" name="Limietboodschap" placeholder="Limiet bereikt boodschap"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label for="foutboodschap" class="col-sm-4 col-form-label">Overige foutboodschap</label>
                                 <div class="col-sm-8">
                                     <textarea type="text" class="form-control" id="foutboodschap" name="foutboodschap" placeholder="Foutboodschap"></textarea>
@@ -56,6 +62,12 @@
                                 <label for="Capaciteit" class="col-sm-4 col-form-label">Capaciteit</label>
                                 <div class="col-sm-8">
                                     <input type="number" class="form-control" id="Capaciteit" name="Capaciteit" placeholder="Capaciteit">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="VoorraadAlert" class="col-sm-4 col-form-label">Voorraad waarschuwing</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="VoorraadAlert" name="VoorraadAlert" placeholder="Voorraad drempel">
                                 </div>
                             </div>
 
