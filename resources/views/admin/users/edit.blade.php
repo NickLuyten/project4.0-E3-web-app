@@ -75,7 +75,7 @@
                                 <div id="rechtenTonen" class="collapse">
                                    <div id="rechten" align="left">
                                       <ul>
-                                          <li><input type="radio" name="type" id="admin" value='admin'> <label for="admin">Admin</label></li>
+                                          <li><input type="radio" name="type" id="adminrechten" value='admin'> <label for="adminrechten">Admin</label></li>
                                           <li><input type="radio" name="type" id="lokale_admin" value='lokale_admin'> <label for="lokale_admin">Lokale Admin</label></li>
                                           <li><input type="radio" name="type" id="gebruiker" value='gebruiker'> <label for="gebruiker">Gebruiker</label></li>
                                           <li><input type="radio" name="type" id="guest" value='guest'> <label for="guest">Guest</label></li>
