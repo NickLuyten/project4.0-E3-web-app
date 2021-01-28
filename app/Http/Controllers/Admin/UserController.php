@@ -77,44 +77,53 @@ class UserController extends Controller
         return view('admin.users.index')->with('users', $users);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|string',
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+        ]);
+
+
+        $AuthToken = $request->cookie('AuthToken');
+        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        if ($request->admin == 1) {
+            $isAdmin = $request->admin = 1;
+        } elseif ($request->admin != 1) {
+            $isAdmin = $request->admin = 0;
+        }
+
+        $result = $client->request('POST', '/api/user/register', [
+            'headers' => $headers,
+            'form_params' => [
+                'firstName' => $request->input('firstName'),
+                'lastName' => $request->input('lastName'),
+                'email' => $request->input('email'),
+                'admin' => $isAdmin,
+
+            ]
+        ]);
+
+
+        return view(admin/users/create);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-       //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        return redirect('admin/users');
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id,Request $request)
     {
         $AuthToken = $request->cookie('AuthToken');
@@ -146,13 +155,7 @@ class UserController extends Controller
         return view('admin.users.edit')->with('user', $result);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
+
        public function update(Request $request, $id)
     {
 
@@ -177,31 +180,57 @@ class UserController extends Controller
             'Authorization' => 'Bearer ' . $AuthToken
         ];
 
+        if ($request->admin == 1) {
+            $isAdmin = $request->admin = 1;
+        } elseif ($request->admin != 1) {
+            $isAdmin = $request->admin = 0;
+        }
+
+//
+//        $permissions = "[";
+//        for ($x = 1; $x <= 48; $x++) {
+//            if($request->permissions != "")
+//
+//                $permissions += $request->permissions;
+//        }
+
 
         $result = $client->request('PUT', '/api/user/'.$id, [
             'headers' => $headers,
             'form_params' => [
                 'firstName' => $request->input('firstName'),
-                "lastName" => $request->input('lastName'),
+                'lastName' => $request->input('lastName'),
                 'email' => $request->input('email'),
+                'admin' => $isAdmin,
+//                'permissions' => $permissions,
 
             ]]);
         return redirect('admin/id/users');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
+    public function destroy(Request $request,$id)
     {
         //
-        If ($user->id !== auth()->user()->id) {$user->delete();
-            session()->flash('success', "The user <b>$user->name</b> has been deleted");}
-        else { session()->flash('danger', "In order not to exclude yourself from (the admin section of) the application, you cannot delete your own profile");}
+        $AuthToken = $request->cookie('AuthToken');
 
-        return redirect('admin/users');
+        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        $result = $client->request('DELETE', '/api/user/'.$id, [
+            'headers' => $headers,
+
+            ]);
+
+
+        return redirect('admin/id/users');
     }
 }

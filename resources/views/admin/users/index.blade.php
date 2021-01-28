@@ -73,12 +73,12 @@
                                    title="Edit {{ $user->email }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-{{--                                <button type="button" class="btn btn-outline-danger"--}}
-{{--                                data-toggle="tooltip"--}}
-{{--                                        data-name="{{ $user->email}}"--}}
-{{--                                        title="Delete {{ $user->email }}">--}}
-{{--                                    <i class="fas fa-trash-alt"></i>--}}
-{{--                                </button>--}}
+                                <button type="button" class="btn btn-outline-danger"
+                                data-toggle="tooltip"
+                                        data-name="{{ $user->email}}"
+                                        title="Delete {{ $user->email }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </div>
                         </form>
                     </td>
@@ -87,39 +87,11 @@
             @endforeach
             </tbody>
         </table>
-{{--        {{$users -> links()}}--}}
+        <a href="/admin/users/create" class="btn btn-outline-success btn-lg btn-block"><i class="fas fa-plus"></i> Gebruiker toevoegen</a>
     </div>
 @endsection
 @section('script_after')
     <script>
-        $(function () {
-            $('.deleteForm button').click(function () {
-
-                let name= $(this).data('name');
-                let msg = `Delete this user ${name}?`;
-                if(confirm(msg)) {
-                    $(this).closest('form').submit();
-                }
-            })
-        });
-        $(function () {
-            // Get name and redirect to the detail page
-            $('.card').click(function () {
-                user_name = $(this).data('name');
-                $(location).attr('href', `/users/${user_name}`);
-            });
-
-            $('#user_name').blur(function () {
-                $('#searchForm').submit();
-            });
-
-            $('#sort_by').change(function () {
-                $('#searchForm').submit();
-            });
-        })
-
-
-
 
     </script>
 @endsection

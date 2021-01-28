@@ -34,6 +34,7 @@ Route::get('/user/token', 'User\QRCodeController@request');
 Route::get('/admin/id/users', 'Admin\UserController@index');
 Route::get('/admin/users/{id}/edit', 'Admin\UserController@edit');
 Route::post('/admin/users/{id}', 'Admin\UserController@update');
+Route::POST('/admin/users/create', 'Admin\UserController@create');
 
 
 
