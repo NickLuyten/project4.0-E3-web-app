@@ -13,6 +13,7 @@ class UnitsController extends Controller
     public function overview($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
         $Permissions = explode(';',$request->cookie('UserPermissions'));
+
         if ($AuthToken == '' or !(in_array('VENDING_MACHINE_READ_COMPANY', $Permissions) or in_array('VENDING_MACHINE_READ', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
@@ -138,5 +139,21 @@ class UnitsController extends Controller
         ]]);
 
         return Redirect::to('/admin/'.$cid.'/units');
+    }
+
+    public function delete($cid, $mid, Request $request){
+        $AuthToken = $request->cookie('AuthToken');
+
+        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
     }
 }
