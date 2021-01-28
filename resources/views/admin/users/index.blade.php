@@ -73,12 +73,11 @@
                                    title="Edit {{ $user->email }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" class="btn btn-outline-danger"
-                                data-toggle="tooltip"
-                                        data-name="{{ $user->email}}"
-                                        title="Delete {{ $user->email }}">
+                                <a href="/admin/users/{{ $user->id }}/delete" class="btn btn-outline-danger"
+                                   data-toggle="tooltip"
+                                   title="Delete {{ $user->email }}">
                                     <i class="fas fa-trash-alt"></i>
-                                </button>
+                                </a>
                             </div>
                         </form>
                     </td>
@@ -92,6 +91,9 @@
 @endsection
 @section('script_after')
     <script>
+
+
+
 
     </script>
 @endsection

@@ -77,8 +77,12 @@ class UserController extends Controller
         return view('admin.users.index')->with('users', $users);
     }
 
+    public function new_index(){
+        return view('admin.users.create');
+    }
 
-    public function create(Request $request)
+
+    public function new(Request $request)
     {
         $request->validate([
             'email' => 'required|string',
@@ -118,7 +122,7 @@ class UserController extends Controller
         ]);
 
 
-        return view(admin/users/create);
+        return view(admin/id/users);
     }
 
 
