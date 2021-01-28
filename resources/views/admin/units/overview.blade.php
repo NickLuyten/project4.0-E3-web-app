@@ -5,9 +5,21 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><h3>Automaten beheren</h3></div>
+                    <div class="card-header"><h3>Automaten beheren van {{$company->name}}</h3></div>
 
                     <div class="card-body">
+
+                            @if($errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                    {{$errors->first()}}
+                                </div>
+                            @endif
+                                @if($msg ?? false)
+                                    <div class="alert alert-success" role="alert">
+                                        {{$msg}}
+                                    </div>
+                                @endif
+
                         <table class="table">
                             <thead>
                             <tr>
@@ -19,7 +31,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($data as $machine)
+                            @foreach($machines as $machine)
                                 <tr>
                                     <th scope="row">{{$machine->id}}</th>
                                     <td>{{$machine->name}}</td>
@@ -30,7 +42,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <a href="/admin/{{$cid}}/units/new" class="btn btn-outline-success btn-lg btn-block"><i class="fas fa-plus"></i> Automaat toevoegen</a>
+                        <a href="/admin/{{$company->id}}/units/new" class="btn btn-outline-success btn-lg btn-block"><i class="fas fa-plus"></i> Automaat toevoegen</a>
 
 
                     </div>

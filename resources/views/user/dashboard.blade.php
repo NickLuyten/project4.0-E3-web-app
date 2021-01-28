@@ -10,7 +10,7 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header">Welkom {{$name}}.</div>
+                    <div class="card-header">Welkom {{ request()->cookie('UserFirstName')}}.</div>
 
                     <div class="card-body">
                         <a class="btn btn-block btn-outline-primary" href="/user/token">QR code aanvragen <i class="fas fa-arrow-right"></i></a>
@@ -19,8 +19,8 @@
                         <a class="btn btn-block btn-outline-primary" href="/admin/id/users">Gebruikers beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
                         @endif
 
-                        @if(True) {{--cookies voor rechten binnemhalen--}}
-                        <a class="btn btn-block btn-outline-primary" href="/admin/1/units">Machines beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
+                        @if(True and request()->cookie('UserCompanyId') != null) {{--cookies voor rechten binnemhalen--}}
+                        <a class="btn btn-block btn-outline-primary" href="/admin/{{ request()->cookie('UserCompanyId')}}/units">Automaten beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
                         @endif
 
                         @if(True) {{--cookies voor rechten binnemhalen--}}
