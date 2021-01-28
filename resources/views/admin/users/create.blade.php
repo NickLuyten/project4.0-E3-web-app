@@ -54,7 +54,7 @@
                             <div class="form-group row">
                                 <label for="companyId" class="col-sm-4 col-form-label">CompanyId</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control @error('companyId') is-invalid @enderror" id="companyId" name="companyId" placeholder="CompanyId" >
+                                        <input type="number" class="form-control @error('companyId') is-invalid @enderror" id="companyId" name="companyId" placeholder="CompanyId" >
                                 </div>
                                 @error('companyId')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -90,7 +90,7 @@
                                         <ul>
                                             <li><input type="radio" name="type" id="admin" value='admin'> <label for="admin">Admin</label></li>
                                             <li><input type="radio" name="type" id="lokale_admin" value='lokale_admin'> <label for="lokale_admin">Lokale Admin</label></li>
-                                            <li><input type="radio" name="type" id="gebruiker" value='gebruiker'> <label for="gebruiker">Gebruiker</label></li>
+                                            <li><input type="radio" name="type" id="gebruiker" value='gebruiker' checked><label for="gebruiker">Gebruiker</label></li>
                                             <li><input type="radio" name="type" id="guest" value='guest'> <label for="guest">Guest</label></li>
                                             {{--                                           <li><input type="checkbox" name="permissions1" id="ALERT_CREATE" value='ALERT_CREATE'> <label for="ALERT_DELETE">ALERT_DELETE</label></li>--}}
                                             {{--                                           <li><input type="checkbox" name="permissions2" id="ALERT_CREATE_COMPANY" value='ALERT_CREATE_COMPANY'> <label for="ALERT_CREATE_COMPANY">ALERT_CREATE_COMPANY</label></li>--}}
