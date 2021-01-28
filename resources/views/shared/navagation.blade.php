@@ -24,7 +24,7 @@
                         </li>
                     @endif
                 <li class="nav-item">
-                    <a class="nav-link btn btn-secondary text-white" href="http://www.smartvendors.be" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
+                    <a class="nav-link btn btn-secondary text-white" href="http://104.45.50.208:3000/login" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
                 </li>
                 @auth
                     <li class="nav-item dropdown">
