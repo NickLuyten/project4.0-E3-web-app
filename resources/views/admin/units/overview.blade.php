@@ -45,6 +45,11 @@
                                                        title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
+                                                    <a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}/access" class="btn btn-outline-success"
+                                                       data-toggle="tooltip"
+                                                       title="Toegang">
+                                                        <i class="fas fa-user-shield"></i>
+                                                    </a>
                                                     <a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}/delete" class="btn btn-outline-danger"
                                                        data-toggle="tooltip"
                                                        title="Delete"

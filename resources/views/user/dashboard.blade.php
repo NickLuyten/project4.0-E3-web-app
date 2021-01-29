@@ -24,10 +24,6 @@
                         @endif
 
                         @if(True) {{--cookies voor rechten binnemhalen--}}
-                        <a class="btn btn-block btn-outline-primary" href="/admin/id/access">Toegang beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
-                        @endif
-
-                        @if(True) {{--cookies voor rechten binnemhalen--}}
                         <a class="btn btn-block btn-outline-primary" href="/admin/companies">Bedrijven beheren <i class="fas fa-arrow-right"></i></a> {{--enkel VanRoey admin--}}
                         @endif
                     </div>

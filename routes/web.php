@@ -46,6 +46,8 @@ Route::post('/admin/{cid}/units/new/store', 'Admin\UnitsController@new');
 Route::get('/admin/{cid}/units/{mid}', 'Admin\UnitsController@edit_index');
 Route::put('/admin/{cid}/units/{mid}/update', 'Admin\UnitsController@edit');
 Route::get('/admin/{cid}/units/{mid}/delete', 'Admin\UnitsController@delete');
+Route::get('/admin/{cid}/units/{mid}/access', 'Admin\UnitsController@access_index');
+Route::post('/admin/{cid}/units/{mid}/access/{uid}/store', 'Admin\UnitsController@access_update');
 
 Route::get('/admin/id/access', 'User\QRCodeController@request');
 Route::get('/admin/companies', 'Admin\CompanyController@overview'); //vanroey admin
