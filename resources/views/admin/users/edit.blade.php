@@ -84,10 +84,10 @@
                                 <div id="rechtenTonen" class="collapse">
                                    <div id="rechten" align="left">
                                       <ul>
-                                          <li><input type="radio" name="type" id="adminrechten" value='admin' ><label for="adminrechten">Admin</label></li>
-                                          <li><input type="radio" name="type" id="lokale_admin" value='lokale_admin'> <label for="lokale_admin">Lokale Admin</label></li>
-                                          <li><input type="radio" name="type" id="gebruiker" value='gebruiker'> <label for="gebruiker">Gebruiker</label></li>
-                                          <li><input type="radio" name="type" id="guest" value='guest'> <label for="guest">Guest</label></li>
+                                          <li><input type="radio" name="type" id="adminrechten" value='admin' @if ($type["admin"] == true) checked @endif ><label for="adminrechten">Admin</label></li>
+                                          <li><input type="radio" name="type" id="lokale_admin" value='lokale_admin' @if ($type["lokale_admin"] == true) checked @endif > <label for="lokale_admin" >Lokale Admin</label></li>
+                                          <li><input type="radio" name="type" id="gebruiker" value='gebruiker' @if ($type["gebruiker"] == true) checked @endif > <label for="gebruiker">Gebruiker</label></li>
+                                          <li><input type="radio" name="type" id="guest" value='guest' @if ($type["guest"] == true) checked @endif > <label for="guest">Guest</label></li>
 {{--                                           <li><input type="checkbox" name="1" id="ALERT_CREATE" value='ALERT_CREATE'> <label for="ALERT_CREATE">ALERT_CREATE</label></li>--}}
 {{--                                           <li><input type="checkbox" name="2" id="ALERT_CREATE_COMPANY" value='ALERT_CREATE_COMPANY'> <label for="ALERT_CREATE_COMPANY">ALERT_CREATE_COMPANY</label></li>--}}
 {{--                                           <li><input type="checkbox" name="3" id="ALERT_READ" value='ALERT_READ'> <label for="ALERT_READ">ALERT_READ</label></li>--}}
@@ -139,15 +139,6 @@
                                        </ul>
                                    </div>
                                 </div>
-                            </div>
-                            <div>
-{{--                               @if ($type->admin != true)--}}
-{{--                                <p>5</p>--}}
-{{--                                @endif--}}
-
-
-
-
                             </div>
                             <hr>
                             <div class="form-group row">
