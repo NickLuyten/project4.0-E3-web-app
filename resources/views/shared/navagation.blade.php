@@ -23,7 +23,7 @@
                             <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-secondary text-white" href="http://104.45.50.208:3000/login" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
+                            <a class="nav-link btn btn-secondary text-white" href="http://104.45.50.208:3000/d/GuE8Z7YMk/project-4-0?from=1597179260712&to=1645188898404&orgId=1&kiosk" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
                         </li>
                     @endif
 

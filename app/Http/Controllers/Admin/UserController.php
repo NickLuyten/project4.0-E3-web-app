@@ -151,6 +151,7 @@ class UserController extends Controller
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
                 'companyId' => $request->input('companyId'),
+                'sanitizerLimitPerMonth' => $request->input('sanitizerLimitPerMonth'),
                 'admin' => $isAdmin,
                 'permissions' => $permissions,
 
@@ -192,7 +193,43 @@ class UserController extends Controller
 
         $result = json_decode($userresult->getBody())->result;
 
-        return view('admin.users.edit')->with('user', $result);
+        $adminPermissions ="[\"ALERT_CREATE\",\"ALERT_READ\",\"ALERT_DELETE\",\"AUTHENTICATION_CREATE\",\"AUTHENTICATION_READ\",\"AUTHENTICATION_UPDATE\",\"AUTHENTICATION_DELETE\",\"AUTHERIZED_USER_PER_MACHINE_CREATE\",\"AUTHERIZED_USER_PER_MACHINE_READ\",\"AUTHERIZED_USER_PER_MACHINE_DELETE\",\"COMPANY_CREATE\",\"COMPANY_READ\",\"COMPANY_UPDATE\",\"COMPANY_DELETE\",\"USER_CREATE\",\"USER_READ\",\"USER_UPDATE\",\"USER_DELETE\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",\"VENDING_MACHINE_CREATE\",\"VENDING_MACHINE_READ\",\"VENDING_MACHINE_UPDATE\",\"VENDING_MACHINE_DELETE\"]" ;
+        $lokale_adminPermissions ="[\"ALERT_CREATE_COMPANY\",\"ALERT_READ_COMPANY\",\"ALERT_DELETE_COMPANY\",\"AUTHENTICATION_CREATE_COMPANY\",\"AUTHENTICATION_READ_COMPANY\",\"AUTHENTICATION_UPDATE_COMPANY\",\"AUTHENTICATION_DELETE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",\"COMPANY_UPDATE_COMPANY\",\"USER_CREATE_COMPANY\",\"USER_READ_COMPANY\",\"USER_UPDATE_COMPANY\",\"USER_DELETE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",\"VENDING_MACHINE_CREATE_COMPANY\",\"VENDING_MACHINE_READ_COMPANY\",\"VENDING_MACHINE_UPDATE_COMPANY\",\"VENDING_MACHINE_DELETE_COMPANY\"]" ;
+        $gebruikerPermissions = "[\"AUTHENTICATION_CREATE_COMPANY_OWN\"]";
+
+        if($result->permissions == $adminPermissions){
+            $admin = true;
+            $lokale_admin = false;
+            $gebruiker = false;
+            $guest = false;
+        } elseif ($result->permissions == $lokale_adminPermissions) {
+            $admin = false;
+            $lokale_admin = true;
+            $gebruiker = false;
+            $guest = false;
+        }elseif ($result->permissions == $gebruikerPermissions) {
+            $admin = false;
+            $lokale_admin = false;
+            $gebruiker = true;
+            $guest = false;
+        }else {
+            $admin = false;
+            $lokale_admin = false;
+            $gebruiker = false;
+            $guest = true;
+        }
+
+        $type = [
+            ['admin' => $admin],
+            ['lokale_admin' => $lokale_admin],
+            ['gebruiker' => $gebruiker],
+            ['guest' => $guest],
+
+        ];
+
+        return view('admin.users.edit')->with('user', $result)->with('type',$type);
+
+//        return view('admin.users.edit')->with('user', $result);
     }
 
 
@@ -263,6 +300,7 @@ class UserController extends Controller
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),
                 'email' => $request->input('email'),
+                'sanitizerLimitPerMonth' => $request->input('sanitizerLimitPerMonth'),
                 'admin' => $isAdmin,
                 'permissions' => $permissions,
 

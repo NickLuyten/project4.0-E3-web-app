@@ -43,6 +43,15 @@
                                 @enderror
                             </div>
                             <div class="form-group row">
+                                <label for="sanitizerLimitPerMonth" class="col-sm-4 col-form-label">Max handgels afhalen per maand</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control @error('sanitizerLimitPerMonth') is-invalid @enderror" id="sanitizerLimitPerMonth" name="sanitizerLimitPerMonth" placeholder="sanitizerLimitPerMonth" value="{{$user->sanitizerLimitPerMonth}}" >
+                                </div>
+                                @error('sanitizerLimitPerMonth')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label">Admin</label>
                                 <div class="col-sm-1">
                                     <input type="checkbox" name="admin" align="left"  id="admin" value=1
@@ -75,7 +84,7 @@
                                 <div id="rechtenTonen" class="collapse">
                                    <div id="rechten" align="left">
                                       <ul>
-                                          <li><input type="radio" name="type" id="adminrechten" value='admin'> <label for="adminrechten">Admin</label></li>
+                                          <li><input type="radio" name="type" id="adminrechten" value='admin' ><label for="adminrechten">Admin</label></li>
                                           <li><input type="radio" name="type" id="lokale_admin" value='lokale_admin'> <label for="lokale_admin">Lokale Admin</label></li>
                                           <li><input type="radio" name="type" id="gebruiker" value='gebruiker'> <label for="gebruiker">Gebruiker</label></li>
                                           <li><input type="radio" name="type" id="guest" value='guest'> <label for="guest">Guest</label></li>
@@ -131,7 +140,15 @@
                                    </div>
                                 </div>
                             </div>
+                            <div>
+{{--                               @if ($type->admin != true)--}}
+{{--                                <p>5</p>--}}
+{{--                                @endif--}}
 
+
+
+
+                            </div>
                             <hr>
                             <div class="form-group row">
                                 <div class="col">

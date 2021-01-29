@@ -61,6 +61,15 @@
                                 @enderror
                             </div>
                             <div class="form-group row">
+                                <label for="sanitizerLimitPerMonth" class="col-sm-4 col-form-label">Max handgels afhalen per maand</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control @error('sanitizerLimitPerMonth') is-invalid @enderror" id="sanitizerLimitPerMonth" name="sanitizerLimitPerMonth" placeholder="sanitizerLimitPerMonth" >
+                                </div>
+                                @error('sanitizerLimitPerMonth')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label">Admin</label>
                                 <div class="col-sm-1">
                                     <input type="checkbox" name="admin" align="left"  id="admin" value=1>
