@@ -59,7 +59,7 @@
 
                             <div class="form-group row">
                                 <div class="col">
-                                    <a href="/admin/{{$cid}}/units/{{$mid}}" class="btn btn-outline-secondary">Terug</a>
+                                    <a href="/admin/{{$cid}}/units" class="btn btn-outline-secondary">Terug</a>
                                 </div>
                             </div>
 
