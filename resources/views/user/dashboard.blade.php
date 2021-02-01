@@ -13,7 +13,7 @@
                     <div class="card-header">Welkom {{ request()->cookie('UserFirstName')}}.</div>
 
                     <div class="card-body">
-                        <a class="btn btn-block btn-outline-primary" href="/user/token">QR code aanvragen <i class="fas fa-arrow-right"></i></a>
+                        <a class="btn btn-block btn-outline-primary" href="/user/token">QR code @if(True and request()->cookie('guest') != true) aanvragen @else tonen @endif <i class="fas fa-arrow-right"></i></a>
 
                         @if(True) {{--cookies voor rechten binnemhalen--}}
                         <a class="btn btn-block btn-outline-primary" href="/admin/users">Gebruikers beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}

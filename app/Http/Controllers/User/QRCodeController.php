@@ -23,13 +23,25 @@ class QRCodeController extends Controller
             'timeout'  => 2.0,
         ]);
         try {
-            $headers = [
-                'Authorization' => 'Bearer ' . $AuthToken
-            ];
+            if($request->cookie('guest') ==false) {
+                $headers = [
+                    'Authorization' => 'Bearer ' . $AuthToken
+                ];
 
-            $hashresult = $client->request('POST', '/api/authentication/', [
-                'headers' => $headers
-            ]);
+                $hashresult = $client->request('POST', '/api/authentication/', [
+                    'headers' => $headers
+                ]);
+            } else {
+                $id = $request->cookie('userId');
+                $headers = [
+                    'Authorization' => 'Bearer ' . $AuthToken
+                ];
+
+                $hashresult = $client->request('GET', '/api/authentication/user/'.$id, [
+                    'headers' => $headers
+                ]);
+            }
+
         }
 
         catch (RequestException $e) {

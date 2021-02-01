@@ -81,6 +81,8 @@ class LoginController extends Controller
         Cookie::queue('AuthToken', $resultJson->accessToken, 60);
         Cookie::queue('UserFirstName', $resultJson->firstName, 60);
         Cookie::queue('UserCompanyId', $resultJson->companyId, 60);
+        Cookie::queue('guest', $resultJson->guest, 60);
+        Cookie::queue('userId', $resultJson->id, 60);
         Cookie::queue('UserPermissions', implode(';',$resultJson->permissions), 60);
         return Redirect::to('dashboard');
 
