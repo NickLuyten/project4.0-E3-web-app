@@ -381,7 +381,7 @@ class UserController extends Controller
         return redirect('admin/users');
     }
 
-    public function qrcodeguest(Request $request,$id)
+        public function qrcodeguest(Request $request,$id)
     {
         //
         $AuthToken = $request->cookie('AuthToken');

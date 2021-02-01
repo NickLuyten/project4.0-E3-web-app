@@ -75,9 +75,6 @@
                         }
                         ?> </td>
                     <td>
-                        <form action="/admin/users/{{ $user->id }}" method="post" class="deleteForm">
-                            @method('delete')
-                            @csrf
                             <div class="btn-group btn-group-sm">
                                 <a href="/admin/users/{{ $user->id }}/edit" class="btn btn-outline-success"
                                    data-toggle="tooltip"
@@ -91,14 +88,13 @@
                                 </a>
                                 <?php
                                 if (old('guest',$user->guest) == 1) {
-                                    echo "<a href='/admin/users/qrcodeGuest' class='btn btn-outline-primary'>Qr code</a>";
+                                    echo "<a href='/admin/users/qrcodeGuest/{{ $user->id }}' class='btn btn-outline-primary'>Qr code</a>";
                                 } else {
                                     echo "";
                                 }
                                 ?>
 
                             </div>
-                        </form>
                     </td>
 
                 </tr>
