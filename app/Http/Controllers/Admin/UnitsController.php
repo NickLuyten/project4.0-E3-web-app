@@ -126,7 +126,7 @@ class UnitsController extends Controller
         ];
 
 
-        $result = $client->request('PUT', '/api/vendingMachine/'.$mid, [
+        $result = $client->request('PUT', '/api/vendingMachine/update/'.$mid, [
             'headers' => $headers,
             'form_params' => [
                 'name' => $request->input('naam'),
