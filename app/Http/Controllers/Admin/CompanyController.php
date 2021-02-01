@@ -155,7 +155,13 @@ class CompanyController extends Controller
                 'headers' => $headers,
                 'form_params' => [
                     'name' => $request->input('naam'),
-                    'location' => $request->input('locatie')
+                    'location' => $request->input('locatie'),
+                    "welcomeMessage" => $request->input('welkomsboodschap'),
+                    'handGelMessage' => $request->input('Afnameboodschap'),
+                    "handGelOutOfStockMessage" => $request->input('voorraadboodschap'),
+                    "authenticationFailedMessage" => $request->input('Authenticatieboodschap'),
+                    "limitHandSanitizerReacedMessage" => $request->input('Limietboodschap'),
+                    "errorMessage" => $request->input('foutboodschap')
                 ]
             ]);
         } catch (GuzzleException $e) {
