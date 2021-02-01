@@ -50,7 +50,7 @@ class UserController extends Controller
 
          $AuthToken = $request->cookie('AuthToken');
         if ($AuthToken == ''){
-            return Redirect::to('/login');
+            abort(403);
         }
 
         $client = new Client([
@@ -159,7 +159,7 @@ class UserController extends Controller
         ]);
 
 
-        return redirect('admin/id/users');
+        return redirect('admin/users');
     }
 
 
@@ -169,7 +169,7 @@ class UserController extends Controller
     {
         $AuthToken = $request->cookie('AuthToken');
         if ($AuthToken == ''){
-            return Redirect::to('/login');
+            abort(403);
         }
 
         $client = new Client([
@@ -307,7 +307,7 @@ class UserController extends Controller
         } elseif ($request->admin != 1) {
             $isAdmin = $request->admin = 0;
         }
-
+        $guest = false;
 
         if($request->privileges == 2) {
             $permissions = "";
@@ -334,6 +334,7 @@ class UserController extends Controller
                $permissions = "[\"AUTHENTICATION_CREATE_COMPANY_OWN\"]";
            }elseif($request->type == "guest") {
                $permissions = "[]";
+               $guest= true;
            }
 
         }
@@ -347,10 +348,11 @@ class UserController extends Controller
                 'email' => $request->input('email'),
                 'sanitizerLimitPerMonth' => $request->input('sanitizerLimitPerMonth'),
                 'admin' => $isAdmin,
+                'guest' => $guest,
                 'permissions' => $permissions,
 
             ]]);
-        return redirect('admin/id/users');
+        return redirect('admin/users');
     }
 
     public function destroy(Request $request,$id)
@@ -376,6 +378,33 @@ class UserController extends Controller
             ]);
 
 
-        return redirect('admin/id/users');
+        return redirect('admin/users');
+    }
+
+    public function qrcodeguest(Request $request,$id)
+    {
+        //
+        $AuthToken = $request->cookie('AuthToken');
+
+        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        $result = $client->request('POST', '/api/authentication/user/', [
+            'headers' => $headers,
+            'form_params' => [
+                'userId' => $id
+            ]]);
+
+
+        return redirect('admin/users');
     }
 }

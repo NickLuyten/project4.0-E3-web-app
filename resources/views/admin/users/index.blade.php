@@ -43,6 +43,7 @@
                 <th>Company</th>
                 <th>Max Handgels/maand</th>
                 <th>Admin</th>
+                <th>Guest</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -66,6 +67,14 @@
                         }
                         ?> </td>
                     <td>
+                        <?php
+                        if (old('guest',$user->guest) == 1) {
+                            echo "<b>&#10004;</b>";
+                        } else {
+                            echo "";
+                        }
+                        ?> </td>
+                    <td>
                         <form action="/admin/users/{{ $user->id }}" method="post" class="deleteForm">
                             @method('delete')
                             @csrf
@@ -80,6 +89,14 @@
                                    title="Delete {{ $user->email }}">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
+                                <?php
+                                if (old('guest',$user->guest) == 1) {
+                                    echo "<a href='/admin/users/qrcodeGuest' class='btn btn-outline-primary'>Qr code</a>";
+                                } else {
+                                    echo "";
+                                }
+                                ?>
+
                             </div>
                         </form>
                     </td>

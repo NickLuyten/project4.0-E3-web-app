@@ -16,7 +16,7 @@
                         <a class="btn btn-block btn-outline-primary" href="/user/token">QR code aanvragen <i class="fas fa-arrow-right"></i></a>
 
                         @if(True) {{--cookies voor rechten binnemhalen--}}
-                        <a class="btn btn-block btn-outline-primary" href="/admin/id/users">Gebruikers beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
+                        <a class="btn btn-block btn-outline-primary" href="/admin/users">Gebruikers beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
                         @endif
 
                         @if(True and request()->cookie('UserCompanyId') != null) {{--cookies voor rechten binnemhalen--}}

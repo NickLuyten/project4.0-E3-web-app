@@ -31,12 +31,13 @@ Route::get('/user/token', 'User\QRCodeController@request');
 //test routes zonder permissies
 //id = company ID
 
-Route::get('/admin/id/users', 'Admin\UserController@index');
+Route::get('/admin/users', 'Admin\UserController@index');
 Route::get('/admin/users/{id}/edit', 'Admin\UserController@edit');
 Route::post('/admin/users/{id}', 'Admin\UserController@update');
 Route::get('/admin/users/create', 'Admin\UserController@new_index');
 Route::post('/admin/users/create/store', 'Admin\UserController@new');
 Route::get('/admin/users/{id}/delete', 'Admin\UserController@destroy');
+Route::post('/admin/users/qrcodeGuest', 'Admin\UserController@qrcodeguest');
 
 
 

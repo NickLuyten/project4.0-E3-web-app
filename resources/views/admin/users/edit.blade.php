@@ -106,7 +106,7 @@
 {{--                                           <li><input type="checkbox" name="16" id="AUTHERIZED_USER_PER_MACHINE_CREATE" value='AUTHERIZED_USER_PER_MACHINE_CREATE'> <label for="AUTHERIZED_USER_PER_MACHINE_CREATE">AUTHERIZED_USER_PER_MACHINE_CREATE</label></li>--}}
 {{--                                           <li><input type="checkbox" name="17" id="AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY" value='AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY'> <label for="AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY">AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY</label></li>--}}
 {{--                                           <li><input type="checkbox" name="18" id="AUTHERIZED_USER_PER_MACHINE_READ" value='AUTHERIZED_USER_PER_MACHINE_READ'> <label for="AUTHERIZED_USER_PER_MACHINE_READ">AUTHERIZED_USER_PER_MACHINE_READ</label></li>--}}
-{{--                                           <li><input type="checkbox" name="19" id="guest" value='guest'> <label for="AUTHERIZED_USER_PER_MACHINE_READ_COMPANY">AUTHERIZED_USER_PER_MACHINE_READ_COMPANY</label></li>--}}
+{{--                                           <li><input type="checkbox" name="19" id="AUTHERIZED_USER_PER_MACHINE_READ_COMPANY" value='AUTHERIZED_USER_PER_MACHINE_READ_COMPANY'> <label for="AUTHERIZED_USER_PER_MACHINE_READ_COMPANY">AUTHERIZED_USER_PER_MACHINE_READ_COMPANY</label></li>--}}
 {{--                                           <li><input type="checkbox" name="20" id="AUTHERIZED_USER_PER_MACHINE_DELETE" value='AUTHERIZED_USER_PER_MACHINE_DELETE'> <label for="AUTHERIZED_USER_PER_MACHINE_DELETE">AUTHERIZED_USER_PER_MACHINE_DELETE</label></li>--}}
 {{--                                           <li><input type="checkbox" name="21" id="AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY" value='AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY'> <label for="AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY">AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY</label></li>--}}
 {{--                                           <li><input type="checkbox" name="22" id="COMPANY_CREATE" value='COMPANY_CREATE'> <label for="COMPANY_CREATE">COMPANY_CREATE</label></li>--}}
@@ -164,12 +164,22 @@
         function Rechten() {
 
             if (document.getElementById("Simpel").checked){
+                var admin = "<?php echo json_encode($type["admin"]) ?>";
+                var lokale_admin = "<?php echo json_encode($type["lokale_admin"]) ?>";
+                var gebruiker = "<?php echo json_encode($type["gebruiker"]) ?>";
+                var guest = "<?php echo json_encode($type["guest"]) ?>";
+                console.log(admin);
+                console.log(lokale_admin);
+                console.log(gebruiker);
+                console.log(guest);
+
                 document.getElementById("rechten").innerHTML = "<ul>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"adminrechten\" value='admin'> <label for=\"adminrechten\">Admin</label></li>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"lokale_admin\" value='lokale_admin'> <label for=\"lokale_admin\">Lokale Admin</label></li>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"gebruiker\" value='gebruiker'> <label for=\"gebruiker\">Gebruiker</label></li>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"guest\" value='guest'> <label for=\"guest\">Guest</label></li>\n" +
+                    "                                           <li><input type=\"radio\" name=\"type\" id=\"adminrechten\" value=\"admin\"> <label for=\"adminrechten\">Admin</label></li>\n" +
+                    "                                           <li><input type=\"radio\" name=\"type\" id=\"lokale_admin\" value=\"lokale_admin\"> <label for=\"lokale_admin\">Lokale Admin</label></li>\n" +
+                    "                                           <li><input type=\"radio\" name=\"type\" id=\"gebruiker\" value=\"gebruiker\" checked> <label for=\"gebruiker\">Gebruiker</label></li>\n" +
+                    "                                           <li><input type=\"radio\" name=\"type\" id=\"guest\" value=\"guest\" > <label for=\"guest\">Guest</label></li>\n" +
                     "                                       </ul>";
+
             } else if (document.getElementById("geavanceerd").checked){
                 document.getElementById("rechten").innerHTML = "  <ul>\n" +
                     "                                           <li><input type=\"checkbox\" name=\"1\" id=\"ALERT_CREATE\" value='ALERT_CREATE'> <label for=\"ALERT_CREATE\">ALERT_CREATE</label></li>\n" +
@@ -190,7 +200,7 @@
                     "                                           <li><input type=\"checkbox\" name=\"16\" id=\"AUTHERIZED_USER_PER_MACHINE_CREATE\" value='AUTHERIZED_USER_PER_MACHINE_CREATE'> <label for=\"AUTHERIZED_USER_PER_MACHINE_CREATE\">AUTHERIZED_USER_PER_MACHINE_CREATE</label></li>\n" +
                     "                                           <li><input type=\"checkbox\" name=\"17\" id=\"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\" value='AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY'> <label for=\"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\">AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY</label></li>\n" +
                     "                                           <li><input type=\"checkbox\" name=\"18\" id=\"AUTHERIZED_USER_PER_MACHINE_READ\" value='AUTHERIZED_USER_PER_MACHINE_READ'> <label for=\"AUTHERIZED_USER_PER_MACHINE_READ\">AUTHERIZED_USER_PER_MACHINE_READ</label></li>\n" +
-                    "                                           <li><input type=\"checkbox\" name=\"19\" id=\"guest\" value='guest'> <label for=\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\">AUTHERIZED_USER_PER_MACHINE_READ_COMPANY</label></li>\n" +
+                    "                                           <li><input type=\"checkbox\" name=\"19\" id=\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\" value='AUTHERIZED_USER_PER_MACHINE_READ_COMPANY'> <label for=\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\">AUTHERIZED_USER_PER_MACHINE_READ_COMPANY</label></li>\n" +
                     "                                           <li><input type=\"checkbox\" name=\"20\" id=\"AUTHERIZED_USER_PER_MACHINE_DELETE\" value='AUTHERIZED_USER_PER_MACHINE_DELETE'> <label for=\"AUTHERIZED_USER_PER_MACHINE_DELETE\">AUTHERIZED_USER_PER_MACHINE_DELETE</label></li>\n" +
                     "                                           <li><input type=\"checkbox\" name=\"21\" id=\"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\" value='AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY'> <label for=\"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\">AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY</label></li>\n" +
                     "                                           <li><input type=\"checkbox\" name=\"22\" id=\"COMPANY_CREATE\" value='COMPANY_CREATE'> <label for=\"COMPANY_CREATE\">COMPANY_CREATE</label></li>\n" +
@@ -222,6 +232,8 @@
                     "                                           <li><input type=\"checkbox\" name=\"48\" id=\"VENDING_MACHINE_DELETE_COMPANY\" value='VENDING_MACHINE_DELETE_COMPANY'> <label for=\"VENDING_MACHINE_DELETE_COMPANY\">VENDING_MACHINE_DELETE_COMPANY</label></li>\n" +
                     "                                       </ul>";
             }
+
+
         }
     </script>
 @endsection
