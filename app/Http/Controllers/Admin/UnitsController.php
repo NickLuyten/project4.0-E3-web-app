@@ -248,12 +248,8 @@ class UnitsController extends Controller
 
         else {  //toegang verwijderen
             try {
-                $result = $client->request('DELETE', '/api/autherizedUserPerMachine/', [
-                    'headers' => $headers,
-                    'form_params' => [
-                        'userId' => $uid,
-                        "vendingMachineId" => $mid
-                    ]]);
+                $result = $client->request('DELETE', '/api/autherizedUserPerMachine/user/'. $uid .'/vendingmachine/'. $mid, [
+                    'headers' => $headers]);
             } catch (GuzzleException $e) {
                 return Redirect::to('/admin/'.$cid.'/units/'. $mid . '/access')->withErrors(['Kan toegang niet aanpassen.']);
             }
