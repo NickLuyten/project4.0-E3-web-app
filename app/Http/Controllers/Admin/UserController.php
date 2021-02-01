@@ -398,7 +398,7 @@ class UserController extends Controller
             'Authorization' => 'Bearer ' . $AuthToken
         ];
 
-        $result = $client->request('POST', '/api/authentication/user/', [
+        $result = $client->request('POST', '/api/authentication/user', [
             'headers' => $headers,
             'form_params' => [
                 'userId' => $id

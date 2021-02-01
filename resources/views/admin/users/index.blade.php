@@ -86,13 +86,12 @@
                                    title="Delete {{ $user->email }}">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
-                                <?php
-                                if (old('guest',$user->guest) == 1) {
-                                    echo "<a href='/admin/users/qrcodeGuest/{{ $user->id }}' class='btn btn-outline-primary'>Qr code</a>";
-                                } else {
-                                    echo "";
-                                }
-                                ?>
+
+                                @if (old('guest',$user->guest) == 1)
+                                    <a href='/admin/users/qrcodeGuest/{{$user->id}}' class='btn btn-outline-primary'>Qr code</a>
+                                @else
+
+                                @endif
 
                             </div>
                     </td>
