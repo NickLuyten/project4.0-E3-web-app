@@ -46,7 +46,24 @@ class UnitsController extends Controller
         if ($AuthToken == '' or !(in_array('VENDING_MACHINE_CREATE_COMPANY', $Permissions) or in_array('VENDING_MACHINE_CREATE', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
-        return view('admin.units.new')->with('cid', $cid);
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        try {
+            $result = $client->request('GET', '/api/company/'.$cid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/'.$cid.'/units/')->withErrors('Automaat toegevoegen mislukt. Gelieve opnieuw te proberen.');
+        }
+
+        $company = json_decode($result->getBody())->result;
+        return view('admin.units.new')->with('cid', $cid)->with('company', $company);
     }
 
     public function new($cid, Request $request){
@@ -126,7 +143,7 @@ class UnitsController extends Controller
         ];
 
 
-        $result = $client->request('PUT', '/api/vendingMachine/'.$mid, [
+        $result = $client->request('PUT', '/api/vendingMachine/update/'.$mid, [
             'headers' => $headers,
             'form_params' => [
                 'name' => $request->input('naam'),
@@ -248,12 +265,8 @@ class UnitsController extends Controller
 
         else {  //toegang verwijderen
             try {
-                $result = $client->request('DELETE', '/api/autherizedUserPerMachine/', [
-                    'headers' => $headers,
-                    'form_params' => [
-                        'userId' => $uid,
-                        "vendingMachineId" => $mid
-                    ]]);
+                $result = $client->request('DELETE', '/api/autherizedUserPerMachine/user/'. $uid .'/vendingmachine/'. $mid, [
+                    'headers' => $headers]);
             } catch (GuzzleException $e) {
                 return Redirect::to('/admin/'.$cid.'/units/'. $mid . '/access')->withErrors(['Kan toegang niet aanpassen.']);
             }
