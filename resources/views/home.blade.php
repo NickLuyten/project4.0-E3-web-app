@@ -8,7 +8,8 @@
     <p>Welkom op het portaal van de Smart Vendors Smart Vending Machines. Gelieve in te loggen om uw persoonlijke QR code te geneneren.</p>
     <br>
     <a href="/login" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> Login</a>
-{{--    <br><br>--}}
-{{--    <a href="/guestlogin" class="btn btn-secondary btn-block"><i class="fas fa-male"></i> Gast login</a>--}}
+    <a class="btn btn-success align-bottom" style="margin-top: 200px" href="/assets/app-release.apk" download>
+        <span style="font-size: 20px"><i class="fab fa-android"></i> DOWNLOAD</span><br><span style="font-size: 14px">ANDROID .APK APP</span>
+    </a>
 </div>
 @endsection
