@@ -3,42 +3,49 @@
 @section('title', 'Update password')
 
 @section('main')
-    <h1>New password</h1>
-    @include('shared.alert')
-    <form action="/user/password" method="post">
-        @csrf
-        <div class="form-group">
-            <label for="current_password">Current password</label>
-            <input type="password" name="current_password" id="current_password"
-                   class="form-control @error('current_password') is-invalid @enderror"
-                   placeholder="Current password"
-                   value="{{ old('current_password') }}"
-                   required>
-            @error('current_password')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @include('shared.alert')
+                <div class="card">
+
+                    <div class="card-header"><h3>Nieuw wachtwoord instellen</h3></div>
+                    <div class="card-body">
+                        <form class="text-right" method="post" action="/profile/password/update">
+                            @CSRF
+                            <div class="form-group row">
+                                <label for="newPassword" class="col-sm-4 col-form-label">Nieuw wachtwoord</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control @error('newPassword') is-invalid @enderror" id="newPassword" name="newPassword" placeholder="Nieuw wachtwoord" value="">
+                                </div>
+                                @error('newPassword')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group row">
+                                <label for="newPasswordConfirm" class="col-sm-4 col-form-label">Nieuw wachtwoord confirm</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control @error('newPasswordConfirm') is-invalid @enderror" id="newPasswordConfirm" name="newPasswordConfirm" placeholder="Nieuw wachtwoord confirm" value="">
+                                </div>
+                                @error('newPasswordConfirm')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group row">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary btn-block">Opslaan</button>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col">
+                                    <a href="/dashboard" class="btn btn-outline-secondary">Annuleren</a>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">New password</label>
-            <input type="password" name="password" id="password"
-                   class="form-control @error('password') is-invalid @enderror"
-                   placeholder="New password"
-                   value="{{ old('password') }}"
-                   minlength="8"
-                   required>
-            @error('password')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label for="password_confirmation">Confirm new password</label>
-            <input type="password" name="password_confirmation" id="password_confirmation"
-                   class="form-control"
-                   placeholder="Confirm new password"
-                   value="{{ old('password_confirmation') }}"
-                   minlength="8"
-                   required>
-        </div>
-        <button type="submit" class="btn btn-success">Update password</button>
-    </form>
+    </div>
 @endsection

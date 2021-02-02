@@ -36,7 +36,7 @@
                             <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label">Email</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" >
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" >
                                 </div>
                                 @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -70,7 +70,7 @@
                                 @enderror
                             </div>
                             <div class="form-group row">
-                                <label for="email" class="col-sm-4 col-form-label">Admin</label>
+                                <label for="admin" class="col-sm-4 col-form-label">Admin</label>
                                 <div class="col-sm-1">
                                     <input type="checkbox" name="admin" align="left"  id="admin" value=1>
                                 </div>
@@ -80,11 +80,11 @@
                             <div>
 
                                 <div class="form-group row">
-                                    <label for="email" class="col-sm-4 col-form-label">Simpel</label>
+                                    <label for="Simpel" class="col-sm-4 col-form-label">Simpel</label>
                                     <div class="col-sm-1">
                                         <input type="radio"  name="privileges"  id="Simpel" onclick="Rechten()" value=1 checked>
                                     </div>
-                                    <label for="email" class="col-sm-4 col-form-label">geavanceerd</label>
+                                    <label for="geavanceerd" class="col-sm-4 col-form-label">geavanceerd</label>
                                     <div class="col-sm-1">
                                         <input type="radio" name="privileges" id="geavanceerd" onclick="Rechten()" value=2>
                                     </div>

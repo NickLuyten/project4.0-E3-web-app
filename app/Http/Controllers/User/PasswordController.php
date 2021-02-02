@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Hash;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,20 +22,48 @@ class PasswordController extends Controller
     {
         // Validate $request
         $this->validate($request, [
-            'current_password' => 'required',
-            'password' => 'required|min:8|confirmed',
+            'newPassword' => 'required',
+            'newPasswordConfirm' => 'required',
         ]);
 
-        // Update encrypted user password in the database and redirect to previous page
-        $user = User::findOrFail(auth()->id());
-        if (!Hash::check($request->current_password, $user->password)) {
-            session()->flash('danger', "Your current password doesn't mach the password in the database");
+        if ($request->input('newPassword') == $request->input('newPasswordConfirm')) {
+            $password = $request->input('newPassword');
+
+            $AuthToken = $request->cookie('AuthToken');
+            $id = $request->cookie('userId');
+            if ($AuthToken == ''){
+                abort(403);
+            }
+
+            $client = new Client([
+                'base_uri' => 'https://project4-restserver.herokuapp.com',
+                'timeout'  => 2.0,
+            ]);
+            $headers = [
+                'Authorization' => 'Bearer ' . $AuthToken
+            ];
+
+
+
+            try {
+                $result = $client->request('PUT', '/api/user/'.$id, [
+                    'headers' => $headers,
+                    'form_params' => [
+                        'password' => $password
+
+
+                    ]]);
+            } catch (GuzzleException $e) {
+                return Redirect::to('/dashboard')->withErrors('het aanpassen van je watchtwoord is mislukt.');
+            }
+
+
+            return redirect('/dashboard')->with('msg', 'Je watchtwoord is aangepast.');
+        } else {
+            session()->flash('danger', "De 2 wachtwoorden komen niet overeen");
             return back();
         }
-        $user->password = Hash::make($request->password);
-        $user->save();
-        session()->flash('success', 'Your password has been updated');
-        auth() -> logout();
-        return redirect('/login');
+
+
     }
 }

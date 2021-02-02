@@ -59,6 +59,9 @@ Route::post('/admin/company/{cid}/update', 'Admin\CompanyController@update');
 
 Route::get('/profile/edit', 'User\ProfileController@edit');
 Route::post('/profile/update', 'User\ProfileController@update');
+Route::get('/profile/password/edit', 'User\PasswordController@edit');
+Route::post('/profile/password/update', 'User\PasswordController@update');
+
 
 if (Cookie::get('AuthToken') == '') {
     Route::get('login', 'Auth\LoginController@show');

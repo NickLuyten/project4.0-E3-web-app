@@ -36,7 +36,7 @@
                             <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label">Email</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{$user->email}}">
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{$user->email}}">
                                 </div>
                                 @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -47,8 +47,11 @@
                                     <button type="submit" class="btn btn-primary btn-block">Opslaan</button>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col">
+                                <div class="form-group row">
+                                <div class="col-7">
+                                    <a href="/profile/password/edit" class="btn btn-outline-success">Wachtwoord veranderen</a>
+                                </div>
+                                <div class="col-5">
                                     <a href="/dashboard" class="btn btn-outline-secondary">Annuleren</a>
                                 </div>
                             </div>
