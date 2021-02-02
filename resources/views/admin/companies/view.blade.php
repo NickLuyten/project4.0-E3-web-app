@@ -1,5 +1,9 @@
 @extends('layouts.template')
 
+@php
+    $permissions = explode(';', Cookie::get('UserPermissions'));
+@endphp
+
 @section('main')
     <div class="container">
         <div class="row justify-content-center">
@@ -21,9 +25,13 @@
                         @endif
 
                         <div class="card">
-                            <h5 class="card-header">Bedrijfsinfo <span class="float-right"><a
-                                        href="/admin/company/{{$company->id}}/edit"
-                                        class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a></span>
+                            <h5 class="card-header">Bedrijfsinfo
+                                @if(in_array('COMPANY_UPDATE', $permissions) or in_array('COMPANY_UPDATE_COMPANY', $permissions))
+                                    <span class="float-right"><a
+                                            href="/admin/company/{{$company->id}}/edit"
+                                            class="btn btn-sm btn-outline-secondary"><i
+                                                class="fas fa-edit"></i></a></span>
+                                @endif
                             </h5>
                             <div class="card-body">
                                 <p class="card-text"><strong>Naam: </strong>{{$company->name}}</p>
@@ -39,9 +47,12 @@
                                     <div class="card card-body">
                                         <p><strong>Welkom boodschap: </strong>{{$company->welcomeMessage}}</p>
                                         <p><strong>Afname boodschap: </strong>{{$company->handGelMessage}}</p>
-                                        <p><strong>Voorraad leeg boodschap: </strong>{{$company->handGelOutOfStockMessage}}</p>
-                                        <p><strong>Authenticatiefout boodschap: </strong>{{$company->authenticationFailedMessage}}</p>
-                                        <p><strong>Limiet bereikt boodschap: </strong>{{$company->limitHandSanitizerReacedMessage}}</p>
+                                        <p><strong>Voorraad leeg
+                                                boodschap: </strong>{{$company->handGelOutOfStockMessage}}</p>
+                                        <p><strong>Authenticatiefout
+                                                boodschap: </strong>{{$company->authenticationFailedMessage}}</p>
+                                        <p><strong>Limiet bereikt
+                                                boodschap: </strong>{{$company->limitHandSanitizerReacedMessage}}</p>
                                         <p><strong>Algemene foutboodschap: </strong>{{$company->errorMessage}}</p>
                                     </div>
                                 </div>
@@ -49,9 +60,13 @@
                         </div>
 
                         <div class="card mt-3">
-                            <h5 class="card-header">Automaten in bedrijf <span class="float-right"><a
-                                        href="/admin/{{$company->id}}/units" class="btn btn-sm btn-secondary">Naar automaten beheren <i
-                                            class="fas fa-arrow-right"></i></a></span></h5>
+                            <h5 class="card-header">Automaten in bedrijf
+                                @if(in_array('VENDING_MACHINE_READ', $permissions) or in_array('VENDING_MACHINE_READ_COMPANY', $permissions))
+                                    <span class="float-right"><a
+                                            href="/admin/{{$company->id}}/units" class="btn btn-sm btn-secondary">Naar automaten beheren <i
+                                                class="fas fa-arrow-right"></i></a></span>
+                                @endif
+                            </h5>
                             <div class="card-body">
 
                                 @if (!empty($machines))

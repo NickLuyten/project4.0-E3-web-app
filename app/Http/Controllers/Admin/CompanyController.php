@@ -63,7 +63,13 @@ class CompanyController extends Controller
                 'headers' => $headers,
                 'form_params' => [
                     'name' => $request->input('naam'),
-                    'location' => $request->input('locatie')
+                    'location' => $request->input('locatie'),
+                    "welcomeMessage" => $request->input('welkomsboodschap'),
+                    'handGelMessage' => $request->input('Afnameboodschap'),
+                    "handGelOutOfStockMessage" => $request->input('voorraadboodschap'),
+                    "authenticationFailedMessage" => $request->input('Authenticatieboodschap'),
+                    "limitHandSanitizerReacedMessage" => $request->input('Limietboodschap'),
+                    "errorMessage" => $request->input('foutboodschap')
                 ]
             ]);
         } catch (GuzzleException $e) {
@@ -173,5 +179,30 @@ class CompanyController extends Controller
             return Redirect::to('/admin/companies')->with('company', $company)->with('msg', 'Bedrijf opgeslagen.');
         }
         return Redirect::to('/admin/company/'.$company->id)->with('company', $company)->with('msg', 'Bedrijf opgeslagen.');
+    }
+
+    public function delete($cid, Request $request){
+        $AuthToken = $request->cookie('AuthToken');
+
+        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        try {
+            $result = $client->request('DELETE', '/api/company/' . $cid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/companies')->withErrors(['Bedrijf verwijderen mislukt.']);
+        }
+        return Redirect::to('/admin/companies')->with('msg', 'Bedrijf verwijderd.');
     }
 }
