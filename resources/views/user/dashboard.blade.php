@@ -1,5 +1,9 @@
 @extends('layouts.template')
 
+@php
+    $permissions = explode(';', Cookie::get('UserPermissions'));
+@endphp
+
 @section('main')
     <div class="container">
         <div class="row justify-content-center">
@@ -20,16 +24,20 @@
                     <div class="card-body">
                         <a class="btn btn-block btn-outline-primary" href="/user/token">QR code @if(True and request()->cookie('guest') != true) aanvragen @else tonen @endif <i class="fas fa-arrow-right"></i></a>
 
-                        @if(True) {{--cookies voor rechten binnemhalen--}}
+                        @if(in_array('USER_CREATE', $permissions) or in_array('USER_CREATE_COMPANY', $permissions)) {{--cookies voor rechten binnemhalen--}}
                         <a class="btn btn-block btn-outline-primary" href="/admin/users">Gebruikers beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
                         @endif
 
-                        @if(True and request()->cookie('UserCompanyId') != null) {{--cookies voor rechten binnemhalen--}}
+                        @if(in_array('VENDING_MACHINE_READ_COMPANY', $permissions) and request()->cookie('UserCompanyId') != null) {{--cookies voor rechten binnemhalen--}}
                         <a class="btn btn-block btn-outline-primary" href="/admin/{{ request()->cookie('UserCompanyId')}}/units">Automaten beheren <i class="fas fa-arrow-right"></i></a> {{--id = company id = TBD--}}
                         @endif
 
-                        @if(True) {{--cookies voor rechten binnemhalen--}}
+                        @if(in_array('COMPANY_READ', $permissions)) {{--cookies voor rechten binnemhalen--}}
                         <a class="btn btn-block btn-outline-primary" href="/admin/companies">Bedrijven beheren <i class="fas fa-arrow-right"></i></a> {{--enkel VanRoey admin--}}
+                        @endif
+
+                        @if(request()->cookie('UserCompanyId') != null) {{--cookies voor rechten binnemhalen--}}
+                        <a class="btn btn-block btn-outline-primary" href="/admin/companies/view/{{ request()->cookie('UserCompanyId')}}">Mijn bedrijf bekijken <i class="fas fa-arrow-right"></i></a> {{--enkel VanRoey admin--}}
                         @endif
                     </div>
                 </div>

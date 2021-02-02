@@ -53,6 +53,7 @@ Route::get('/admin/companies', 'Admin\CompanyController@overview'); //vanroey ad
 Route::get('/admin/companies/new', 'Admin\CompanyController@new_index'); //vanroey admin
 Route::post('/admin/companies/new/store', 'Admin\CompanyController@new'); //vanroey admin
 Route::get('/admin/companies/view/{cid}', 'Admin\CompanyController@view'); //vanroey admin
+Route::get('/admin/companies/delete/{cid}', 'Admin\CompanyController@delete');
 
 Route::get('/admin/company/{cid}/edit', 'Admin\CompanyController@edit_index');
 Route::post('/admin/company/{cid}/update', 'Admin\CompanyController@update');

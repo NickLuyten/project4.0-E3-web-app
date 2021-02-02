@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Redirect;
@@ -143,21 +144,27 @@ class UnitsController extends Controller
         ];
 
 
-        $result = $client->request('PUT', '/api/vendingMachine/update/'.$mid, [
-            'headers' => $headers,
-            'form_params' => [
-                'name' => $request->input('naam'),
-                "maxNumberOfProducts" => $request->input('Capaciteit'),
-                'location' => $request->input('locatie'),
-                "welcomeMessage" => $request->input('welkomsboodschap'),
-                'handGelMessage' => $request->input('Afnameboodschap'),
-                "handGelOutOfStockMessage" => $request->input('voorraadboodschap'),
-                "authenticationFailedMessage" => $request->input('Authenticatieboodschap'),
-                "limitHandSanitizerReacedMessage" => $request->input('Limietboodschap'),
-                "errorMessage" => $request->input('foutboodschap'),
-                "stock" => $request->input('Voorraad'),
-                "alertLimit" => $request->input('VoorraadAlert'),
-        ]]);
+        try {
+            $result = $client->request('PUT', '/api/vendingMachine/update/' . $mid, [
+                'headers' => $headers,
+                'form_params' => [
+                    'name' => $request->input('naam'),
+                    "maxNumberOfProducts" => $request->input('Capaciteit'),
+                    'location' => $request->input('locatie'),
+                    "welcomeMessage" => $request->input('welkomsboodschap'),
+                    'handGelMessage' => $request->input('Afnameboodschap'),
+                    "handGelOutOfStockMessage" => $request->input('voorraadboodschap'),
+                    "authenticationFailedMessage" => $request->input('Authenticatieboodschap'),
+                    "limitHandSanitizerReacedMessage" => $request->input('Limietboodschap'),
+                    "errorMessage" => $request->input('foutboodschap'),
+                    "stock" => $request->input('Voorraad'),
+                    "alertLimit" => $request->input('VoorraadAlert')
+                ]]);
+        } catch (GuzzleException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = json_decode($response->getBody()->getContents());
+            return Redirect::to('/admin/'.$cid.'/units')->WithErrors([ 'Automaat bijgewerken mislukt: '. $responseBodyAsString->messages[0]]);
+        }
 
         return Redirect::to('/admin/'.$cid.'/units')->with('msg', 'Automaat bijgewerkt.');
     }
