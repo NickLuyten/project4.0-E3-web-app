@@ -5,6 +5,16 @@
 @section('main')
     <h1>Gebruikers</h1>
     @include('shared.alert')
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            {{$errors->first()}}
+        </div>
+    @endif
+    @if(session()->has('msg'))
+        <div class="alert alert-success" role="alert">
+            {{session()->get('msg')}}
+        </div>
+    @endif
 {{--    <form method="get" action="/admin/users" id="searchForm">--}}
 {{--        <div class="row">--}}
 {{--            <div class="col-sm-8 mb-2" >--}}

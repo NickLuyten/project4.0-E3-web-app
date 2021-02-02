@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\User;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -68,7 +69,7 @@ class UserController extends Controller
         }
 
         catch (RequestException $e) {
-            return Redirect::back()->withErrors(['Er is iets misgelopen bij het oproepen van de users.']);
+            return Redirect::back()->withErrors(['Er is iets misgelopen bij het oproepen van de gebruikers.']);
         }
 
 
@@ -148,7 +149,7 @@ class UserController extends Controller
 
 
 
-
+    try {
         $result = $client->request('POST', '/api/user/register', [
             'headers' => $headers,
             'form_params' => [
@@ -164,9 +165,10 @@ class UserController extends Controller
 
             ]
         ]);
-
-
-        return redirect('admin/users');
+    } catch (RequestException $e) {
+        return Redirect::back()->withErrors(['Er is iets misgelopen bij het aanmaken van de gebruiker.']);
+    }
+        return redirect('admin/users')->with('msg', 'De gebruiker '. $request->input('email')  .' succesvol aangemaakt.');
     }
 
 
@@ -346,7 +348,7 @@ class UserController extends Controller
 
         }
 
-
+    try {
         $result = $client->request('PUT', '/api/user/'.$id, [
             'headers' => $headers,
             'form_params' => [
@@ -359,7 +361,10 @@ class UserController extends Controller
                 'permissions' => $permissions,
 
             ]]);
-        return redirect('admin/users');
+    } catch (GuzzleException $e) {
+        return Redirect::to('/admin/users')->withErrors('De gebruiker aanpassen is niet gelukt.');
+    }
+        return redirect('admin/users')->with('msg', 'De gebuiker '. $request->input('email')  .' succesvol aangepast.');
     }
 
     public function destroy(Request $request,$id)
@@ -378,14 +383,15 @@ class UserController extends Controller
         $headers = [
             'Authorization' => 'Bearer ' . $AuthToken
         ];
-
+    try {
         $result = $client->request('DELETE', '/api/user/'.$id, [
             'headers' => $headers,
 
             ]);
-
-
-        return redirect('admin/users');
+    } catch (GuzzleException $e) {
+        return Redirect::to('/admin/users')->withErrors('De gebruiker verwijderen is niet gelukt.');
+    }
+        return redirect('admin/users')->with('msg', 'De gebruiker succesvol verwijderd.');
     }
 
         public function qrcodeguest(Request $request,$id)
@@ -404,14 +410,16 @@ class UserController extends Controller
         $headers = [
             'Authorization' => 'Bearer ' . $AuthToken
         ];
-
+    try {
         $result = $client->request('POST', '/api/authentication/user', [
             'headers' => $headers,
             'form_params' => [
                 'userId' => $id
             ]]);
 
-
-        return redirect('admin/users');
+    }catch (GuzzleException $e) {
+        return Redirect::to('/admin/users')->withErrors('Qrcode is voor de guest aanmaken is niet gelukt.');
+    }
+        return redirect('admin/users')->with('msg', 'Qrcode is voor de guest aangemaakt.');
     }
 }
