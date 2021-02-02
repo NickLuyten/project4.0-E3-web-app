@@ -14,7 +14,7 @@ class CompanyController extends Controller
     public function overview(Request $request){
         $AuthToken = $request->cookie('AuthToken');
         $Permissions = explode(';',$request->cookie('UserPermissions'));
-        if ($AuthToken == '' or !in_array('COMPANY_READ', $Permissions)){                                                                          //permissiecheck toevoegen, of in route
+        if ($AuthToken == '' or !(in_array('COMPANY_READ', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -112,7 +112,28 @@ class CompanyController extends Controller
 
         $machines = json_decode($result->getBody())->results;
 
-        return view('admin/companies/view')->with('company', $company)->with('machines', $machines);
+        try {
+            $result = $client->request('GET', '/api/alert/alertsAuthUser', [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/companies')->withErrors(['Kan bedrijf niet tonen.']);
+        }
+
+        $alertsreverse = json_decode($result->getBody())->results;
+        $alertsfull = array_reverse($alertsreverse);
+        if (count($alertsfull) > 5){
+            $alertsTop = array_slice($alertsfull, 0, 5);
+            $alertsRest = array_slice($alertsfull, 6);
+        } else {
+            $alertsTop = $alertsfull;
+            $alertsRest = [];
+        }
+
+        return view('admin/companies/view')->with('company', $company)
+            ->with('machines', $machines)
+            ->with('alertsTop', $alertsTop)
+            ->with('alertsRest', $alertsRest);
     }
 
     public function edit_index($cid, Request $request){

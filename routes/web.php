@@ -58,6 +58,11 @@ Route::get('/admin/companies/delete/{cid}', 'Admin\CompanyController@delete');
 Route::get('/admin/company/{cid}/edit', 'Admin\CompanyController@edit_index');
 Route::post('/admin/company/{cid}/update', 'Admin\CompanyController@update');
 
+Route::get('/admin/{cid}/useralerts', 'Admin\UserAlertsController@overview');
+Route::get('/admin/{cid}/useralerts/new', 'Admin\UserAlertsController@new_index');
+Route::post('/admin/{cid}/useralerts/store', 'Admin\UserAlertsController@new_store');
+Route::get('/admin/{cid}/useralerts/delete/{aid}', 'Admin\UserAlertsController@delete');
+
 Route::get('/profile/edit', 'User\ProfileController@edit');
 Route::post('/profile/update', 'User\ProfileController@update');
 Route::get('/profile/password/edit', 'User\PasswordController@edit');
@@ -75,10 +80,6 @@ if (Cookie::get('AuthToken') == '') {
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('dashboard', 'Auth\LoginController@dashboard');
 
-Route::get('contact', function () {
-    $me = ['name' => env('MAIL_FROM_NAME')];
-    return view('contact', $me);
-});
 
 Route::redirect('user', '/user/profile');
 Route::middleware(['auth'])->prefix('user')->group(function () {
