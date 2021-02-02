@@ -112,6 +112,8 @@ class UserController extends Controller
             $isAdmin = $request->admin = 0;
         }
 
+        $guest = false;
+
         if($request->privileges == 2) {
             $permissions = "";
 
@@ -137,9 +139,13 @@ class UserController extends Controller
                 $permissions = "[\"AUTHENTICATION_CREATE_COMPANY_OWN\"]";
             }elseif($request->type == "guest") {
                 $permissions = "[]";
+                $guest= true;
             }
 
         }
+
+
+
 
 
 
@@ -153,6 +159,7 @@ class UserController extends Controller
                 'companyId' => $request->input('companyId'),
                 'sanitizerLimitPerMonth' => $request->input('sanitizerLimitPerMonth'),
                 'admin' => $isAdmin,
+                'guest' => $guest,
                 'permissions' => $permissions,
 
             ]
