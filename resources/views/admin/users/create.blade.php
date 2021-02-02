@@ -69,12 +69,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group row">
-                                <label for="admin" class="col-sm-4 col-form-label">Admin</label>
-                                <div class="col-sm-1">
-                                    <input type="checkbox" name="admin" align="left"  id="admin" value=1>
-                                </div>
-                            </div>
                             <hr>
                             <h4 align="left">privileges</h4>
                             <div>

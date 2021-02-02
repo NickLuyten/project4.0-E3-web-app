@@ -51,17 +51,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group row">
-                                <label for="admin" class="col-sm-4 col-form-label">Admin</label>
-                                <div class="col-sm-1">
-                                    <input type="checkbox" name="admin" align="left"  id="admin" value=1
-                                    <?php
-                                        if (old('admin',$user->admin) == 1) {
-                                            echo "checked ";
-                                        }
-                                        ?>>
-                                </div>
-                            </div>
                             <hr>
                             <h4 align="left">privileges</h4>
                             <div>
@@ -168,17 +157,41 @@
                 var lokale_admin = "<?php echo json_encode($type["lokale_admin"]) ?>";
                 var gebruiker = "<?php echo json_encode($type["gebruiker"]) ?>";
                 var guest = "<?php echo json_encode($type["guest"]) ?>";
-                console.log(admin);
-                console.log(lokale_admin);
-                console.log(gebruiker);
-                console.log(guest);
 
-                document.getElementById("rechten").innerHTML = "<ul>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"adminrechten\" value=\"admin\"> <label for=\"adminrechten\">Admin</label></li>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"lokale_admin\" value=\"lokale_admin\"> <label for=\"lokale_admin\">Lokale Admin</label></li>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"gebruiker\" value=\"gebruiker\" checked> <label for=\"gebruiker\">Gebruiker</label></li>\n" +
-                    "                                           <li><input type=\"radio\" name=\"type\" id=\"guest\" value=\"guest\" > <label for=\"guest\">Guest</label></li>\n" +
-                    "                                       </ul>";
+                var htmlSimpel = ""
+                if(admin === "true") {
+                    htmlSimpel = "<ul>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"adminrechten\" value=\"admin\" checked><label for=\"adminrechten\">Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"lokale_admin\" value=\"lokale_admin\"> <label for=\"lokale_admin\">Lokale Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"gebruiker\" value=\"gebruiker\" > <label for=\"gebruiker\">Gebruiker</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"guest\" value=\"guest\" > <label for=\"guest\">Guest</label></li>\n" +
+                        "                                       </ul>";
+                } else if(lokale_admin === "true") {
+                    htmlSimpel = "<ul>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"adminrechten\" value=\"admin\"><label for=\"adminrechten\">Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"lokale_admin\" value=\"lokale_admin\" checked> <label for=\"lokale_admin\">Lokale Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"gebruiker\" value=\"gebruiker\"> <label for=\"gebruiker\">Gebruiker</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"guest\" value=\"guest\" > <label for=\"guest\">Guest</label></li>\n" +
+                        "                                       </ul>";
+
+                } else if(gebruiker === "true") {
+                    htmlSimpel = "<ul>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"adminrechten\" value=\"admin\"><label for=\"adminrechten\">Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"lokale_admin\" value=\"lokale_admin\"> <label for=\"lokale_admin\">Lokale Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"gebruiker\" value=\"gebruiker\" checked> <label for=\"gebruiker\">Gebruiker</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"guest\" value=\"guest\" > <label for=\"guest\">Guest</label></li>\n" +
+                        "                                       </ul>";
+
+                } else if(guest === "true") {
+                    htmlSimpel = "<ul>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"adminrechten\" value=\"admin\"><label for=\"adminrechten\">Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"lokale_admin\" value=\"lokale_admin\"> <label for=\"lokale_admin\">Lokale Admin</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"gebruiker\" value=\"gebruiker\"> <label for=\"gebruiker\">Gebruiker</label></li>\n" +
+                        "                                           <li><input type=\"radio\" name=\"type\" id=\"guest\" value=\"guest\" checked> <label for=\"guest\">Guest</label></li>\n" +
+                        "                                       </ul>";
+                }
+
+                document.getElementById("rechten").innerHTML = htmlSimpel;
 
             } else if (document.getElementById("geavanceerd").checked){
                 document.getElementById("rechten").innerHTML = "  <ul>\n" +
