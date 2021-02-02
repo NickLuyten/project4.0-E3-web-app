@@ -9,6 +9,11 @@
                         {{$errors->first()}}
                     </div>
                 @endif
+                @if(session()->has('msg'))
+                    <div class="alert alert-success" role="alert">
+                        {{session()->get('msg')}}
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">Welkom {{ request()->cookie('UserFirstName')}}.</div>
 

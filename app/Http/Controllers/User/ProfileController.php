@@ -3,31 +3,89 @@
 namespace App\Http\Controllers\User;
 
 use App\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
     // Edit user profile
-    public function edit()
+    public function edit(Request $request)
     {
-        return view('user.profile');
+        $AuthToken = $request->cookie('AuthToken');
+        $id = $request->cookie('userId');
+        if ($AuthToken == ''){
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        try {
+            $headers = [
+                'Authorization' => 'Bearer ' . $AuthToken
+            ];
+
+            $userresult = $client->request('GET', '/api/user/'.$id, [
+                'headers' => $headers
+            ]);
+        }
+
+        catch (RequestException $e) {
+            return Redirect::back()->withErrors(['Er is iets misgelopen bij het oproepen van je gegevens.']);
+        }
+
+
+        $result = json_decode($userresult->getBody())->result;
+
+
+
+        return view('user.profile')->with('user', $result);
+
     }
 
     // Update user profile
     public function update(Request $request)
     {
-        // Validate $request
-        $this->validate($request,[
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . auth()->id()
+        $request->validate([
+            'email' => 'required|string',
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
         ]);
-        // Update user in the database and redirect to previous page
-        $user = User::findOrFail(auth()->id());
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
-        session()->flash('success', 'Your profile has been updated');
-        return back();
+
+
+        $AuthToken = $request->cookie('AuthToken');
+        $id = $request->cookie('userId');
+        if ($AuthToken == ''){
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+
+
+        try {
+            $result = $client->request('PUT', '/api/user/'.$id, [
+                'headers' => $headers,
+                'form_params' => [
+                    'firstName' => $request->input('firstName'),
+                    'lastName' => $request->input('lastName'),
+                    'email' => $request->input('email'),
+
+
+                ]]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/dashboard')->withErrors('het aanpassen van je profiel is mislukt.');
+        }
+        return redirect('/dashboard')->with('msg', 'Je profiel is aangepast.');
     }
 }

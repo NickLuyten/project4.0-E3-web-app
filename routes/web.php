@@ -39,8 +39,6 @@ Route::post('/admin/users/create/store', 'Admin\UserController@new');
 Route::get('/admin/users/{id}/delete', 'Admin\UserController@destroy');
 Route::get('/admin/users/qrcodeGuest/{id}', 'Admin\UserController@qrcodeguest');
 
-
-
 Route::get('/admin/{cid}/units', 'Admin\UnitsController@overview');
 Route::get('/admin/{cid}/units/new', 'Admin\UnitsController@new_index');
 Route::post('/admin/{cid}/units/new/store', 'Admin\UnitsController@new');
@@ -59,6 +57,8 @@ Route::get('/admin/companies/view/{cid}', 'Admin\CompanyController@view'); //van
 Route::get('/admin/company/{cid}/edit', 'Admin\CompanyController@edit_index');
 Route::post('/admin/company/{cid}/update', 'Admin\CompanyController@update');
 
+Route::get('/profile/edit', 'User\ProfileController@edit');
+Route::post('/profile/update', 'User\ProfileController@update');
 
 if (Cookie::get('AuthToken') == '') {
     Route::get('login', 'Auth\LoginController@show');

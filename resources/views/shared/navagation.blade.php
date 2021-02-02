@@ -20,6 +20,9 @@
                 @endif
                     @if( Cookie::get('AuthToken') != '')
                         <li class="nav-item">
+                            <a class="nav-link" href="/profile/edit"><i class="fas fa-cog"></i>Profiel aanpassen</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
                         </li>
                         <li class="nav-item">
