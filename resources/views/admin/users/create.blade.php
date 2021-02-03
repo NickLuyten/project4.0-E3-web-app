@@ -54,11 +54,12 @@
                             <div class="form-group row">
                                 <label for="companyId" class="col-sm-4 col-form-label">CompanyId</label>
                                 <div class="col-sm-8">
-                                        <input type="number" class="form-control @error('companyId') is-invalid @enderror" id="companyId" name="companyId" placeholder="CompanyId" >
+                                    <select name="companyId" id="companyId" class="form-control">
+                                        @foreach ($companies as $company)
+                                            <option value="{{$company->id}}">{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                @error('companyId')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="form-group row">
                                 <label for="typeFunctie" class="col-sm-4 col-form-label">Type:</label>
