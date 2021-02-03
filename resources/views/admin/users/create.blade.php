@@ -7,6 +7,7 @@
     </style>
 @endsection
 @section('main')
+{{--    html code voor het aanmaken van een nieuwe user--}}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">

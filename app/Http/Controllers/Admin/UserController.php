@@ -16,38 +16,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-//        $sortList = [
-//            [
-//                'name'      => "Name (A => Z)",
-//                'column'    => 'name',
-//                'direction' => 'ASC'
-//            ],
-//            [
-//                'name'      => "Name (Z => A)",
-//                'column'    => 'name',
-//                'direction' => 'DESC'
-//            ],
-//            [
-//                'name'      => "Email (A => Z)",
-//                'column'    => 'email',
-//                'direction' => 'ASC'
-//            ],
-//            [
-//                'name'      => "Email (A => Z)",
-//                'column'    => 'email',
-//                'direction' => 'DESC'
-//            ],
-//            [
-//                'name'      => "Not Active",
-//                'column'    => 'active',
-//                'direction' => 'ASC'
-//            ],
-//            [
-//                'name'      => "Admin",
-//                'column'    => 'admin',
-//                'direction' => 'DESC'
-//            ]
-//        ];
+
 
          $AuthToken = $request->cookie('AuthToken');
         if ($AuthToken == ''){
