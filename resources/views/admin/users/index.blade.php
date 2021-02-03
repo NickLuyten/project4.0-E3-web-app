@@ -51,7 +51,6 @@
                 <th>Achternaam</th>
                 <th>Email</th>
                 <th>Company</th>
-                <th>Max Handgels/maand</th>
                 <th>Admin</th>
                 <th>Guest</th>
                 <th>Actions</th>
@@ -67,7 +66,6 @@
                     <td>{{ $user->lastName }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->companyId }}</td>
-                    <td>{{ $user->sanitizerLimitPerMonth }}</td>
                     <td>
                         <?php
                         if (old('admin',$user->admin) == 1) {

@@ -133,7 +133,37 @@ class UserController extends Controller
                 $permissions = "[\"ALERT_CREATE_COMPANY\",\"ALERT_READ_COMPANY\",\"ALERT_DELETE_COMPANY\",\"AUTHENTICATION_CREATE_COMPANY\",\"AUTHENTICATION_READ_COMPANY\",\"AUTHENTICATION_UPDATE_COMPANY\",\"AUTHENTICATION_DELETE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",\"COMPANY_UPDATE_COMPANY\",\"USER_CREATE_COMPANY\",\"USER_READ_COMPANY\",\"USER_UPDATE_COMPANY\",\"USER_DELETE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",\"VENDING_MACHINE_CREATE_COMPANY\",\"VENDING_MACHINE_READ_COMPANY\",\"VENDING_MACHINE_UPDATE_COMPANY\",\"VENDING_MACHINE_DELETE_COMPANY\"]";
             } elseif($request->type == "admin") {
                 $admin = true;
-                $permissions = "[\"ALERT_CREATE\",\"ALERT_READ\",\"ALERT_DELETE\",\"AUTHENTICATION_CREATE\",\"AUTHENTICATION_READ\",\"AUTHENTICATION_UPDATE\",\"AUTHENTICATION_DELETE\",\"AUTHERIZED_USER_PER_MACHINE_CREATE\",\"AUTHERIZED_USER_PER_MACHINE_READ\",\"AUTHERIZED_USER_PER_MACHINE_DELETE\",\"COMPANY_CREATE\",\"COMPANY_READ\",\"COMPANY_UPDATE\",\"COMPANY_DELETE\",\"USER_CREATE\",\"USER_READ\",\"USER_UPDATE\",\"USER_DELETE\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",\"VENDING_MACHINE_CREATE\",\"VENDING_MACHINE_READ\",\"VENDING_MACHINE_UPDATE\",\"VENDING_MACHINE_DELETE\"]";
+                $permissions = "[
+            \"ALERT_CREATE\",
+            \"ALERT_READ\",
+            \"ALERT_DELETE\",
+            \"AUTHENTICATION_CREATE\",
+            \"AUTHENTICATION_READ\",
+            \"AUTHENTICATION_UPDATE\",
+            \"AUTHENTICATION_DELETE\",
+            \"AUTHERIZED_USER_PER_MACHINE_CREATE\",
+            \"AUTHERIZED_USER_PER_MACHINE_READ\",
+            \"AUTHERIZED_USER_PER_MACHINE_DELETE\",
+            \"COMPANY_CREATE\",
+            \"COMPANY_READ\",
+            \"COMPANY_UPDATE\",
+            \"COMPANY_DELETE\",
+            \"USER_CREATE\",
+            \"USER_READ\",
+            \"USER_UPDATE\",
+            \"USER_DELETE\",
+            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",
+            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",
+            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",
+            \"VENDING_MACHINE_CREATE\",
+            \"VENDING_MACHINE_READ\",
+            \"VENDING_MACHINE_UPDATE\",
+            \"VENDING_MACHINE_DELETE\",
+            \"TYPE_CREATE\",
+            \"TYPE_READ\",
+            \"TYPE_UPDATE\",
+            \"TYPE_DELETE\"
+        ]";
             }elseif($request->type == "gebruiker") {
                 $permissions = "[\"AUTHENTICATION_CREATE_COMPANY_OWN\"]";
             }elseif($request->type == "guest") {
@@ -156,7 +186,6 @@ class UserController extends Controller
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
                 'companyId' => $request->input('companyId'),
-                'sanitizerLimitPerMonth' => $request->input('sanitizerLimitPerMonth'),
                 'admin' => $admin,
                 'guest' => $guest,
                 'permissions' => $permissions,
@@ -200,7 +229,8 @@ class UserController extends Controller
 
         $result = json_decode($userresult->getBody())->result;
 
-        $adminPermissions =["ALERT_CREATE",
+        $adminPermissions =[
+            "ALERT_CREATE",
             "ALERT_READ",
             "ALERT_DELETE",
             "AUTHENTICATION_CREATE",
@@ -224,7 +254,12 @@ class UserController extends Controller
             "VENDING_MACHINE_CREATE",
             "VENDING_MACHINE_READ",
             "VENDING_MACHINE_UPDATE",
-            "VENDING_MACHINE_DELETE"] ;
+            "VENDING_MACHINE_DELETE",
+            "TYPE_CREATE",
+            "TYPE_READ",
+            "TYPE_UPDATE",
+            "TYPE_DELETE"
+        ] ;
         $lokale_adminPermissions =["ALERT_CREATE_COMPANY",
             "ALERT_READ_COMPANY",
             "ALERT_DELETE_COMPANY",
@@ -334,7 +369,37 @@ class UserController extends Controller
                $permissions = "[\"ALERT_CREATE_COMPANY\",\"ALERT_READ_COMPANY\",\"ALERT_DELETE_COMPANY\",\"AUTHENTICATION_CREATE_COMPANY\",\"AUTHENTICATION_READ_COMPANY\",\"AUTHENTICATION_UPDATE_COMPANY\",\"AUTHENTICATION_DELETE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",\"COMPANY_UPDATE_COMPANY\",\"USER_CREATE_COMPANY\",\"USER_READ_COMPANY\",\"USER_UPDATE_COMPANY\",\"USER_DELETE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",\"VENDING_MACHINE_CREATE_COMPANY\",\"VENDING_MACHINE_READ_COMPANY\",\"VENDING_MACHINE_UPDATE_COMPANY\",\"VENDING_MACHINE_DELETE_COMPANY\"]";
             } elseif($request->type == "admin") {
                $admin = true;
-               $permissions = "[\"ALERT_CREATE\",\"ALERT_READ\",\"ALERT_DELETE\",\"AUTHENTICATION_CREATE\",\"AUTHENTICATION_READ\",\"AUTHENTICATION_UPDATE\",\"AUTHENTICATION_DELETE\",\"AUTHERIZED_USER_PER_MACHINE_CREATE\",\"AUTHERIZED_USER_PER_MACHINE_READ\",\"AUTHERIZED_USER_PER_MACHINE_DELETE\",\"COMPANY_CREATE\",\"COMPANY_READ\",\"COMPANY_UPDATE\",\"COMPANY_DELETE\",\"USER_CREATE\",\"USER_READ\",\"USER_UPDATE\",\"USER_DELETE\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",\"VENDING_MACHINE_CREATE\",\"VENDING_MACHINE_READ\",\"VENDING_MACHINE_UPDATE\",\"VENDING_MACHINE_DELETE\"]";
+               $permissions = "[
+            \"ALERT_CREATE\",
+            \"ALERT_READ\",
+            \"ALERT_DELETE\",
+            \"AUTHENTICATION_CREATE\",
+            \"AUTHENTICATION_READ\",
+            \"AUTHENTICATION_UPDATE\",
+            \"AUTHENTICATION_DELETE\",
+            \"AUTHERIZED_USER_PER_MACHINE_CREATE\",
+            \"AUTHERIZED_USER_PER_MACHINE_READ\",
+            \"AUTHERIZED_USER_PER_MACHINE_DELETE\",
+            \"COMPANY_CREATE\",
+            \"COMPANY_READ\",
+            \"COMPANY_UPDATE\",
+            \"COMPANY_DELETE\",
+            \"USER_CREATE\",
+            \"USER_READ\",
+            \"USER_UPDATE\",
+            \"USER_DELETE\",
+            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",
+            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",
+            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",
+            \"VENDING_MACHINE_CREATE\",
+            \"VENDING_MACHINE_READ\",
+            \"VENDING_MACHINE_UPDATE\",
+            \"VENDING_MACHINE_DELETE\",
+            \"TYPE_CREATE\",
+            \"TYPE_READ\",
+            \"TYPE_UPDATE\",
+            \"TYPE_DELETE\"
+        ]";
            }elseif($request->type == "gebruiker") {
                $permissions = "[\"AUTHENTICATION_CREATE_COMPANY_OWN\"]";
            }elseif($request->type == "guest") {
@@ -351,7 +416,6 @@ class UserController extends Controller
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),
                 'email' => $request->input('email'),
-                'sanitizerLimitPerMonth' => $request->input('sanitizerLimitPerMonth'),
                 'admin' => $admin,
                 'guest' => $guest,
                 'permissions' => $permissions,
