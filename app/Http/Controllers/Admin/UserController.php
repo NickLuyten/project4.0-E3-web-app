@@ -66,6 +66,14 @@ class UserController extends Controller
             $usersresult = $client->request('GET', '/api/user/all/', [
                 'headers' => $headers
             ]);
+
+            $typesresult = $client->request('GET', '/api/type/all/', [
+                'headers' => $headers
+            ]);
+
+            $companiesresult = $client->request('GET', '/api/company/all/', [
+                'headers' => $headers
+            ]);
         }
 
         catch (RequestException $e) {
@@ -74,12 +82,37 @@ class UserController extends Controller
 
 
         $users = json_decode($usersresult->getBody())->results;
+        $types = json_decode($typesresult->getBody())->results;
+        $companies = json_decode($companiesresult->getBody())->results;
 
-        return view('admin.users.index')->with('users', $users);
+        return view('admin.users.index')->with('users', $users)->with('types', $types)->with('companies', $companies);
     }
 
-    public function new_index(){
-        return view('admin.users.create');
+    public function new_index(Request $request){
+
+        $AuthToken = $request->cookie('AuthToken');
+        if ($AuthToken == ''){
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'timeout'  => 2.0,
+        ]);
+        try {
+            $headers = [
+                'Authorization' => 'Bearer ' . $AuthToken
+            ];
+
+            $result = $client->request('GET', '/api/type/all/', [
+                'headers' => $headers
+            ]);
+        }catch (RequestException $e) {
+            return Redirect::back()->withErrors(['Er is iets misgelopen bij het oproepen van de types.']);
+        }
+
+        $types = json_decode($result->getBody())->results;
+        return view('admin.users.create')->with('types', $types);
     }
 
 
@@ -111,23 +144,23 @@ class UserController extends Controller
         $admin = false;
         $guest = false;
 
-        if($request->privileges == 2) {
-            $permissions = "";
-
-            for ($x = 1; $x <= 48; $x++) {
-
-                if($request->$x != "") {
-                    if($permissions == "") {
-                        $permissions = "[\"".$request->$x."\"";
-                    } else {
-                        $permissions .= ",\"".$request->$x."\"";
-                    }
-
-                    echo($request->$x . "\n");
-                }
-            }
-            $permissions .= "]";
-        } elseif ($request->privileges == 1) {
+//        if($request->privileges == 2) {
+//            $permissions = "";
+//
+//            for ($x = 1; $x <= 48; $x++) {
+//
+//                if($request->$x != "") {
+//                    if($permissions == "") {
+//                        $permissions = "[\"".$request->$x."\"";
+//                    } else {
+//                        $permissions .= ",\"".$request->$x."\"";
+//                    }
+//
+//                    echo($request->$x . "\n");
+//                }
+//            }
+//            $permissions .= "]";
+//        } elseif ($request->privileges == 1) {
             if($request->type == "lokale_admin") {
                 $admin = true;
                 $permissions = "[\"ALERT_CREATE_COMPANY\",\"ALERT_READ_COMPANY\",\"ALERT_DELETE_COMPANY\",\"AUTHENTICATION_CREATE_COMPANY\",\"AUTHENTICATION_READ_COMPANY\",\"AUTHENTICATION_UPDATE_COMPANY\",\"AUTHENTICATION_DELETE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",\"COMPANY_UPDATE_COMPANY\",\"USER_CREATE_COMPANY\",\"USER_READ_COMPANY\",\"USER_UPDATE_COMPANY\",\"USER_DELETE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",\"VENDING_MACHINE_CREATE_COMPANY\",\"VENDING_MACHINE_READ_COMPANY\",\"VENDING_MACHINE_UPDATE_COMPANY\",\"VENDING_MACHINE_DELETE_COMPANY\"]";
@@ -171,7 +204,7 @@ class UserController extends Controller
                 $guest= true;
             }
 
-        }
+//        }
 
 
 
@@ -186,6 +219,7 @@ class UserController extends Controller
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
                 'companyId' => $request->input('companyId'),
+                'typeId' => $request->input('typeFunctie'),
                 'admin' => $admin,
                 'guest' => $guest,
                 'permissions' => $permissions,
@@ -220,6 +254,12 @@ class UserController extends Controller
             $userresult = $client->request('GET', '/api/user/'.$id, [
                 'headers' => $headers
             ]);
+
+            $resultTypes = $client->request('GET', '/api/type/all/', [
+                'headers' => $headers
+            ]);
+            $result = json_decode($userresult->getBody())->result;
+            $types = json_decode($resultTypes->getBody())->results;
         }
 
         catch (RequestException $e) {
@@ -227,7 +267,7 @@ class UserController extends Controller
         }
 
 
-        $result = json_decode($userresult->getBody())->result;
+
 
         $adminPermissions =[
             "ALERT_CREATE",
@@ -314,7 +354,7 @@ class UserController extends Controller
 
         ];
 
-        return view('admin.users.edit')->with('user', $result)->with('type',$type);
+        return view('admin.users.edit')->with('user', $result)->with('type',$type)->with('types', $types);
 
 //        return view('admin.users.edit')->with('user', $result);
     }
@@ -347,23 +387,23 @@ class UserController extends Controller
         $admin = false;
         $guest = false;
 
-        if($request->privileges == 2) {
-            $permissions = "";
-
-            for ($x = 1; $x <= 48; $x++) {
-
-                if($request->$x != "") {
-                    if($permissions == "") {
-                        $permissions = "[\"".$request->$x."\"";
-                    } else {
-                        $permissions .= ",\"".$request->$x."\"";
-                    }
-
-                    echo($request->$x . "\n");
-                }
-            }
-            $permissions .= "]";
-        } elseif ($request->privileges == 1) {
+//        if($request->privileges == 2) {
+//            $permissions = "";
+//
+//            for ($x = 1; $x <= 48; $x++) {
+//
+//                if($request->$x != "") {
+//                    if($permissions == "") {
+//                        $permissions = "[\"".$request->$x."\"";
+//                    } else {
+//                        $permissions .= ",\"".$request->$x."\"";
+//                    }
+//
+//                    echo($request->$x . "\n");
+//                }
+//            }
+//            $permissions .= "]";
+//        } elseif ($request->privileges == 1) {
            if($request->type == "lokale_admin") {
                $admin = true;
                $permissions = "[\"ALERT_CREATE_COMPANY\",\"ALERT_READ_COMPANY\",\"ALERT_DELETE_COMPANY\",\"AUTHENTICATION_CREATE_COMPANY\",\"AUTHENTICATION_READ_COMPANY\",\"AUTHENTICATION_UPDATE_COMPANY\",\"AUTHENTICATION_DELETE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",\"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",\"COMPANY_UPDATE_COMPANY\",\"USER_CREATE_COMPANY\",\"USER_READ_COMPANY\",\"USER_UPDATE_COMPANY\",\"USER_DELETE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",\"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",\"VENDING_MACHINE_CREATE_COMPANY\",\"VENDING_MACHINE_READ_COMPANY\",\"VENDING_MACHINE_UPDATE_COMPANY\",\"VENDING_MACHINE_DELETE_COMPANY\"]";
@@ -406,8 +446,8 @@ class UserController extends Controller
                $permissions = "[]";
                $guest= true;
            }
-
-        }
+//
+//        }
 
     try {
         $result = $client->request('PUT', '/api/user/'.$id, [
@@ -416,6 +456,7 @@ class UserController extends Controller
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),
                 'email' => $request->input('email'),
+                'typeId' => $request->input('typeFunctie'),
                 'admin' => $admin,
                 'guest' => $guest,
                 'permissions' => $permissions,

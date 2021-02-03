@@ -42,6 +42,16 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="form-group row">
+                                <label for="typeFunctie" class="col-sm-4 col-form-label">Type:</label>
+                                <div class="col-sm-8">
+                                    <select name="typeFunctie" id="typeFunctie" class="form-control">
+                                        @foreach ($types as $typeFunctie)
+                                            <option value="{{$typeFunctie->id}}" @if($user->typeId == $typeFunctie->id ) selected @endif>{{$typeFunctie->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <hr>
                             <h4 align="left">privileges</h4>
                             <div>

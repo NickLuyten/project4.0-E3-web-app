@@ -51,6 +51,7 @@
                 <th>Achternaam</th>
                 <th>Email</th>
                 <th>Company</th>
+                <th>Type</th>
                 <th>Admin</th>
                 <th>Guest</th>
                 <th>Actions</th>
@@ -65,7 +66,8 @@
                     <td>{{ $user->firstName }}</td>
                     <td>{{ $user->lastName }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->companyId }}</td>
+                    <td>@foreach($companies as $company) @if($user->companyId == $company->id) {{$company->name}} @endif @endforeach</td>
+                    <td>@foreach($types as $typeFunctie) @if($user->typeId == $typeFunctie->id) {{$typeFunctie->name}} @endif @endforeach</td>
                     <td>
                         <?php
                         if (old('admin',$user->admin) == 1) {
