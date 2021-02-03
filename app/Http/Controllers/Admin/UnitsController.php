@@ -20,7 +20,7 @@ class UnitsController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -48,7 +48,7 @@ class UnitsController extends Controller
             abort(403);
         }
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -74,7 +74,7 @@ class UnitsController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -102,7 +102,8 @@ class UnitsController extends Controller
         } catch (GuzzleException $e) {
             return Redirect::to('/admin/'.$cid.'/units/')->withErrors('Automaat toegevoegen mislukt. Gelieve opnieuw te proberen.');
         }
-        return Redirect::to('/admin/'.$cid.'/units/')->with('msg', 'Automaat succesvol toegevoegd.');
+        $apiKey = json_decode($result->getBody())->result->apiKey;
+        return Redirect::to('/admin/'.$cid.'/units/')->with('msg', 'Automaat succesvol toegevoegd.')->with('apiKey', $apiKey);
     }
 
     public function edit_index($cid, $mid, Request $request){
@@ -112,7 +113,7 @@ class UnitsController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -136,7 +137,7 @@ class UnitsController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -177,7 +178,7 @@ class UnitsController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -202,7 +203,7 @@ class UnitsController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -249,7 +250,7 @@ class UnitsController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
