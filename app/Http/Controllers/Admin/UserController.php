@@ -24,7 +24,7 @@ class UserController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         try {
@@ -65,7 +65,7 @@ class UserController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         try {
@@ -106,7 +106,7 @@ class UserController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -241,7 +241,7 @@ class UserController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         try {
@@ -378,7 +378,7 @@ class UserController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -504,7 +504,7 @@ class UserController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -531,7 +531,7 @@ class UserController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [

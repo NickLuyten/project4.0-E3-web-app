@@ -11,6 +11,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $db = "https://project4-restserver.herokuapp.com";
+
     public function clearRoute()
     {
         \Artisan::call('route:clear');

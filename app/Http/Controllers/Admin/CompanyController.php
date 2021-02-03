@@ -19,16 +19,20 @@ class CompanyController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
             'Authorization' => 'Bearer ' . $AuthToken
         ];
 
-        $result = $client->request('GET', '/api/company/all', [
-            'headers' => $headers
-        ]);
+        try {
+            $result = $client->request('GET', '/api/company/all', [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::back()->withErrors(['Kan pagina niet tonen.']);
+        }
 
         $companies = json_decode($result->getBody())->results;
 
@@ -51,7 +55,7 @@ class CompanyController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -85,7 +89,7 @@ class CompanyController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -113,6 +117,16 @@ class CompanyController extends Controller
         $machines = json_decode($result->getBody())->results;
 
         try {
+            $result = $client->request('GET', '/api/type/all', [
+                'headers' => $headers
+            ]);
+
+            $types = json_decode($result->getBody())->results;
+        } catch (GuzzleException $e) {
+            $types = [];
+        }
+
+        try {
             $result = $client->request('GET', '/api/alert/alertsAuthUser', [
                 'headers' => $headers
             ]);
@@ -132,6 +146,7 @@ class CompanyController extends Controller
 
         return view('admin/companies/view')->with('company', $company)
             ->with('machines', $machines)
+            ->with('types', $types)
             ->with('alertsTop', $alertsTop)
             ->with('alertsRest', $alertsRest);
     }
@@ -143,7 +158,7 @@ class CompanyController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -170,7 +185,7 @@ class CompanyController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [
@@ -210,7 +225,7 @@ class CompanyController extends Controller
         }
 
         $client = new Client([
-            'base_uri' => 'https://project4-restserver.herokuapp.com',
+            'base_uri' => $this->db,
             'timeout'  => 2.0,
         ]);
         $headers = [

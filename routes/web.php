@@ -63,6 +63,12 @@ Route::get('/admin/{cid}/useralerts/new', 'Admin\UserAlertsController@new_index'
 Route::post('/admin/{cid}/useralerts/store', 'Admin\UserAlertsController@new_store');
 Route::get('/admin/{cid}/useralerts/delete/{aid}', 'Admin\UserAlertsController@delete');
 
+Route::get('/admin/{cid}/types/new', 'Admin\TypesController@new_index');
+Route::post('/admin/{cid}/types/store', 'Admin\TypesController@new_store');
+Route::get('/admin/{cid}/types/{tid}/edit', 'Admin\TypesController@edit_index');
+Route::post('/admin/{cid}/types/{tid}/edit/update', 'Admin\TypesController@edit_update');
+Route::get('/admin/{cid}/types/{tid}/delete', 'Admin\TypesController@delete');
+
 Route::get('/profile/edit', 'User\ProfileController@edit');
 Route::post('/profile/update', 'User\ProfileController@update');
 Route::get('/profile/password/edit', 'User\PasswordController@edit');
