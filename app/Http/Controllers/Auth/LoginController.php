@@ -73,9 +73,10 @@ class LoginController extends Controller
         ]);
         }
 
-        catch (RequestException $e) {
+        catch (GuzzleException $e) {
             return Redirect::back()->withErrors(['Er is iets fout gelopen met het inloggen. Gelieve uw gegevens te controleren.']);
         }
+
         $resultJson = json_decode($result->getBody())->result;
 
         Cookie::queue('AuthToken', $resultJson->accessToken, 60);

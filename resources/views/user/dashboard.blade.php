@@ -39,6 +39,7 @@
                         @if(request()->cookie('UserCompanyId') != null) {{--cookies voor rechten binnemhalen--}}
                         <a class="btn btn-block btn-outline-primary" href="/admin/companies/view/{{ request()->cookie('UserCompanyId')}}">Mijn bedrijf bekijken <i class="fas fa-arrow-right"></i></a> {{--enkel VanRoey admin--}}
                         @endif
+
                     </div>
                 </div>
             </div>

@@ -59,6 +59,64 @@
                             </div>
                         </div>
 
+                            @if(in_array('ALERT_READ', $permissions) or in_array('ALERT_READ_COMPANY', $permissions))
+                            <div class="card mt-3">
+                                <h5 class="card-header">Alarmen in bedrijf
+
+                                        <span class="float-right"><a
+                                                href="/admin/{{$company->id}}/useralerts" class="btn btn-sm btn-secondary">Naar gebruiker alarmen beheren <i
+                                                    class="fas fa-arrow-right"></i></a></span>
+
+                                </h5>
+                                <div class="card-body">
+
+                                    @if (!empty($alertsTop))
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Tijdstip</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Alarm</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($alertsTop as $alert)
+                                                <tr>
+                                                    <th scope="row">{{date('d/m/y - H:i',strtotime($alert->createdAt))}}</th>
+                                                    <td>{{$alert->type}}</td>
+                                                    <td>{{$alert->melding}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    @if (count($alertsRest) != 0)
+                                            <button class="btn btn-outline-secondary btn-block" type="button" data-toggle="collapse" data-target="#alertsrest" aria-expanded="false" aria-controls="alertsrest">
+                                                Oudere alarmen bekijken <i class="fas fa-caret-down"></i>
+                                            </button>
+                                            <div class="collapse" id="alertsrest">
+                                                <table class="table">
+                                                    <tbody>
+                                                    @foreach($alertsRest as $alert)
+                                                        <tr>
+                                                            <th scope="row">{{date('d/m/y - H:i',strtotime($alert->createdAt))}}</th>
+                                                            <td>{{$alert->type}}</td>
+                                                            <td>{{$alert->melding}}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    @endif
+
+                                    @else
+                                        <h5>Geen alarmen voor u</h5>
+                                    @endif
+
+
+                                </div>
+                            </div>
+                            @endif
+
                         <div class="card mt-3">
                             <h5 class="card-header">Automaten in bedrijf
                                 @if(in_array('VENDING_MACHINE_READ', $permissions) or in_array('VENDING_MACHINE_READ_COMPANY', $permissions))
