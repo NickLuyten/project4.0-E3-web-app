@@ -17,7 +17,7 @@ class PasswordController extends Controller
         return view('user.password');
     }
 
-    // Update and encrypt user password
+    // Update
     public function update(Request $request)
     {
         // Validate $request

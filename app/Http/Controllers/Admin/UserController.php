@@ -358,7 +358,6 @@ class UserController extends Controller
 
         return view('admin.users.edit')->with('user', $result)->with('type',$type)->with('types', $types);
 
-//        return view('admin.users.edit')->with('user', $result);
     }
 
 
@@ -389,23 +388,23 @@ class UserController extends Controller
         $admin = false;
         $guest = false;
 
-//        if($request->privileges == 2) {
-//            $permissions = "";
-//
-//            for ($x = 1; $x <= 48; $x++) {
-//
-//                if($request->$x != "") {
-//                    if($permissions == "") {
-//                        $permissions = "[\"".$request->$x."\"";
-//                    } else {
-//                        $permissions .= ",\"".$request->$x."\"";
-//                    }
-//
-//                    echo($request->$x . "\n");
-//                }
-//            }
-//            $permissions .= "]";
-//        } elseif ($request->privileges == 1) {
+        if($request->privileges == 2) {
+            $permissions = "";
+
+            for ($x = 1; $x <= 48; $x++) {
+
+                if($request->$x != "") {
+                    if($permissions == "") {
+                        $permissions = "[\"".$request->$x."\"";
+                    } else {
+                        $permissions .= ",\"".$request->$x."\"";
+                    }
+
+                    echo($request->$x . "\n");
+                }
+            }
+            $permissions .= "]";
+        } elseif ($request->privileges == 1) {
            if($request->type == "lokale_admin") {
                $admin = true;
                $permissions = "[ \"ALERT_CREATE_COMPANY\",
@@ -473,8 +472,8 @@ class UserController extends Controller
                $permissions = "[]";
                $guest= true;
            }
-//
-//        }
+
+        }
 
     try {
         $result = $client->request('PUT', '/api/user/'.$id, [
