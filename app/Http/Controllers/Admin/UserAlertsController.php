@@ -76,7 +76,6 @@ class UserAlertsController extends Controller
 
         return view('admin/useralerts/new')->with('cid', $cid)->with('users', $users)->with('machines', $machines);
 
-
     }
 
     public function new_store($cid, Request $request){

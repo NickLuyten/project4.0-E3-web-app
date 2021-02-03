@@ -39,10 +39,17 @@
                                                                                                          class="btn btn-sm btn-outline-secondary float-right"
                                                                                                          target="_blank">Op
                                         kaart bekijken <i class="fas fa-external-link-alt"></i></a></p>
-                                <p><a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#messages"
+                                <p>
+                                    <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#messages"
                                       role="button" aria-expanded="false" aria-controls="messages">
                                         Boodschappen bekijken <i class="fas fa-caret-down"></i>
-                                    </a></p>
+                                    </a>
+                                    <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#limits"
+                                       role="button" aria-expanded="false" aria-controls="limits">
+                                        Afnamelimieten <i class="fas fa-caret-down"></i>
+                                    </a>
+
+                                </p>
                                 <div class="collapse" id="messages">
                                     <div class="card card-body">
                                         <p><strong>Welkom boodschap: </strong>{{$company->welcomeMessage}}</p>
@@ -56,6 +63,61 @@
                                         <p><strong>Algemene foutboodschap: </strong>{{$company->errorMessage}}</p>
                                     </div>
                                 </div>
+                                @if (in_array('TYPE_READ', $permissions) or in_array('TYPE_READ_COMPANY', $permissions))
+                                    <div class="collapse @if (session()->has('collapseOpen'))
+                                        show
+                                    @endif " id="limits">
+                                        <div class="card card-body">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Afdeling</th>
+                                                    <th scope="col">Limiet</th>
+                                                    <th scope="col">Acties</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($types as $type)
+                                                    <tr>
+                                                        <th scope="row">{{$type->name}}</th>
+                                                        <td>
+                                                            @if ($type->sanitizerLimitPerMonth != null)
+                                                                {{$type->sanitizerLimitPerMonth}} / maand
+                                                            @else
+                                                                Ongelimiteerd
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group btn-group-sm">
+                                                            @if(in_array('TYPE_UPDATE', $permissions) or in_array('TYPE_UPDATE_COMPANY', $permissions)) {{--cookies voor rechten binnemhalen--}}
+                                                            <a href="/admin/{{$company->id}}/types/{{$type->id}}/edit"
+                                                               class="btn btn-outline-success"
+                                                               data-toggle="tooltip"
+                                                               title="Toegang">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            @endif
+
+
+                                                            @if(in_array('TYPE_DELETE', $permissions) or in_array('TYPE_DELETE_COMPANY', $permissions)) {{--cookies voor rechten binnemhalen--}}
+                                                            <a href="/admin/{{$company->id}}/types/{{$type->id}}/delete"
+                                                               class="btn btn-outline-danger"
+                                                               data-toggle="tooltip"
+                                                               title="Delete"
+                                                               onclick="return confirm('Bent u zeker dat u deze afnamelimiet wilt verwijderen?');">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                            <a class="btn btn-block btn-outline-success" href="/admin/{{$company->id}}/types/new"><i class="fas fa-plus"></i> Nieuw</a>
+                                        </div>
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
 
