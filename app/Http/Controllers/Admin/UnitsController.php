@@ -177,8 +177,8 @@ class UnitsController extends Controller
                 ]]);
         } catch (GuzzleException $e) {
             $response = $e->getResponse();
-            $responseBodyAsString = json_decode($response->getBody()->getContents());
-            return Redirect::to('/admin/'.$cid.'/units')->WithErrors([ 'Automaat bijgewerken mislukt: '. $responseBodyAsString->messages[0]]);
+            $responseBodyAsString = json_decode($response->getBody()->getContents(), true);
+            return Redirect::to('/admin/'.$cid.'/units')->WithErrors([ 'Automaat bijgewerken mislukt: '. implode($responseBodyAsString)]);
         }
 
         return Redirect::to('/admin/'.$cid.'/units')->with('msg', 'Automaat bijgewerkt.');
