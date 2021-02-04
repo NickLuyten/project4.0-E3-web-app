@@ -43,6 +43,24 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            @if($typePermission == "admin")
+                            <div class="form-group row">
+                                <label for="companyId" class="col-sm-4 col-form-label">CompanyId</label>
+                                <div class="col-sm-8">
+                                    <select name="companyId" id="companyId" class="form-control">
+
+                                            @foreach ($companies as $company)
+                                                <option value="{{$company->id}}" @if($user->companyId == $company->id ) selected @endif>{{$company->name}}</option>
+                                            @endforeach
+
+
+
+
+                                    </select>
+                                </div>
+                            </div>
+                            @elseif ($typePermission == "lokale_admin")
+                            @endif
                             {{--Checken als typeFunctie evereen komt--}}
                             <div class="form-group row">
                                 <label for="typeFunctie" class="col-sm-4 col-form-label">Type:</label>
@@ -250,8 +268,8 @@
                     "                                           <li><input type='checkbox' name='40' id='USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY' value='USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY' \"+ @foreach($user->permissions as $permission) @if($permission == "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY") checked @else @endif @endforeach +\"> <label for='USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY'>USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY</label></li>\n" +
                     "                                           <li><input type='checkbox' name='41' id='VENDING_MACHINE_CREATE' value='VENDING_MACHINE_CREATE' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_CREATE") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_CREATE'>VENDING_MACHINE_CREATE</label></li>\n" +
                     "                                           <li><input type='checkbox' name='42' id='VENDING_MACHINE_CREATE_COMPANY' value='VENDING_MACHINE_CREATE_COMPANY' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_CREATE_COMPANY") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_CREATE_COMPANY'>VENDING_MACHINE_CREATE_COMPANY</label></li>\n" +
-                    "                                           <li><input type='checkbox' name='43' id='VENDING_MACHINE_READ' value='VENDING_MACHINE_READ' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_CREATE_COMPANY") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_READ'>VENDING_MACHINE_READ</label></li>\n" +
-                    "                                           <li><input type='checkbox' name='44' id='VENDING_MACHINE_READ_COMPANY' value='VENDING_MACHINE_READ_COMPANY' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_READ") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_READ_COMPANY'>VENDING_MACHINE_READ_COMPANY</label></li>\n" +
+                    "                                           <li><input type='checkbox' name='43' id='VENDING_MACHINE_READ' value='VENDING_MACHINE_READ' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_READ") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_READ'>VENDING_MACHINE_READ</label></li>\n" +
+                    "                                           <li><input type='checkbox' name='44' id='VENDING_MACHINE_READ_COMPANY' value='VENDING_MACHINE_READ_COMPANY' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_READ_COMPANY") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_READ_COMPANY'>VENDING_MACHINE_READ_COMPANY</label></li>\n" +
                     "                                           <li><input type='checkbox' name='45' id='VENDING_MACHINE_UPDATE' value='VENDING_MACHINE_UPDATE' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_UPDATE") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_UPDATE'>VENDING_MACHINE_UPDATE</label></li>\n" +
                     "                                           <li><input type='checkbox' name='46' id='VENDING_MACHINE_UPDATE_COMPANY' value='VENDING_MACHINE_UPDATE_COMPANY' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_UPDATE_COMPANY") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_UPDATE_COMPANY'>VENDING_MACHINE_UPDATE_COMPANY</label></li>\n" +
                     "                                           <li><input type='checkbox' name='47' id='VENDING_MACHINE_DELETE' value='VENDING_MACHINE_DELETE' \"+ @foreach($user->permissions as $permission) @if($permission == "VENDING_MACHINE_DELETE") checked @else @endif @endforeach +\"> <label for='VENDING_MACHINE_DELETE'>VENDING_MACHINE_DELETE</label></li>\n" +

@@ -41,7 +41,11 @@
                     <td>{{ $user->lastName }}</td>
                     <td>{{ $user->email }}</td>
 {{-- Vergelijkt user companyId met alle companyId's en gebruikt dan de naam van de company en zo ook met de types--}}
-                    <td>@foreach($companies as $company) @if($user->companyId == $company->id) {{$company->name}} @endif @endforeach</td>
+                    @if($type == "admin")
+                        <td>@foreach($companies as $company) @if($user->companyId == $company->id) {{$company->name}} @endif @endforeach</td>
+                    @elseif ($type == "lokale_admin")
+                        <td>{{$companies->name}}</td>
+                    @endif
                     <td>@foreach($types as $typeFunctie) @if($user->typeId == $typeFunctie->id) {{$typeFunctie->name}} @endif @endforeach</td>
                     <td>
                         <?php

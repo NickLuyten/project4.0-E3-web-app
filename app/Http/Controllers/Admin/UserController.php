@@ -40,21 +40,46 @@ class UserController extends Controller
                 'headers' => $headers
             ]);
 
-            $companiesresult = $client->request('GET', '/api/company/all/', [
-                'headers' => $headers
-            ]);
+            $users = json_decode($usersresult->getBody())->results;
+            $types = json_decode($typesresult->getBody())->results;
+
+
+            $permissions = explode(';',$request->cookie('UserPermissions'));
+            $company_read_permission = "";
+            foreach ($permissions as $permission) {
+                if($permission == "COMPANY_READ") {
+
+                    $company_read_permission = $permission;
+
+                }
+            }
+            if($company_read_permission == "COMPANY_READ" ) {
+                    $companiesresult = $client->request('GET', '/api/company/all/', [
+                        'headers' => $headers
+                    ]);
+
+                    $companies = json_decode($companiesresult->getBody())->results;
+                    $type="admin";
+
+                    return view('admin.users.index')->with('users', $users)->with('types', $types)->with('companies', $companies)->with('type',$type);
+                } else {
+                    $companyId = $request->cookie('UserCompanyId');
+                    $companyresult = $client->request('GET', '/api/company/'.$companyId, [
+                        'headers' => $headers
+                    ]);
+
+                    $company = json_decode($companyresult->getBody())->result;
+                    $type="lokale_admin";
+                    return view('admin.users.index')->with('users', $users)->with('types', $types)->with('companies', $company)->with('type',$type);
+                }
+
+
         }
 
         catch (RequestException $e) {
             return Redirect::back()->withErrors(['Er is iets misgelopen bij het oproepen van de gebruikers.']);
         }
 
-
-        $users = json_decode($usersresult->getBody())->results;
-        $types = json_decode($typesresult->getBody())->results;
-        $companies = json_decode($companiesresult->getBody())->results;
-
-        return view('admin.users.index')->with('users', $users)->with('types', $types)->with('companies', $companies);
     }
 
     public function new_index(Request $request){
@@ -76,16 +101,43 @@ class UserController extends Controller
             $typesresult = $client->request('GET', '/api/type/all/', [
                 'headers' => $headers
             ]);
-            $companiesresult = $client->request('GET', '/api/company/all/', [
-                'headers' => $headers
-            ]);
+            $types = json_decode($typesresult->getBody())->results;
+
+            $permissions = explode(';',$request->cookie('UserPermissions'));
+            $company_read_permission = "";
+            foreach ($permissions as $permission) {
+                if($permission == "COMPANY_READ") {
+
+                    $company_read_permission = $permission;
+
+                }
+            }
+            if($company_read_permission == "COMPANY_READ" ) {
+                $companiesresult = $client->request('GET', '/api/company/all/', [
+                    'headers' => $headers
+                ]);
+
+                $companies = json_decode($companiesresult->getBody())->results;
+                $type="admin";
+
+                return view('admin.users.create')->with('types', $types)->with('companies', $companies)->with('type',$type);
+            } else {
+                $companyId = $request->cookie('UserCompanyId');
+                $companyresult = $client->request('GET', '/api/company/'.$companyId, [
+                    'headers' => $headers
+                ]);
+
+                $company = json_decode($companyresult->getBody())->result;
+                $type="lokale_admin";
+                return view('admin.users.create')->with('types', $types)->with('companies', $company)->with('type',$type);
+            }
+
         }catch (RequestException $e) {
             return Redirect::back()->withErrors(['Er is iets misgelopen bij het oproepen van de gegevens.']);
         }
 
-        $types = json_decode($typesresult->getBody())->results;
-        $companies = json_decode($companiesresult->getBody())->results;
-        return view('admin.users.create')->with('types', $types)->with('companies', $companies);
+
+//        return view('admin.users.create')->with('types', $types)->with('companies', $companies);
     }
 
 
@@ -117,23 +169,23 @@ class UserController extends Controller
         $admin = false;
         $guest = false;
 
-//        if($request->privileges == 2) {
-//            $permissions = "";
-//
-//            for ($x = 1; $x <= 48; $x++) {
-//
-//                if($request->$x != "") {
-//                    if($permissions == "") {
-//                        $permissions = "[\"".$request->$x."\"";
-//                    } else {
-//                        $permissions .= ",\"".$request->$x."\"";
-//                    }
-//
-//                    echo($request->$x . "\n");
-//                }
-//            }
-//            $permissions .= "]";
-//        } elseif ($request->privileges == 1) {
+        if($request->privileges == 2) {
+            $permissions = "";
+
+            for ($x = 1; $x <= 48; $x++) {
+
+                if($request->$x != "") {
+                    if($permissions == "") {
+                        $permissions = "[\"".$request->$x."\"";
+                    } else {
+                        $permissions .= ",\"".$request->$x."\"";
+                    }
+
+                    echo($request->$x . "\n");
+                }
+            }
+            $permissions .= "]";
+        } elseif ($request->privileges == 1) {
             if($request->type == "lokale_admin") {
                 $admin = true;
                 $permissions = "[\"ALERT_CREATE_COMPANY\",
@@ -202,7 +254,7 @@ class UserController extends Controller
                 $guest= true;
             }
 
-//        }
+        }
 
 
 
@@ -258,6 +310,37 @@ class UserController extends Controller
             ]);
             $result = json_decode($userresult->getBody())->result;
             $types = json_decode($resultTypes->getBody())->results;
+
+
+            $permissions = explode(';',$request->cookie('UserPermissions'));
+            $company_read_permission = "";
+            foreach ($permissions as $permission) {
+                if($permission == "COMPANY_READ") {
+
+                    $company_read_permission = $permission;
+
+                }
+            }
+            if($company_read_permission == "COMPANY_READ" ) {
+                $companiesresult = $client->request('GET', '/api/company/all/', [
+                    'headers' => $headers
+                ]);
+
+                $companies = json_decode($companiesresult->getBody())->results;
+                $typePermission="admin";
+
+
+            } else {
+                $companyId = $request->cookie('UserCompanyId');
+                $companyresult = $client->request('GET', '/api/company/'.$companyId, [
+                    'headers' => $headers
+                ]);
+
+                $company = json_decode($companyresult->getBody())->result;
+                $typePermission="lokale_admin";
+
+            }
+
         }
 
         catch (RequestException $e) {
@@ -356,7 +439,16 @@ class UserController extends Controller
 
         ];
 
-        return view('admin.users.edit')->with('user', $result)->with('type',$type)->with('types', $types);
+        if($company_read_permission == "COMPANY_READ" ) {
+
+            return view('admin.users.edit')->with('user', $result)->with('types', $types)->with('companies', $companies)->with('type',$type)->with('typePermission',$typePermission);
+        } else {
+
+            return view('admin.users.edit')->with('user', $result)->with('types', $types)->with('company', $company)->with('type',$type)->with('typePermission',$typePermission);
+        }
+
+
+
 
     }
 
@@ -379,7 +471,7 @@ class UserController extends Controller
 
         $client = new Client([
             'base_uri' => $this->db,
-            'timeout'  => 2.0,
+            'timeout'  => 2000.0,
         ]);
         $headers = [
             'Authorization' => 'Bearer ' . $AuthToken
@@ -391,7 +483,7 @@ class UserController extends Controller
         if($request->privileges == 2) {
             $permissions = "";
 
-            for ($x = 1; $x <= 48; $x++) {
+            for ($x = 1; $x <= 56; $x++) {
 
                 if($request->$x != "") {
                     if($permissions == "") {
@@ -403,7 +495,17 @@ class UserController extends Controller
                     echo($request->$x . "\n");
                 }
             }
+            if($permissions =="") {
+                $permissions = "[";
+            }
             $permissions .= "]";
+
+                if($permissions == "[]") {
+                    $guest = true;
+                }
+
+
+
         } elseif ($request->privileges == 1) {
            if($request->type == "lokale_admin") {
                $admin = true;
@@ -474,23 +576,24 @@ class UserController extends Controller
            }
 
         }
-
-    try {
+//
+//    try {
         $result = $client->request('PUT', '/api/user/'.$id, [
             'headers' => $headers,
             'form_params' => [
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),
                 'email' => $request->input('email'),
+                'companyId' => $request->input('companyId'),
                 'typeId' => $request->input('typeFunctie'),
                 'admin' => $admin,
                 'guest' => $guest,
                 'permissions' => $permissions,
 
             ]]);
-    } catch (GuzzleException $e) {
-        return Redirect::to('/admin/users')->withErrors('De gebruiker aanpassen is niet gelukt.');
-    }
+//    } catch (GuzzleException $e) {
+//        return Redirect::to('/admin/users/')->withErrors('De gebruiker aanpassen is niet gelukt.');
+//    }
         return redirect('admin/users')->with('msg', 'De gebuiker '. $request->input('email')  .' succesvol aangepast.');
     }
 
