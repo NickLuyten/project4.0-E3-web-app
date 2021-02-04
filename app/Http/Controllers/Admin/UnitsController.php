@@ -27,13 +27,21 @@ class UnitsController extends Controller
             'Authorization' => 'Bearer ' . $AuthToken
         ];
 
-        $machinesresult = $client->request('GET', '/api/vendingMachine/company/'.$cid, [
-            'headers' => $headers
-        ]);
+        try {
+            $machinesresult = $client->request('GET', '/api/vendingMachine/company/' . $cid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::back()->withErrors(['kan de gevraagde pagina niet tonen.']);
+        }
 
-        $companyresult = $client->request('GET', '/api/company/'.$cid, [
-            'headers' => $headers
-        ]);
+        try {
+            $companyresult = $client->request('GET', '/api/company/' . $cid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::back()->withErrors(['kan de gevraagde pagina niet tonen.']);
+        }
 
         $machines = json_decode($machinesresult->getBody())->results;
         $company = json_decode($companyresult->getBody())->result;
@@ -122,9 +130,13 @@ class UnitsController extends Controller
             'Authorization' => 'Bearer ' . $AuthToken
         ];
 
-        $result = $client->request('GET', '/api/vendingMachine/'.$mid, [
-            'headers' => $headers
-        ]);
+        try {
+            $result = $client->request('GET', '/api/vendingMachine/' . $mid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::back()->withErrors(['Kan de gevraagde pagina niet tonen.']);
+        }
 
         $machine = json_decode($result->getBody())->result;
 
