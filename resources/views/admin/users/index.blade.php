@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @section('title', 'Users')
-
+@section('header')
 @section('main')
     <h1>Gebruikers</h1>
 {{--    Error/succes messages--}}
@@ -17,6 +17,9 @@
         </div>
     @endif
     <div class="table-responsive">
+
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Zoek op email..">
+
         <table class="table" id="myTable">
             <thead>
             <tr>
@@ -144,6 +147,28 @@
                     if (switchcount == 0 && dir == "asc") {
                         dir = "desc";
                         switching = true;
+                    }
+                }
+            }
+        }
+
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[3];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
                     }
                 }
             }
