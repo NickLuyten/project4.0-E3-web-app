@@ -28,8 +28,8 @@
                             <thead>
                             <tr>
                                 <th scope="col">Id</th>
-                                <th scope="col">UserId</th>
-                                <th scope="col">VendingMachineId</th>
+                                <th scope="col">Ontvanger</th>
+                                <th scope="col">Automaat</th>
                                 <th scope="col">Acties</th>
                             </tr>
                             </thead>
@@ -37,8 +37,8 @@
                             @foreach($useralerts as $useralert)
                                 <tr>
                                     <th scope="row">{{$useralert->id}}</th>
-                                    <td>{{$useralert->userId}}</td>
-                                    <td>{{$useralert->vendingMachineId}}</td>
+                                    <td>{{$useralert->user->firstName}} {{$useralert->user->lastName}}</td>
+                                    <td>{{$useralert->vendingMachine->name}}</td>
                                     <td>
                                         <div class="btn-group btn-group-sm">
                                             @if (in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE', $permissions) or in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY', $permissions))
