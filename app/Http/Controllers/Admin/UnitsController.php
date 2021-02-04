@@ -38,7 +38,7 @@ class UnitsController extends Controller
         $machines = json_decode($machinesresult->getBody())->results;
         $company = json_decode($companyresult->getBody())->result;
 
-        return view('admin.units.overview')->with('machines', $machines)->with('company', $company);
+        return view('admin.units.overview')->with('machines', $machines)->with('company', $company)->with('permissions', $Permissions);
     }
 
     public function new_index($cid, Request $request){
@@ -69,7 +69,8 @@ class UnitsController extends Controller
 
     public function new($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_CREATE_COMPANY', $Permissions) or in_array('VENDING_MACHINE_CREATE', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -108,7 +109,8 @@ class UnitsController extends Controller
 
     public function edit_index($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -131,8 +133,8 @@ class UnitsController extends Controller
 
     public function edit($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -172,8 +174,8 @@ class UnitsController extends Controller
 
     public function delete($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_DELETE', $Permissions) or in_array('VENDING_MACHINE_DELETE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -197,8 +199,8 @@ class UnitsController extends Controller
 
     public function access_index($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('AUTHERIZED_USER_PER_MACHINE_READ', $Permissions) or in_array('AUTHERIZED_USER_PER_MACHINE_READ_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -244,8 +246,8 @@ class UnitsController extends Controller
 
     public function access_update($cid, $mid, $uid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('AUTHERIZED_USER_PER_MACHINE_CREATE', $Permissions) or in_array('AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -284,8 +286,8 @@ class UnitsController extends Controller
 
     public function refill($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -310,8 +312,8 @@ class UnitsController extends Controller
 
     public function requestapikey($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 

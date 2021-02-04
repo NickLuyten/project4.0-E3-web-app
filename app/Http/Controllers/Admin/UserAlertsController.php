@@ -41,7 +41,7 @@ class UserAlertsController extends Controller
     public function new_index($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
         $Permissions = explode(';',$request->cookie('UserPermissions'));
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        if ($AuthToken == '' or !(in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE', $Permissions) or in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -80,7 +80,8 @@ class UserAlertsController extends Controller
 
     public function new_store($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE', $Permissions) or in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -108,8 +109,8 @@ class UserAlertsController extends Controller
 
     public function delete($cid, $aid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE', $Permissions) or in_array('USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 

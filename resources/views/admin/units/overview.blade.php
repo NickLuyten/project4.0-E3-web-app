@@ -1,8 +1,5 @@
 @extends('layouts.template')
 
-@php
-    $permissions = explode(';', Cookie::get('UserPermissions'));
-@endphp
 
 @section('main')
 
@@ -26,7 +23,7 @@
                     <button id="CopyBtn" type="button" class="btn btn-success"
                             data-container="body" data-toggle="popover" data-placement="bottom" data-content="API key gekopieerd naar klembord!"
                     >Kopieer naar klembord <i class="far fa-copy"></i></button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
                 </div>
             </div>
         </div>

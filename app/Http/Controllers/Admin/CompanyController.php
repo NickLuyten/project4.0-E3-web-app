@@ -50,7 +50,8 @@ class CompanyController extends Controller
 
     public function new(Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !in_array('COMPANY_CREATE', $Permissions)){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -84,7 +85,7 @@ class CompanyController extends Controller
 
     public function view($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        if ($AuthToken == ''){
             abort(403);
         }
 
@@ -153,7 +154,8 @@ class CompanyController extends Controller
 
     public function edit_index($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('COMPANY_UPDATE', $Permissions) or in_array('COMPANY_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -179,8 +181,8 @@ class CompanyController extends Controller
 
     public function update($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        $permissions = explode(';',$request->cookie('UserPermissions'));
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('COMPANY_UPDATE', $Permissions) or in_array('COMPANY_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -211,7 +213,7 @@ class CompanyController extends Controller
         }
         $company = json_decode($result->getBody())->result;
 
-        if (in_array('COMPANY_READ', $permissions) ){
+        if (in_array('COMPANY_READ', $Permissions) ){
             return Redirect::to('/admin/companies')->with('company', $company)->with('msg', 'Bedrijf opgeslagen.');
         }
         return Redirect::to('/admin/company/'.$company->id)->with('company', $company)->with('msg', 'Bedrijf opgeslagen.');
@@ -219,8 +221,8 @@ class CompanyController extends Controller
 
     public function delete($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !in_array('COMPANY_DELETE', $Permissions)){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 

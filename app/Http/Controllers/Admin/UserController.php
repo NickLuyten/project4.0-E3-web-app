@@ -18,8 +18,9 @@ class UserController extends Controller
     {
 
 
-         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){
+        $AuthToken = $request->cookie('AuthToken');
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('USER_READ', $Permissions) or in_array('USER_READ_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -60,7 +61,8 @@ class UserController extends Controller
     public function new_index(Request $request){
 
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('USER_CREATE', $Permissions) or in_array('USER_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -101,7 +103,8 @@ class UserController extends Controller
 
 
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('USER_CREATE', $Permissions) or in_array('USER_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -236,7 +239,8 @@ class UserController extends Controller
     public function edit($id,Request $request)
     {
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('USER_UPDATE', $Permissions) or in_array('USER_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -489,17 +493,16 @@ class UserController extends Controller
 
             ]]);
     } catch (GuzzleException $e) {
-        return Redirect::to('/admin/users')->withErrors('De gebruiker aanpassen is niet gelukt.');
+        return Redirect::to('/admin/users')->withErrors(['De gebruiker aanpassen is niet gelukt.']);
     }
         return redirect('admin/users')->with('msg', 'De gebuiker '. $request->input('email')  .' succesvol aangepast.');
     }
 
     public function destroy(Request $request,$id)
     {
-        //
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('USER_DELETE', $Permissions) or in_array('USER_DELETE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -516,7 +519,7 @@ class UserController extends Controller
 
             ]);
     } catch (GuzzleException $e) {
-        return Redirect::to('/admin/users')->withErrors('De gebruiker verwijderen is niet gelukt.');
+        return Redirect::to('/admin/users')->withErrors(['De gebruiker verwijderen is niet gelukt.']);
     }
         return redirect('admin/users')->with('msg', 'De gebruiker succesvol verwijderd.');
     }
@@ -545,7 +548,7 @@ class UserController extends Controller
             ]]);
 
     }catch (GuzzleException $e) {
-        return Redirect::to('/admin/users')->withErrors('Qrcode is voor de guest aanmaken is niet gelukt.');
+        return Redirect::to('/admin/users')->withErrors(['Qrcode is voor de guest aanmaken is niet gelukt.']);
     }
         return redirect('admin/users')->with('msg', 'Qrcode is voor de guest aangemaakt.');
     }

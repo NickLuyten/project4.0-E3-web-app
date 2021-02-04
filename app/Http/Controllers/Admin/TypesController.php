@@ -12,7 +12,8 @@ class TypesController extends Controller
 {
     public function new_index($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('TYPE_CREATE', $Permissions) or in_array('TYPE_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -21,7 +22,8 @@ class TypesController extends Controller
 
     public function new_store($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('TYPE_CREATE', $Permissions) or in_array('TYPE_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -67,7 +69,8 @@ class TypesController extends Controller
 
     public function edit_index($cid, $tid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('TYPE_UPDATE', $Permissions) or in_array('TYPE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -94,7 +97,8 @@ class TypesController extends Controller
 
     public function edit_update($cid, $tid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                   //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('TYPE_UPDATE', $Permissions) or in_array('TYPE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -136,8 +140,8 @@ class TypesController extends Controller
 
     public function delete($cid, $tid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('TYPE_DELETE', $Permissions) or in_array('TYPE_DELETE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
