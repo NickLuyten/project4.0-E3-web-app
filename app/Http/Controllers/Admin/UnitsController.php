@@ -27,18 +27,26 @@ class UnitsController extends Controller
             'Authorization' => 'Bearer ' . $AuthToken
         ];
 
-        $machinesresult = $client->request('GET', '/api/vendingMachine/company/'.$cid, [
-            'headers' => $headers
-        ]);
+        try {
+            $machinesresult = $client->request('GET', '/api/vendingMachine/company/' . $cid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::back()->withErrors(['kan de gevraagde pagina niet tonen.']);
+        }
 
-        $companyresult = $client->request('GET', '/api/company/'.$cid, [
-            'headers' => $headers
-        ]);
+        try {
+            $companyresult = $client->request('GET', '/api/company/' . $cid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::back()->withErrors(['kan de gevraagde pagina niet tonen.']);
+        }
 
         $machines = json_decode($machinesresult->getBody())->results;
         $company = json_decode($companyresult->getBody())->result;
 
-        return view('admin.units.overview')->with('machines', $machines)->with('company', $company);
+        return view('admin.units.overview')->with('machines', $machines)->with('company', $company)->with('permissions', $Permissions);
     }
 
     public function new_index($cid, Request $request){
@@ -69,7 +77,8 @@ class UnitsController extends Controller
 
     public function new($cid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_CREATE_COMPANY', $Permissions) or in_array('VENDING_MACHINE_CREATE', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -108,7 +117,8 @@ class UnitsController extends Controller
 
     public function edit_index($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -120,9 +130,13 @@ class UnitsController extends Controller
             'Authorization' => 'Bearer ' . $AuthToken
         ];
 
-        $result = $client->request('GET', '/api/vendingMachine/'.$mid, [
-            'headers' => $headers
-        ]);
+        try {
+            $result = $client->request('GET', '/api/vendingMachine/' . $mid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::back()->withErrors(['Kan de gevraagde pagina niet tonen.']);
+        }
 
         $machine = json_decode($result->getBody())->result;
 
@@ -131,8 +145,8 @@ class UnitsController extends Controller
 
     public function edit($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -172,8 +186,8 @@ class UnitsController extends Controller
 
     public function delete($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_DELETE', $Permissions) or in_array('VENDING_MACHINE_DELETE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -197,8 +211,8 @@ class UnitsController extends Controller
 
     public function access_index($cid, $mid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('AUTHERIZED_USER_PER_MACHINE_READ', $Permissions) or in_array('AUTHERIZED_USER_PER_MACHINE_READ_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -244,8 +258,8 @@ class UnitsController extends Controller
 
     public function access_update($cid, $mid, $uid, Request $request){
         $AuthToken = $request->cookie('AuthToken');
-
-        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('AUTHERIZED_USER_PER_MACHINE_CREATE', $Permissions) or in_array('AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
             abort(403);
         }
 
@@ -280,8 +294,60 @@ class UnitsController extends Controller
             }
             return Redirect::to('/admin/'.$cid.'/units/'. $mid . '/access')->with('msg', 'Toegang verwijderd.');
         }
+    }
 
+    public function refill($cid, $mid, Request $request){
+        $AuthToken = $request->cookie('AuthToken');
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
+            abort(403);
+        }
 
+        $client = new Client([
+            'base_uri' => $this->db,
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        try {
+            $Result = $client->request('PUT', '/api/vendingMachine/handgelBijVullen/' . $mid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/'.$cid.'/units')->withErrors(['Voorraad aanvullen mislukt.']);
+        }
+
+        return Redirect::to('/admin/'.$cid.'/units')->with('msg', 'Voorraad bijgevuld.');
+    }
+
+    public function requestapikey($cid, $mid, Request $request){
+        $AuthToken = $request->cookie('AuthToken');
+        $Permissions = explode(';',$request->cookie('UserPermissions'));
+        if ($AuthToken == '' or !(in_array('VENDING_MACHINE_UPDATE', $Permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $Permissions))){                                                                          //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => $this->db,
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        try {
+            $Result = $client->request('PUT', '/api/vendingMachine/apiKey/' . $mid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/'.$cid.'/units')->withErrors(['Nieuwe API key aanvragen mislukt.']);
+        }
+
+        $apiKey = json_decode($Result->getBody())->result->apiKey;
+
+        return Redirect::to('/admin/'.$cid.'/units')->with('apiKey', $apiKey);
     }
 
 }

@@ -108,6 +108,7 @@
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </a>
                                                             @endif
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 @endforeach

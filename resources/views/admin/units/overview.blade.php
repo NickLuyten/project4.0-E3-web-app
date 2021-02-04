@@ -1,8 +1,5 @@
 @extends('layouts.template')
 
-@php
-    $permissions = explode(';', Cookie::get('UserPermissions'));
-@endphp
 
 @section('main')
 
@@ -17,11 +14,16 @@
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                    Gebruik deze API Key om jouw nieuwe vending machine te authentiseren. <br><br>
-                    <strong>{{session()->get('apiKey')}}</strong>
+                    Gebruik deze API Key om jouw vending machine te authentiseren. <br><br>
+                    <p><input id="CopyInput" type="text" class="font-weight-bold w-100 text-center" readonly value="{{session()->get('apiKey')}}"
+                    style="border: none; display: inline; font-family: inherit; font-size: inherit; padding: 0;"
+                    ></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="CopyBtn" type="button" class="btn btn-success"
+                            data-container="body" data-toggle="popover" data-placement="bottom" data-content="API key gekopieerd naar klembord!"
+                    >Kopieer naar klembord <i class="far fa-copy"></i></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
                 </div>
             </div>
         </div>
@@ -86,6 +88,24 @@
                                                 </a>
                                                 @endif
 
+                                                    @if(in_array('VENDING_MACHINE_UPDATE', $permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $permissions)) {{--cookies voor rechten binnemhalen--}}
+                                                    <a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}/refill"
+                                                       class="btn btn-outline-info"
+                                                       data-toggle="tooltip"
+                                                       title="Voorraad aanvullen">
+                                                        <i class="fas fa-sync-alt"></i>
+                                                    </a>
+                                                    @endif
+
+                                                    @if(in_array('VENDING_MACHINE_UPDATE', $permissions) or in_array('VENDING_MACHINE_UPDATE_COMPANY', $permissions)) {{--cookies voor rechten binnemhalen--}}
+                                                    <a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}/requestapikey"
+                                                       class="btn btn-outline-secondary"
+                                                       data-toggle="tooltip"
+                                                       title="Nieuwe API key aanvragen">
+                                                        <i class="fas fa-network-wired"></i>
+                                                    </a>
+                                                    @endif
+
 
                                                 @if(in_array('VENDING_MACHINE_DELETE', $permissions) or in_array('VENDING_MACHINE_DELETE_COMPANY', $permissions)) {{--cookies voor rechten binnemhalen--}}
                                                 <a href="/admin/{{$machine->companyId}}/units/{{$machine->id}}/delete"
@@ -136,5 +156,16 @@
             });
     </script>
 
+    <script>
+        $('#CopyBtn').click(function(){
+            $("#CopyInput").select();
+            document.execCommand("copy");
+        });
+    </script>
 
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 @stop
