@@ -9,6 +9,17 @@
 @section('main')
 {{--    Editen van een user--}}
     <div class="container">
+        @include('shared.alert')
+        @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+                {{$errors->first()}}
+            </div>
+        @endif
+        @if(session()->has('msg'))
+            <div class="alert alert-success" role="alert">
+                {{session()->get('msg')}}
+            </div>
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

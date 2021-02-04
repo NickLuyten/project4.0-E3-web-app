@@ -184,7 +184,7 @@ class UserController extends Controller
                         $permissions .= ",\"".$request->$x."\"";
                     }
 
-                    echo($request->$x . "\n");
+//                    echo($request->$x . "\n");
                 }
             }
             $permissions .= "]";
@@ -192,64 +192,63 @@ class UserController extends Controller
             if($request->type == "lokale_admin") {
                 $admin = true;
                 $permissions = "[\"ALERT_CREATE_COMPANY\",
-    \"ALERT_READ_COMPANY\",
-    \"ALERT_DELETE_COMPANY\",
-    \"AUTHENTICATION_CREATE_COMPANY\",
-    \"AUTHENTICATION_READ_COMPANY\",
-    \"AUTHENTICATION_UPDATE_COMPANY\",
-    \"AUTHENTICATION_DELETE_COMPANY\",
-    \"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",
-    \"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",
-    \"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",
-    \"COMPANY_UPDATE_COMPANY\",
-    \"USER_CREATE_COMPANY\",
-    \"USER_READ_COMPANY\",
-    \"USER_UPDATE_COMPANY\",
-    \"USER_DELETE_COMPANY\",
-    \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",
-    \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",
-    \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",
-    \"VENDING_MACHINE_CREATE_COMPANY\",
-    \"VENDING_MACHINE_READ_COMPANY\",
-    \"VENDING_MACHINE_UPDATE_COMPANY\",
-    \"VENDING_MACHINE_DELETE_COMPANY\",
-    \"TYPE_CREATE_COMPANY\",
-    \"TYPE_READ_COMPANY\",
-    \"TYPE_UPDATE_COMPANY\",
-    \"TYPE_DELETE_COMPANY\"]";
+                \"ALERT_READ_COMPANY\",
+                \"ALERT_DELETE_COMPANY\",
+                \"AUTHENTICATION_CREATE_COMPANY\",
+                \"AUTHENTICATION_READ_COMPANY\",
+                \"AUTHENTICATION_UPDATE_COMPANY\",
+                \"AUTHENTICATION_DELETE_COMPANY\",
+                \"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",
+                \"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",
+                \"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",
+                \"COMPANY_UPDATE_COMPANY\",
+                \"USER_CREATE_COMPANY\",
+                \"USER_READ_COMPANY\",
+                \"USER_UPDATE_COMPANY\",
+                \"USER_DELETE_COMPANY\",
+                \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",
+                \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",
+                \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",
+                \"VENDING_MACHINE_CREATE_COMPANY\",
+                \"VENDING_MACHINE_READ_COMPANY\",
+                \"VENDING_MACHINE_UPDATE_COMPANY\",
+                \"VENDING_MACHINE_DELETE_COMPANY\",
+                \"TYPE_CREATE_COMPANY\",
+                \"TYPE_READ_COMPANY\",
+                \"TYPE_UPDATE_COMPANY\",
+                \"TYPE_DELETE_COMPANY\"]";
             } elseif($request->type == "admin") {
                 $admin = true;
                 $permissions = "[
-            \"ALERT_CREATE\",
-            \"ALERT_READ\",
-            \"ALERT_DELETE\",
-            \"AUTHENTICATION_CREATE\",
-            \"AUTHENTICATION_READ\",
-            \"AUTHENTICATION_UPDATE\",
-            \"AUTHENTICATION_DELETE\",
-            \"AUTHERIZED_USER_PER_MACHINE_CREATE\",
-            \"AUTHERIZED_USER_PER_MACHINE_READ\",
-            \"AUTHERIZED_USER_PER_MACHINE_DELETE\",
-            \"COMPANY_CREATE\",
-            \"COMPANY_READ\",
-            \"COMPANY_UPDATE\",
-            \"COMPANY_DELETE\",
-            \"USER_CREATE\",
-            \"USER_READ\",
-            \"USER_UPDATE\",
-            \"USER_DELETE\",
-            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",
-            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",
-            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",
-            \"VENDING_MACHINE_CREATE\",
-            \"VENDING_MACHINE_READ\",
-            \"VENDING_MACHINE_UPDATE\",
-            \"VENDING_MACHINE_DELETE\",
-            \"TYPE_CREATE\",
-            \"TYPE_READ\",
-            \"TYPE_UPDATE\",
-            \"TYPE_DELETE\"
-        ]";
+                \"ALERT_CREATE\",
+                \"ALERT_READ\",
+                \"ALERT_DELETE\",
+                \"AUTHENTICATION_CREATE\",
+                \"AUTHENTICATION_READ\",
+                \"AUTHENTICATION_UPDATE\",
+                \"AUTHENTICATION_DELETE\",
+                \"AUTHERIZED_USER_PER_MACHINE_CREATE\",
+                \"AUTHERIZED_USER_PER_MACHINE_READ\",
+                \"AUTHERIZED_USER_PER_MACHINE_DELETE\",
+                \"COMPANY_CREATE\",
+                \"COMPANY_READ\",
+                \"COMPANY_UPDATE\",
+                \"COMPANY_DELETE\",
+                \"USER_CREATE\",
+                \"USER_READ\",
+                \"USER_UPDATE\",
+                \"USER_DELETE\",
+                \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",
+                \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",
+                \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",
+                \"VENDING_MACHINE_CREATE\",
+                \"VENDING_MACHINE_READ\",
+                \"VENDING_MACHINE_UPDATE\",
+                \"VENDING_MACHINE_DELETE\",
+                \"TYPE_CREATE\",
+                \"TYPE_READ\",
+                \"TYPE_UPDATE\",
+                \"TYPE_DELETE\"]";
             }elseif($request->type == "gebruiker") {
                 $permissions = "[\"AUTHENTICATION_CREATE_COMPANY_OWN\"]";
             }elseif($request->type == "guest") {
@@ -280,7 +279,14 @@ class UserController extends Controller
             ]
         ]);
     } catch (RequestException $e) {
-        return Redirect::back()->withErrors(['Er is iets misgelopen bij het aanmaken van de gebruiker.']);
+        $response = $e->getResponse();
+        $responseBodyAsString = json_decode($response->getBody()->getContents());
+        if (isset($responseBodyAsString->message)) {
+            $response = $responseBodyAsString->message;
+        } else{
+            $response = $responseBodyAsString->messages;
+        }
+        return Redirect::back()->withErrors(['Er is iets misgelopen bij het aanmaken van de gebruiker. '. implode($response)]);
     }
         return redirect('admin/users')->with('msg', 'De gebruiker '. $request->input('email')  .' succesvol aangemaakt.');
     }
@@ -485,93 +491,152 @@ class UserController extends Controller
         $guest = false;
 
         if($request->privileges == 2) {
-            $permissions = "";
+            $permissions = [];
 
             for ($x = 1; $x <= 56; $x++) {
 
                 if($request->$x != "") {
-                    if($permissions == "") {
-                        $permissions = "[\"".$request->$x."\"";
-                    } else {
-                        $permissions .= ",\"".$request->$x."\"";
-                    }
+                    array_push($permissions,$request->$x);
 
-                    echo($request->$x . "\n");
+
+//                    echo($request->$x . "\n");
                 }
             }
-            if($permissions =="") {
-                $permissions = "[";
+            if(count($permissions) ==0) {
+                $permissions = [];
             }
-            $permissions .= "]";
 
-                if($permissions == "[]") {
+
+            if(count($permissions) ==0) {
                     $guest = true;
-                }
+            }
+
+            $adminPermissions =[
+                "ALERT_CREATE",
+                "ALERT_READ",
+                "ALERT_DELETE",
+                "AUTHENTICATION_CREATE",
+                "AUTHENTICATION_READ",
+                "AUTHENTICATION_UPDATE",
+                "AUTHENTICATION_DELETE",
+                "AUTHERIZED_USER_PER_MACHINE_CREATE",
+                "AUTHERIZED_USER_PER_MACHINE_READ",
+                "AUTHERIZED_USER_PER_MACHINE_DELETE",
+                "COMPANY_CREATE",
+                "COMPANY_READ",
+                "COMPANY_UPDATE",
+                "COMPANY_DELETE",
+                "USER_CREATE",
+                "USER_READ",
+                "USER_UPDATE",
+                "USER_DELETE",
+                "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE",
+                "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ",
+                "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE",
+                "VENDING_MACHINE_CREATE",
+                "VENDING_MACHINE_READ",
+                "VENDING_MACHINE_UPDATE",
+                "VENDING_MACHINE_DELETE",
+                "TYPE_CREATE",
+                "TYPE_READ",
+                "TYPE_UPDATE",
+                "TYPE_DELETE"];
+
+            $lokale_adminPermissions =[ "ALERT_CREATE_COMPANY",
+                "ALERT_READ_COMPANY",
+                "ALERT_DELETE_COMPANY",
+                "AUTHENTICATION_CREATE_COMPANY",
+                "AUTHENTICATION_READ_COMPANY",
+                "AUTHENTICATION_UPDATE_COMPANY",
+                "AUTHENTICATION_DELETE_COMPANY",
+                "AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY",
+                "AUTHERIZED_USER_PER_MACHINE_READ_COMPANY",
+                "AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY",
+                "COMPANY_UPDATE_COMPANY",
+                "USER_CREATE_COMPANY",
+                "USER_READ_COMPANY",
+                "USER_UPDATE_COMPANY",
+                "USER_DELETE_COMPANY",
+                "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY",
+                "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY",
+                "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY",
+                "VENDING_MACHINE_CREATE_COMPANY",
+                "VENDING_MACHINE_READ_COMPANY",
+                "VENDING_MACHINE_UPDATE_COMPANY",
+                "VENDING_MACHINE_DELETE_COMPANY",
+                "TYPE_CREATE_COMPANY",
+                "TYPE_READ_COMPANY",
+                "TYPE_UPDATE_COMPANY",
+                "TYPE_DELETE_COMPANY"];
+
+            if(array_intersect($adminPermissions,$permissions) == $adminPermissions or array_intersect( $lokale_adminPermissions,$permissions) == $lokale_adminPermissions) {
+                $admin=true;
+            }
+
 
 
 
         } elseif ($request->privileges == 1) {
            if($request->type == "lokale_admin") {
                $admin = true;
-               $permissions = "[ \"ALERT_CREATE_COMPANY\",
-    \"ALERT_READ_COMPANY\",
-    \"ALERT_DELETE_COMPANY\",
-    \"AUTHENTICATION_CREATE_COMPANY\",
-    \"AUTHENTICATION_READ_COMPANY\",
-    \"AUTHENTICATION_UPDATE_COMPANY\",
-    \"AUTHENTICATION_DELETE_COMPANY\",
-    \"AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY\",
-    \"AUTHERIZED_USER_PER_MACHINE_READ_COMPANY\",
-    \"AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY\",
-    \"COMPANY_UPDATE_COMPANY\",
-    \"USER_CREATE_COMPANY\",
-    \"USER_READ_COMPANY\",
-    \"USER_UPDATE_COMPANY\",
-    \"USER_DELETE_COMPANY\",
-    \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY\",
-    \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY\",
-    \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY\",
-    \"VENDING_MACHINE_CREATE_COMPANY\",
-    \"VENDING_MACHINE_READ_COMPANY\",
-    \"VENDING_MACHINE_UPDATE_COMPANY\",
-    \"VENDING_MACHINE_DELETE_COMPANY\",
-    \"TYPE_CREATE_COMPANY\",
-    \"TYPE_READ_COMPANY\",
-    \"TYPE_UPDATE_COMPANY\",
-    \"TYPE_DELETE_COMPANY\"]";
+               $permissions = [ "ALERT_CREATE_COMPANY",
+                   "ALERT_READ_COMPANY",
+                   "ALERT_DELETE_COMPANY",
+                   "AUTHENTICATION_CREATE_COMPANY",
+                   "AUTHENTICATION_READ_COMPANY",
+                   "AUTHENTICATION_UPDATE_COMPANY",
+                   "AUTHENTICATION_DELETE_COMPANY",
+                   "AUTHERIZED_USER_PER_MACHINE_CREATE_COMPANY",
+                   "AUTHERIZED_USER_PER_MACHINE_READ_COMPANY",
+                   "AUTHERIZED_USER_PER_MACHINE_DELETE_COMPANY",
+                   "COMPANY_UPDATE_COMPANY",
+                   "USER_CREATE_COMPANY",
+                   "USER_READ_COMPANY",
+                   "USER_UPDATE_COMPANY",
+                   "USER_DELETE_COMPANY",
+                   "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE_COMPANY",
+                   "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ_COMPANY",
+                   "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE_COMPANY",
+                   "VENDING_MACHINE_CREATE_COMPANY",
+                   "VENDING_MACHINE_READ_COMPANY",
+                   "VENDING_MACHINE_UPDATE_COMPANY",
+                   "VENDING_MACHINE_DELETE_COMPANY",
+                   "TYPE_CREATE_COMPANY",
+                   "TYPE_READ_COMPANY",
+                   "TYPE_UPDATE_COMPANY",
+                   "TYPE_DELETE_COMPANY"];
             } elseif($request->type == "admin") {
                $admin = true;
-               $permissions = "[
-            \"ALERT_CREATE\",
-            \"ALERT_READ\",
-            \"ALERT_DELETE\",
-            \"AUTHENTICATION_CREATE\",
-            \"AUTHENTICATION_READ\",
-            \"AUTHENTICATION_UPDATE\",
-            \"AUTHENTICATION_DELETE\",
-            \"AUTHERIZED_USER_PER_MACHINE_CREATE\",
-            \"AUTHERIZED_USER_PER_MACHINE_READ\",
-            \"AUTHERIZED_USER_PER_MACHINE_DELETE\",
-            \"COMPANY_CREATE\",
-            \"COMPANY_READ\",
-            \"COMPANY_UPDATE\",
-            \"COMPANY_DELETE\",
-            \"USER_CREATE\",
-            \"USER_READ\",
-            \"USER_UPDATE\",
-            \"USER_DELETE\",
-            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE\",
-            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ\",
-            \"USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE\",
-            \"VENDING_MACHINE_CREATE\",
-            \"VENDING_MACHINE_READ\",
-            \"VENDING_MACHINE_UPDATE\",
-            \"VENDING_MACHINE_DELETE\",
-            \"TYPE_CREATE\",
-            \"TYPE_READ\",
-            \"TYPE_UPDATE\",
-            \"TYPE_DELETE\"
-        ]";
+               $permissions = [
+                   "ALERT_CREATE",
+                   "ALERT_READ",
+                   "ALERT_DELETE",
+                   "AUTHENTICATION_CREATE",
+                   "AUTHENTICATION_READ",
+                   "AUTHENTICATION_UPDATE",
+                   "AUTHENTICATION_DELETE",
+                   "AUTHERIZED_USER_PER_MACHINE_CREATE",
+                   "AUTHERIZED_USER_PER_MACHINE_READ",
+                   "AUTHERIZED_USER_PER_MACHINE_DELETE",
+                   "COMPANY_CREATE",
+                   "COMPANY_READ",
+                   "COMPANY_UPDATE",
+                   "COMPANY_DELETE",
+                   "USER_CREATE",
+                   "USER_READ",
+                   "USER_UPDATE",
+                   "USER_DELETE",
+                   "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_CREATE",
+                   "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_READ",
+                   "USER_THAT_RECEIVE_ALERTS_FROM_VENDING_MACHINE_DELETE",
+                   "VENDING_MACHINE_CREATE",
+                   "VENDING_MACHINE_READ",
+                   "VENDING_MACHINE_UPDATE",
+                   "VENDING_MACHINE_DELETE",
+                   "TYPE_CREATE",
+                   "TYPE_READ",
+                   "TYPE_UPDATE",
+                   "TYPE_DELETE"];
            }elseif($request->type == "gebruiker") {
                $permissions = "[\"AUTHENTICATION_CREATE_COMPANY_OWN\"]";
            }elseif($request->type == "guest") {
@@ -580,6 +645,7 @@ class UserController extends Controller
            }
 
         }
+
 //
 //    try {
         $result = $client->request('PUT', '/api/user/'.$id, [
@@ -592,7 +658,7 @@ class UserController extends Controller
                 'typeId' => $request->input('typeFunctie'),
                 'admin' => $admin,
                 'guest' => $guest,
-                'permissions' => $permissions,
+                'permissions' => json_encode($permissions),
 
             ]]);
 
@@ -630,7 +696,7 @@ class UserController extends Controller
         //
         $AuthToken = $request->cookie('AuthToken');
 
-        if ($AuthToken == ''){                                                                          //permissiecheck toevoegen, of in route
+        if ($AuthToken == ''){   //permissiecheck toevoegen, of in route
             abort(403);
         }
 
