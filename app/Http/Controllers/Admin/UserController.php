@@ -147,8 +147,8 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required|string',
-            'firstName' => 'required|string',
-            'lastName' => 'required|string',
+            'firstName' => 'required|string|min:3|max:24',
+            'lastName' => 'required|string|min:3|max:24',
             'password' => 'required|string',
             'companyId' => 'required|integer',
         ]);
@@ -535,8 +535,9 @@ class UserController extends Controller
 
         $request->validate([
             'email' => 'required|string',
-            'firstName' => 'required|string',
-            'lastName' => 'required|string',
+            'firstName' => 'required|string|min:3|max:24',
+            'lastName' => 'required|string|min:3|max:24',
+
         ]);
 
 

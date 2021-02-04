@@ -30,7 +30,7 @@
                             <div class="form-group row">
                                 <label for="firstName" class="col-sm-4 col-form-label">Voornaam</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control @error('firstName') is-invalid @enderror" id="firstName" name="firstName" placeholder="Voornaam" >
+                                    <input type="text" class="form-control @error('firstName') is-invalid @enderror" id="firstName" name="firstName" placeholder="Voornaam" value="{{old('firstName')}}" ​​ >
                                 </div>
                                 @error('firstName')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -39,7 +39,7 @@
                             <div class="form-group row">
                                 <label for="lastName" class="col-sm-4 col-form-label">Achternaam</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control @error('lastName') is-invalid @enderror" id="lastName" name="lastName" placeholder="Achternaam" >
+                                    <input type="text" class="form-control @error('lastName') is-invalid @enderror" id="lastName" name="lastName" placeholder="Achternaam" value="{{old('lastName')}}" >
                                 </div>
                                 @error('lastName')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -48,7 +48,7 @@
                             <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label">Email</label>
                                 <div class="col-sm-8">
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" >
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{old('email')}}" >
                                 </div>
                                 @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -57,7 +57,7 @@
                             <div class="form-group row">
                                 <label for="password" class="col-sm-4 col-form-label">Password</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" >
+                                    <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" value="{{old('password')}}" >
                                 </div>
                                 @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
