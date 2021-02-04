@@ -280,8 +280,60 @@ class UnitsController extends Controller
             }
             return Redirect::to('/admin/'.$cid.'/units/'. $mid . '/access')->with('msg', 'Toegang verwijderd.');
         }
+    }
 
+    public function refill($cid, $mid, Request $request){
+        $AuthToken = $request->cookie('AuthToken');
 
+        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => $this->db,
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        try {
+            $Result = $client->request('PUT', '/api/vendingMachine/handgelBijVullen/' . $mid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/'.$cid.'/units')->withErrors(['Voorraad aanvullen mislukt.']);
+        }
+
+        return Redirect::to('/admin/'.$cid.'/units')->with('msg', 'Voorraad bijgevuld.');
+    }
+
+    public function requestapikey($cid, $mid, Request $request){
+        $AuthToken = $request->cookie('AuthToken');
+
+        if ($AuthToken == ''){                                     //permissiecheck toevoegen, of in route
+            abort(403);
+        }
+
+        $client = new Client([
+            'base_uri' => $this->db,
+            'timeout'  => 2.0,
+        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $AuthToken
+        ];
+
+        try {
+            $Result = $client->request('PUT', '/api/vendingMachine/apiKey/' . $mid, [
+                'headers' => $headers
+            ]);
+        } catch (GuzzleException $e) {
+            return Redirect::to('/admin/'.$cid.'/units')->withErrors(['Nieuwe API key aanvragen mislukt.']);
+        }
+
+        $apiKey = json_decode($Result->getBody())->result->apiKey;
+
+        return Redirect::to('/admin/'.$cid.'/units')->with('apiKey', $apiKey);
     }
 
 }
