@@ -25,7 +25,7 @@
                 <th>Achternaam</th>
                 <th>Email</th>
                 <th>Bedrijf</th>
-                <th>Functie</th>
+                <th>Afdeling</th>
                 <th>Admin</th>
                 <th>Guest</th>
                 <th>Actions</th>
