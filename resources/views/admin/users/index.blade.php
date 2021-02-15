@@ -18,7 +18,7 @@
     @endif
     <div class="table-responsive">
 
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Zoek op email..">
+        <input type="text" id="myInput" onkeyup="Search()" placeholder="Zoek op email..">
 
         <table class="table" id="myTable">
             <thead>
@@ -152,7 +152,7 @@
             }
         }
 
-        function myFunction() {
+        function Search() {
             // Declare variables
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("myInput");
@@ -162,9 +162,9 @@
 
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[3];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
+                email = tr[i].getElementsByTagName("td")[3];
+                if (email) {
+                    txtValue = email.textContent || email.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         tr[i].style.display = "";
                     } else {

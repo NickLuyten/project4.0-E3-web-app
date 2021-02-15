@@ -13,7 +13,7 @@ use Redirect;
 
 class UserController extends Controller
 {
-
+//het overzicht van de gebruikers
     public function index(Request $request)
     {
 
@@ -82,7 +82,7 @@ class UserController extends Controller
         }
 
     }
-
+//De aanmaak pagina van een gebruiker
     public function new_index(Request $request){
 
         $AuthToken = $request->cookie('AuthToken');
@@ -139,10 +139,9 @@ class UserController extends Controller
         }
 
 
-//        return view('admin.users.create')->with('types', $types)->with('companies', $companies);
     }
 
-
+//het aanmaken van de gebruiker
     public function new(Request $request)
     {
         $request->validate([
@@ -360,7 +359,7 @@ class UserController extends Controller
 
 
 
-
+    //het editen van de gebruiker
     public function edit($id,Request $request)
     {
         $AuthToken = $request->cookie('AuthToken');
@@ -529,7 +528,7 @@ class UserController extends Controller
 
     }
 
-
+    //het updaten van de gebuiker
        public function update(Request $request, $id)
     {
 
@@ -733,6 +732,7 @@ class UserController extends Controller
         return redirect('admin/users')->with('msg', 'De gebuiker '. $request->input('email')  .' succesvol aangepast.');
     }
 
+    //het verwijderen van een gebruiker
     public function destroy(Request $request,$id)
     {
         $AuthToken = $request->cookie('AuthToken');
@@ -759,6 +759,8 @@ class UserController extends Controller
         return redirect('admin/users')->with('msg', 'De gebruiker succesvol verwijderd.');
     }
 
+
+    //Qrcode aanvragen voor een guest
         public function qrcodeguest(Request $request,$id)
     {
         //
