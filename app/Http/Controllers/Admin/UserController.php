@@ -100,7 +100,7 @@ class UserController extends Controller
                 'Authorization' => 'Bearer ' . $AuthToken
             ];
 
-            $typesresult = $client->request('GET', '/api/type/all/', [
+            $typesresult = $client->request('GET', '/api/type/all', [
                 'headers' => $headers
             ]);
             $types = json_decode($typesresult->getBody())->results;

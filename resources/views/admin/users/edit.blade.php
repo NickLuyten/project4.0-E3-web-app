@@ -191,6 +191,35 @@
 @endsection
 @section('script_after')
     <script>
+
+        $('#companyId').change(function() {
+            var selected = document.getElementById("companyId");
+            var companyId = selected.value;
+
+            var select = document.getElementById("typeFunctie");
+
+            console.log(companyId)
+
+            $.ajax({
+                method: 'GET', // Type of response and matches what we said in the route
+                headers: {"Authorization": "Bearer " + '{{Cookie::get('AuthToken')}}'  },
+                url: 'https://project4-restserver.herokuapp.com/api/type/company/'+companyId, // This is the url we gave in the route
+                success: function (data) { // What to do if we succeed
+                    console.log(data);
+                    select.options.length = 0;
+                    for(var x = 0; x < data.results.length; x++) {
+                        var opt = document.createElement('option');
+                        opt.value = data.results[x].id;
+                        opt.innerHTML = data.results[x].name;
+                        console.log(opt);
+                        select.appendChild(opt);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) { // What to do if we fail
+                    console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                }
+            });
+        });
         function Rechten() {
 
             if (document.getElementById("Simpel").checked){
