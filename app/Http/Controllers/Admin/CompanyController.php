@@ -118,7 +118,7 @@ class CompanyController extends Controller
         $machines = json_decode($result->getBody())->results;
 
         try {
-            $result = $client->request('GET', '/api/type/all', [
+            $result = $client->request('GET', '/api/type/company/'.$cid, [
                 'headers' => $headers
             ]);
 
