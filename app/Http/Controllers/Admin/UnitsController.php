@@ -243,13 +243,7 @@ class UnitsController extends Controller
         } catch (GuzzleException $e) {
             return Redirect::to('/admin/'.$cid.'/units')->withErrors(['Kan gebruikers van bedrijf niet laden. Kan toegangspagina niet tonen.']);
         }
-        try {
-            $CompaniesResult = $client->request('GET', '/api/company/all', [
-                'headers' => $headers
-            ]);
-        } catch (GuzzleException $e) {
-            return Redirect::to('/admin/'.$cid.'/units')->withErrors(['Kan bedrijfsnamen niet ophalen. Kan toegangspagina niet tonen.']);
-        }
+
 
         $AuthorizedUsers = json_decode($AuthorizedResult->getBody())->results;
         $CompanyUsers = json_decode($CompanyUsersResult->getBody())->results;
