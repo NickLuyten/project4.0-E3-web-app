@@ -125,7 +125,7 @@ class CompanyController extends Controller
             $types = json_decode($result->getBody())->results;
         } catch (GuzzleException $e) {
             $types = [];
-        }
+        } ;
 
         try {
             $result = $client->request('GET', '/api/alert/alertsAuthUser', [
@@ -216,7 +216,7 @@ class CompanyController extends Controller
         if (in_array('COMPANY_READ', $Permissions) ){
             return Redirect::to('/admin/companies')->with('company', $company)->with('msg', 'Bedrijf opgeslagen.');
         }
-        return Redirect::to('/admin/company/'.$company->id)->with('company', $company)->with('msg', 'Bedrijf opgeslagen.');
+        return Redirect::to('/admin/companies/view/'.$company->id)->with('company', $company)->with('msg', 'Bedrijf opgeslagen.');
     }
 
     public function delete($cid, Request $request){
