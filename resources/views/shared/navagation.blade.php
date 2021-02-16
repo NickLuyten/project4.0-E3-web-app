@@ -26,7 +26,7 @@
                             <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-secondary text-white" href="http://52.157.152.190:3000" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
+                            <a class="nav-link btn btn-secondary text-white" href="http://51.136.34.91:3000" target="_blank"><i class="fas fa-chart-bar"></i>Data Portaal <i class="fas fa-external-link-alt"></i></a>
                         </li>
                     @endif
 
